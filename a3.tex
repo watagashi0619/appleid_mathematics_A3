@@ -1,0 +1,1119 @@
+\documentclass[dvipdfmx,a4j,10pt]{jsarticle}
+\usepackage{amsthm}%定理環境
+\usepackage{newtxtext,newtxmath}%times font setting
+\usepackage{amsmath,amsfonts}%数式font setting
+\usepackage{mathrsfs}%花文字
+\usepackage{pxrubrica}%ルビ
+%\usepackage{lmodern}%font setting
+\usepackage{mathtools}%数式の相互参照部分にのみ式番号をふる
+%\mathtoolsset{showonlyrefs,showmanualtags}
+\usepackage{empheq}%方程式
+\usepackage{physics}%物理系
+\usepackage{bm}%vector
+\usepackage{mleftright}%カッコ
+\usepackage{framed}%フレーム
+\usepackage{color}%文字に色付け
+\usepackage{ulem}%取り消し線
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable,theorems,skins}%数式を「デコ」る
+\usepackage{tikz}
+\usetikzlibrary{cd}%矢印の図
+\usetikzlibrary{decorations,decorations.pathreplacing}%tikz-cdを「デコ」る
+\usepackage{bbm}%指示関数とかはこっちで出す
+%\usepackage[right]{showlabels}%数式番号を左に表示
+\usepackage{booktabs}%表の上線\toprule中線\midrule下線\bottomrule
+%\usepackage{url}%参考文献とかでurlをかくとき
+\usepackage[dvipdfmx]{hyperref}%ハイパーリンク
+\usepackage{comment}
+%\usepackage{lscape}%ページを横向きにする
+\usepackage{listings,jlisting}
+\lstset{
+    language=python,
+    frame=single,
+    basicstyle=\ttfamily\footnotesize,
+    commentstyle=\textit,
+    classoffset=1,
+    keywordstyle=\bfseries,
+    framesep=5pt,
+    showstringspaces=false,
+    numbers=left,
+    stepnumber=1,
+    lineskip=-0.2ex,
+    numberstyle=\tiny,
+    tabsize=2,
+    breaklines = true,
+    framexleftmargin=17pt
+}
+
+\makeatletter%subsubsubsection定義
+    \newcommand{\subsubsubsection}{\@startsection{paragraph}{4}{\z@}%
+        {1.0\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+        {.1\Cvs \@plus.3\Cdp}%
+        {\reset@font\sffamily\normalsize}
+    }
+\makeatother
+
+\setcounter{secnumdepth}{3}%セクションの深さレベル
+%\headheight = 0mm
+%\textheight = 205mm
+%\footskip = 10mm
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%穴埋め定義
+\newcounter{BCntr}
+\setcounter{BCntr}{1}
+\def\blank#1{
+\underline{{¥color{red}{#1}}{¥tiny ¥theBCntr}}
+\stepcounter{BCntr}
+}%
+
+%physicsでrotもcurlで使う
+\newcommand{\rot}{\curl}
+
+%amsthm style1,2 微分積分学B準拠
+%例
+%定理1.1（中間値の定理）
+%定理=\thmname{#1} 1.1=\thmnumber{#2} （中間値の定理）=\thmnote{（#3）}
+\newtheoremstyle{mystyle1}% Name
+    {}% Space above
+    {}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries\sffamily}% Theorem head font
+    {\hspace{0.5em}}% Punctuation after theorem head
+    { }% Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnumber{#2}\thmnote{:\,#3\\}}% Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{mystyle1}
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}[definition]{定理}
+\newtheorem{lemma}[definition]{補題}
+\newtheorem{proposition}[definition]{命題}
+\newtheorem{formula}[definition]{公式}
+
+\newtheoremstyle{mystyle3}% Name
+    {}% Space above
+    {}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries\sffamily}% Theorem head font
+    {\hspace{0.5em}}% Punctuation after theorem head
+    { }% Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnumber{#2}\thmnote{:\,#3\\}}% Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{mystyle3}
+\newtheorem{example}{例}[section]
+
+\newtheoremstyle{mystyle4}% Name
+    {}% Space above
+    {}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries\sffamily}% Theorem head font
+    {\hspace{0.5em}}% Punctuation after theorem head
+    { }% Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnumber{#2}\thmnote{:\,#3\\}}% Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{mystyle4}
+\newtheorem{note}{注意}[section]
+
+
+\newtheoremstyle{mystyle2}% Name
+    {}% Space above
+    {}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries\sffamily}% Theorem head font
+    {\hspace{0.5em}}% Punctuation after theorem head
+    { }% Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnote{:\,#3\\}}% Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{mystyle2}
+\newtheorem{dfn*}{定義}
+\newtheorem{thm*}{定理}
+\newtheorem{exercise*}{演習問題}
+\newtheorem{ex*}{例}
+\newtheorem{qes*}{疑問}
+\newtheorem{rem*}{注意}
+\newtheorem{ans*}{解答例}
+\newtheorem{answer*}{解答}
+\newtheorem{note*}{注意}
+\newtheorem{remark*}{補足}
+\newtheorem{lem*}{補題}
+\newtheorem{symbol*}{記号}
+\newtheorem{premise*}{前提}
+\newtheorem{proposition*}{命題}
+
+%proofの後ろに黒四角をつける
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+  \pushQED{\qed}%
+  \normalfont
+  \topsep6\p@\@plus6\p@ \trivlist
+  \item[\hskip\labelsep{\bfseries\sffamily #1}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+\renewcommand\proofname{証明}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+\makeatother
+
+\makeatletter
+\renewenvironment{ans*}[1][解答例]{\par
+  \pushQED{\qed}%
+  \normalfont
+  \topsep6\p@\@plus6\p@ \trivlist
+  \item[\hskip\labelsep{\bfseries\sffamily #1}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+\makeatother
+
+\definecolor{shadecolor}{gray}{0.9}
+
+\newcommand{\defLeftrightarrow}{\overset{\text{def}}{\iff}}
+
+% \prtlabel{label_strings}
+\def\startpoint#1#2{
+    {\hfill\rlap{\quad{$\overline{\tt{#1}\ \tt{#2}}$}}}\vspace{-1.5\baselineskip}
+}
+
+\newcommand\range{\operatorname{range}}
+\newcommand\sgn{\operatorname{sgn}}
+
+\newcommand{\blueunderline}[3][pos=0.5]{
+    \tcboxmath[
+        enhanced,
+        frame hidden, % 枠を消す
+        interior hidden, % 背景を消す
+        size=minimal, % 余白を消す
+        overlay={
+                \draw[
+                    blue,
+                    decorate
+                ] ([yshift=-4pt]frame.south west) -- ([yshift=-4pt]frame.south east)
+                node[#1,scale=0.72,below] {#3};
+            }
+    ]{#2}
+}
+
+\newcommand{\bluenotearrow}[2]{
+    \tcboxmath[
+        enhanced,
+        frame hidden, % 枠を消す
+        interior hidden, % 背景を消す
+        size=minimal, % 余白を消す
+        overlay={
+                \draw[<-,blue] ([yshift=-1ex]frame.south) to[out=-90,in=90] +(0,-3ex) %+(幅,上下の位置)
+                node[below,scale=0.72] {#2};
+            }
+    ]{\,\,\, #1\,\,\,}
+}
+
+\newcommand{\bluenote}[2]{
+    \tcboxmath[
+        enhanced,
+        frame hidden, % 枠を消す
+        interior hidden, % 背景を消す
+        size=minimal, % 余白を消す
+        overlay={
+                \node[blue,below,scale=0.72] at ([yshift=-1ex]frame.south) {#2};
+            }
+    ]{\,\,\, #1\,\,\,}
+}
+
+\newcommand{\bluenoteunderleft}[2]{
+    \tcboxmath[
+        enhanced,
+        frame hidden, % 枠を消す
+        interior hidden, % 背景を消す
+        size=minimal, % 余白を消す
+        overlay={
+                \draw[<-,blue] ([yshift=-1ex,xshift=-0.5em]frame.south) to[out=-120,in=0] +(-2em,-2ex)
+                node[left,scale=0.72] {#2};
+            }
+    ]{\,\,\, #1\,\,\,}
+}
+
+\newcommand{\bluenoteoverleft}[2]{
+    \tcboxmath[
+        enhanced,
+        frame hidden, % 枠を消す
+        interior hidden, % 背景を消す
+        size=minimal, % 余白を消す
+        overlay={
+                \draw[<-,blue] ([yshift=1ex,xshift=-0.5em]frame.north) to[out=120,in=0] +(-2em,2ex)
+                node[left,scale=0.72] {#2};
+            }
+    ]{\,\,\, #1\,\,\,}
+}
+
+%\renewcommand{\thepart}{\arabic{part}}
+%\renewcommand{\thenote}{}
+%\renewcommand{\thelem}{}
+
+%\makeatletter
+%\@addtoreset{section}{part}
+%\makeatother
+
+%\makeatletter
+%\def\blfootnote{\xdef\@thefnmark{}\@footnotetext}
+%\makeatother
+
+\makeatletter
+\@addtoreset{equation}{section}
+\def\theequation{\thesection.\arabic{equation}}% renewcommand でもOK
+\makeatother
+
+%\setcounter{tocdepth}{1}%目次をsectionまでの表示にする
+
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+%デコりamsthm
+\newenvironment{dfn}[1][]
+{\begin{tcolorbox}[
+    enhanced,
+    boxrule=0pt,
+    arc=0mm,
+    frame hidden,
+    borderline west={2pt}{-4pt}{green!60!black},
+    breakable = true
+    ]
+    \begin{definition}[#1]
+}
+{\end{definition}\end{tcolorbox}}
+
+\newenvironment{lem}[1][]
+{\begin{tcolorbox}[
+    enhanced,
+    boxrule=0pt,
+    arc=0mm,
+    frame hidden,
+    borderline west={2pt}{-4pt}{yellow!90!black},
+    breakable = true
+    ]
+    \begin{lemma}[#1]
+}
+{\end{lemma}\end{tcolorbox}}
+
+\newenvironment{prop}[1][]
+{\begin{tcolorbox}[
+    enhanced,
+    boxrule=0pt,
+    arc=0mm,
+    frame hidden,
+    borderline west={2pt}{-4pt}{blue!50!black},
+    breakable = true
+    ]
+    \begin{proposition}[#1]
+}
+{\end{proposition}\end{tcolorbox}}
+
+\newenvironment{thm}[1][]
+{\begin{tcolorbox}[
+    enhanced,
+    boxrule=0pt,
+    arc=0mm,
+    frame hidden,
+    borderline west={2pt}{-4pt}{red},
+    breakable = true
+    ]
+    \begin{theorem}[#1]
+}
+{\end{theorem}\end{tcolorbox}}
+
+\newenvironment{fml}[1][]
+{\begin{tcolorbox}[
+    enhanced,
+    boxrule=0pt,
+    arc=0mm,
+    frame hidden,
+    borderline west={2pt}{-4pt}{orange},
+    breakable = true
+    ]
+    \begin{formula}[#1]
+}
+{\end{formula}\end{tcolorbox}}
+
+\newenvironment{ex}[1][]
+{\begin{tcolorbox}[
+    enhanced,
+    boxrule=0pt,
+    arc=0mm,
+    frame hidden,
+    borderline west={0.25pt}{-4pt}{black},
+    borderline west={0.25pt}{-2.25pt}{black},
+    breakable = true
+    ]
+    \begin{example}[#1]
+}
+{\end{example}\end{tcolorbox}}
+
+\newenvironment{prop*}[1][]
+{\begin{tcolorbox}[
+    enhanced,
+    boxrule=0pt,
+    arc=0mm,
+    frame hidden,
+    borderline west={2pt}{-4pt}{blue!50!black},
+    breakable = true
+    ]
+    \begin{proposition*}[#1]
+}
+{\end{proposition*}\end{tcolorbox}}
+
+\title{工業数学A3}
+\author{}
+\date{更新日時：\today}%コメントアウトした状態だと今日の日付が入る
+
+\begin{document}
+\maketitle
+\tableofcontents%目次
+
+\newpage
+
+\section{フーリエ級数展開}
+
+\subsection{導入}
+
+$f(t)$を$\mathbb{R}$上の関数とする$(t\in\mathbb{R})$．
+
+\begin{dfn*}[周期関数]
+    $f$が周期$T$の周期関数であるとは，$\forall t\in\mathbb{R}$に対して
+    \[
+        f(t+T)=f(t)\quad(t\in\mathbb{R})
+    \]
+    が成り立つこと．
+\end{dfn*}
+このとき，$\forall n\in\mathbb{Z}$に対して
+\[
+    f(t+nT)=f(t)\quad(t\in\mathbb{R})
+\]
+が成り立つ．
+
+\begin{dfn*}[フーリエ級数展開]
+    \begin{equation}\label{eq:1-1}
+        f(t)=c+\sum_{n=1}^\infty a[n]\cos(n\omega t)+\sum_{n=1}^\infty b[n]\sin(n\omega t)
+    \end{equation}
+    ここで$\omega=2\pi/t$，$c,a[n],b[n]$は定数．
+\end{dfn*}
+
+これが収束すれば周期$T$の周期関数である．広いクラスの，周期$T$の周期関数は\eqref{eq:1-1}の形に表現できる．
+
+\subsection{三角関数の直交関係とフーリエ係数}
+
+\eqref{eq:1-1}における$c,a[n],b[n]$をフーリエ係数とよぶ．
+
+\begin{thm}[三角関数の直交関係]\label{thm:1-1}
+    $n,m$を正の整数とする．
+    \begin{equation}\label{eq:1-2}
+        \frac{2}{T}\int_0^T\cos(n\omega t)\cos(m\omega t) dt=\delta_{nm}
+    \end{equation}
+    \begin{equation}\label{eq:1-3}
+        \frac{2}{T}\int_0^T\sin(n\omega t)\sin(m\omega t) dt=\delta_{nm}
+    \end{equation}
+    \begin{equation}\label{eq:1-4}
+        \frac{2}{T}\int_0^T\sin(n\omega t)\cos(m\omega t) dt=0
+    \end{equation}
+    \begin{equation}\label{eq:1-5}
+        \frac{2}{T}\int_0^T\cos(n\omega t) dt=\frac{2}{T}\sin(n\omega t) dt=0
+    \end{equation}
+    ここで，$\delta_{nm}$はクロネッカーのデルタである．
+\end{thm}
+
+\begin{proof}
+    省略．
+\end{proof}
+
+\begin{fml}\label{fml:1-2}
+    周期$T$の周期関数$f(t)$が
+    \begin{equation}\label{eq:1-6}
+        f(t)=\frac{a[0]}{2}+\sum_{n=1}^\infty a[n]\cos(n\omega t)+\sum_{n=1}^\infty a[n]\sin(n\omega t)
+    \end{equation}
+    と表されるならば，フーリエ係数は
+    \begin{equation}\label{eq:1-7}
+        a[n]=\frac{2}{T}\int_0^T f(t)\cos(n\omega t)dt\quad(n=0,1,2,\ldots)
+    \end{equation}
+    \begin{equation}\label{eq:1-8}
+        b[n]=\frac{2}{T}\int_0^T f(t)\sin(n\omega t)dt\quad(n=0,1,2,\ldots)
+    \end{equation}
+    と与えられる．
+\end{fml}
+
+周期性により
+\begin{equation}\label{eq:1-9}
+    a[n]=\frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega t)dt\quad(n=0,1,2,\ldots)
+\end{equation}
+\begin{equation}\label{eq:1-10}
+    b[n]=\frac{2}{T}\int_{-T/2}^{T/2} f(t)\sin(n\omega t)dt\quad(n=0,1,2,\ldots)
+\end{equation}
+とかける．$f$が偶関数ならば$b[n]=0\quad(n=0,1,2,\ldots)$となり，\textbf{余弦フーリエ級数展開}:
+\[
+    f(t)=\frac{a[0]}{2}+\sum_{n=1}^\infty a[n]\cos(n\omega t)
+\]
+$f$が奇関数ならば$a[n]=0\quad(n=0,1,2,\ldots)$となり，\textbf{正弦フーリエ級数展開}:
+\[
+    f(t)=\sum_{n=1}^\infty b[n]\cos(n\omega t)
+\]
+をもつといわれる．
+
+\subsection{複素フーリエ変換}
+
+オイラーの公式を用いれば，フーリエ級数展開\eqref{eq:1-6}は
+\[
+    f(t)=\frac{a[0]}{2}+\sum_{n=1}^\infty\mleft(\frac{a[n]}{2}+\frac{b[n]}{2i}\mright)e^{in\omega t}+\sum_{n=1}^\infty\mleft(\frac{a[n]}{2}-\frac{b[n]}{2i}\mright)e^{-in\omega t}
+\]
+となる．そこで
+\[
+    c[n]=\begin{cases}
+        a[0]/2 & (n=0) \\
+        (a[n]-ib[n])/2 & (n>0) \\
+        (a[-n]+ib[-n])/2 & (n<0)
+    \end{cases}
+\]
+とすると\textbf{複素フーリエ変換}:
+\begin{equation}\label{eq:1-11}
+    f(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}
+\end{equation}
+が得られる．公式\ref{fml:1-2}もしくは直接計算により
+\[
+    c[n]=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\quad(n\in\mathbb{Z})
+\]
+が確かめられる．
+
+\subsection{いくつかの実例}
+
+\begin{ex}[三角多項式]
+    三角多項式（$\sin\omega t,\cos\omega t$の多項式）．
+\end{ex}
+
+例えば
+\[
+    f_1(t)=(\cos\omega t)^3=\frac{3}{4}\cos\omega t+\frac{1}{4}\cos 3\omega t
+\]
+
+一般的な三角多項式に対しては，$N\in\mathbb{N}$が存在して
+\[
+    f(t)=\sum_{n=-N}^N c[n]e^{in\omega t}
+\]
+の形にかける．
+
+\begin{ex}[三角波]
+    \[
+        f_2(t)=|T|\quad(|t|\leq T/2)
+    \]
+\end{ex}
+
+$f_2(t)$は偶関数であるから，余弦フーリエ級数展開をもち
+\[
+    a[n]=\frac{2}{T}\int_{-T/2}^{T/2}|t|\cos(n\omega t)dt=\frac{4}{T}\int_0^{T/2}t\cos(n\omega t)dt
+\]
+$n=0$のとき
+\[
+    a[0]=\frac{4}{T}\mleft[\frac{t^2}{2}\mright]_0^{T/2}=\frac{T}{2}
+\]
+$n\neq 0$のとき
+\[
+    a[n]=\begin{cases}
+        0 & (nは偶数) \\
+        -\frac{4}{\pi n^2 \omega } & (nは奇数)
+    \end{cases}
+\]
+つまり，$f_2(t)$のフーリエ級数展開は
+\[
+    f_2(t)=\frac{T}{4}-\frac{4}{\pi\omega}\sum_{m=0}^\infty \frac{1}{(2m+1)^2}\cos\{(2m+1)\omega t\}
+\]
+となる．
+
+\begin{ex}{}
+    \[
+        f_3(t)=\frac{1}{\frac{5}{4}+\cos\omega t}
+    \]
+\end{ex}
+留数定理を用いてフーリエ係数を計算すると，$n\geq 0$として
+\[
+    c[-n]=\frac{4}{3}(-2)^n
+\]
+$n>0$として$c[n]=c[-n]$より
+\[
+    c[n]=\frac{4}{3}(-2)^{-n}
+\]
+となるから，$f_3(t)$のフーリエ級数展開は
+\[
+    f_3(t)=\frac{4}{3}+\frac{8}{3}\sum_{n=1}^\infty (-2)^n\cos(n\omega t)
+\]
+となる．
+
+\subsection{フーリエ級数の一様収束}
+
+\begin{dfn*}[リプシッツ連続（Lipshitz continuous）]
+    $\mathbb{R}$上の関数$f(t)$が\textbf{リプシッツ連続}であるとは，
+\[
+    \exists C>0\, \textrm{s.t.}\, \forall t,s\in\mathbb{R},\, |f(t)-f(s)|\leq C|t-s|
+\]
+が成り立つことである．
+\end{dfn*}
+
+\begin{thm}\label{thm:1-3}
+    $f(t)$がリプシッツ連続ならば，フーリエ級数展開は$f(t)$に一様収束する．
+\end{thm}
+
+\begin{proof}
+    は後回し．
+\end{proof}
+
+\subsection{有限フーリエ級数}
+
+$X=\mathbb{C}^N$を$N$次元複素線形空間とする．$X$の元を$u=(u[0],u[1],\cdots,u[N-1])\in X$と書く．
+
+\begin{dfn*}[エルミート内積]
+    $u,v\in X$のエルミート内積:
+\[
+    \langle u,v\rangle=\sum_{n=0}^{N-1}u[n]\overline{v[n]}
+\]
+\end{dfn*}
+
+\begin{dfn*}[長さ]
+    $u\in X$の長さ:
+    \[
+        |u|=\sqrt{\langle u,u\rangle}
+    \]
+\end{dfn*}
+
+\begin{dfn*}[正規直交系/正規直交基底]
+    $u_0,\ldots,u_{M-1}\in X$が正規直交系であるとは
+    \[
+        \langle u_m,u_n\rangle=\delta_{mn}\quad(n,m=0,1,\ldots,M-1)
+    \]
+    が成り立つこと．  
+
+    $M=N=\dim X$のとき正規直交基底とよばれ，$\forall u\in X$は
+    \[
+        u=\sum_{n=0}^{N-1}\langle u,u_n \rangle u_n
+    \]
+    と直交分解できる．$\mathbb{C}^N$の標準的な基底$\bm{e}_n[k]=\delta_{kn}\quad(n,k=0,\ldots,N-1)$は正規直交基底である．
+\end{dfn*}
+
+有限フーリエ変換の定義に用いられる正規直交基底は，$\alpha=2\pi/N$として
+\[
+    \varphi_n[k]=\frac{1}{\sqrt{N}}\exp(i\alpha nk)\quad(n,k=0,1,\ldots,N-1)
+\]
+で定義される．
+
+\begin{prop}\label{prop:1-4}
+    $\{\varphi_0,\ldots,\varphi_{N-1}\}$は$X(=\mathbb{C}^N)$の正規直交基底である．
+\end{prop}
+
+\begin{proof}
+    $n=m$のとき
+    \[
+        |\varphi_n|^2=\langle\varphi_n,\varphi_n\rangle=\frac{1}{N}\sum_{k=0}^{N-1}|e^{i\alpha nk}|^2=1
+    \]
+    $n\neq m$のとき
+    \[
+        \langle\varphi_n,\varphi_m\rangle=\frac{1}{N}\sum_{k=0}^{N-1}e^{i\alpha nk}e^{-i\alpha mk}=\frac{1}{N}\frac{1-e^{i\alpha(n-m)N}}{1-e^{i\alpha n-m}}\bluenotearrow{=}{$\alpha N=2\pi$}0
+    \]
+\end{proof}
+
+$u\in X$に対して\textbf{有限フーリエ変換}:
+\begin{equation}\label{eq:1-12}
+    \hat u[n]=\langle u,\varphi_n \rangle=\frac{1}{\sqrt{N}}\sum_{k=0}^{N-1}u[k]e^{-i\alpha nk}\quad(n=0,\ldots,N-1)
+\end{equation}
+とおくと，\textbf{有限フーリエ級数展開}（$\hat u[n]$の\textbf{逆有限フーリエ変換}）:
+\begin{equation}\label{eq:1-13}
+    u[k]=\sum_{n=0}^{N-1}\hat u[n]\varphi_n[k]=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}\hat u[n]e^{i\alpha nk}\quad(n=0,\ldots,N-1)
+\end{equation}
+と直交展開される．
+
+有限フーリエ変換，逆有限フーリエ変換はユニタリーな線形変換である．すなわち:
+\begin{equation}\label{eq:1-14}
+    |u|=|\hat u|
+\end{equation}
+が成り立つ．これは
+\begin{equation}\label{eq:1-15}
+    \langle u,v\rangle=\langle \hat u,\hat v\rangle
+\end{equation}
+であることから従う．
+
+\subsection{有限フーリエ変換の連続極限}
+
+\begin{thm}\label{thm:1-5}
+    $f(t)$を周期$T$のリプシッツ連続な周期関数とし，$\omega=2\pi/T, \alpha=2\pi/N$とする．
+    \[
+        f_N(t)=\sum_{-N/2\leq n<N/2} c_N[n]e^{in\omega t}
+    \]
+    \[
+        c_N[n]=\frac{1}{N}\sum_{m=0}^{N-1}f\mleft(\frac{m}{N}T\mright)e^{-i\alpha nm}\quad(n\in\mathbb{Z})
+    \]
+    と定める．このとき，$f_N(t)$は$f(t)$に一様収束する．
+\end{thm}
+
+\begin{note}\label{note:1-1}
+    \[
+        f_N\mleft(\frac{k}{N}T\mright)=\sum_{-N/2\leq n<N/2} c_N[n]e^{i\alpha nk}=\sum_{n=0}^{N-1}e_N[n]e^{i\alpha nk}=f\mleft(\frac{k}{N}T\mright)
+    \]
+    $f_N(t)$は$f(t_k)$の値を与えたときの補間．
+\end{note}
+
+\begin{proof}
+    まず
+    \[
+        d_N[n]=\frac{1}{N}\sum_{m=0}^{N-1}\mleft\{f\mleft(\frac{m}{N}T\mright)-f\mleft(\frac{m-1}{N}T\mright)\mright\}e^{-i2\pi (m/N)n}
+    \]
+    とおく．$\{d_N[n]\}$は$f(t_n)-f(t_n-(T/N))$の有限フーリエ変換の$1/\sqrt{N}$倍である．リプシッツ連続性の仮定より，$\exists C>0$，
+    \[
+        \mleft|f\mleft(\frac{m}{N}T\mright)-f\mleft(\frac{m-1}{N}T\mright)\mright|\leq\frac{C}{N}\quad(m\in\mathbb{Z})
+    \]
+    が成り立つ．したがって有限フーリエ変換の等長性\eqref{eq:1-14}より
+    \[
+        N\sum_{k=0}^{N-1}|d_N[k]|^2\leq \sum_{m=0}^{N-1}\mleft|\frac{C}{N}\mright|^2=\frac{C^2}{N}
+    \]
+    すなわち
+    \[
+        \sum_{k=0}^{N-1}|d_N[k]|^2\leq \frac{C^2}{N^2}
+    \]
+    が従う．一方，$d_N[k]$の定義により
+    \[
+        d_N[k]=(1-e^{-i 2\pi(k/N)})c_N[k]=2i e^{-i\pi(k/N)}\sin(\pi k/N)c_N[k]
+    \]
+    これとジョルダンの不等式:
+    \begin{equation}\label{eq:1-16}
+        |\sin\theta|\geq\frac{2}{\pi}|\theta|\quad(|\theta|\leq \pi/2)
+    \end{equation}
+    を用いれば
+    \[
+        |d_N[k]|\geq\frac{4|k|}{N}|c_N[k]|\quad\mleft(-\frac{N}{2}\leq k<\frac{N}{2}\mright)
+    \]
+    が従う．$d_N[k]$が周期$N$を持つことに注意して，これらを組み合わせると
+    \[
+        \sum_{-N/2\leq k< N/2}|k|^2|c_N[k]|^2\leq \frac{C^2}{16}
+    \]
+    が導かれる．
+    
+    また，
+    \[
+        f_N'(t)=\sum_n i\omega n c_N[n]e^{i\omega n t}
+    \]
+    の絶対値を考えると
+    \begin{equation}\label{eq:1-17}
+        \begin{split}
+            |f_N'(t)| & \leq \omega \sqrt{N}\sum_n \frac{n}{\sqrt{N}}|c_N[n]| \\
+            & \bluenoteunderleft{\leq}{Schwarzの不等式} \omega\sqrt{N}\mleft(\sum_n\mleft(\frac{1}{\sqrt{N}}\mright)^2\mright)^{1/2} \mleft(\sum_n|n|^2|c_N[n]|^2\mright)^{1/2} \\
+            & \leq \sqrt{N}C'\quad (C'はある定数)
+        \end{split}
+    \end{equation}
+    となる．さて，$\forall t\in [0,T]$に対して$|t-t_k|\leq T/(2N)$であるような$t_k=(k/N)T$が存在する．$f(t_k)=f_N(t_k)$に注意して（注意\ref{note:1-1}）
+    \[
+        f(t)-f_N(t)=(f(t)-f(t_k))+(f_N(t_k)-f_N(t))
+    \]
+    と分解して考える．$f(t)$のリプシッツ連続性と$f_N'$の微分の評価\eqref{eq:1-17}から
+    \[
+        \begin{split}
+            |f(t)-f_N(t)| & \leq |f(t)-f(t_k)|+|f_N(t_k)-f_N(t)| \\
+            & \leq \blueunderline{C|t-t_k|}{リプシッツ連続性}+\blueunderline{C'\sqrt{N}|t-t_k|}{平均値の定理} \\[3ex] 
+            & =O(1/\sqrt{N})
+        \end{split}
+    \]
+    が得られる．つまり，$N\to\infty$のとき$f_N(t)$が$f(t)$に一様収束することが示された．
+\end{proof}
+
+\subsection{関数空間の内積と直交関数系}
+
+%正確にはルベーグ積分が必要だけどリーマン積分でなんとかします
+
+$X$を周期$T$で周期的で有界かつ$[0,T]$上で積分可能な関数全体とする．
+
+\begin{dfn*}[内積]
+    $f,g\in X$に対して内積を
+    \[
+        \langle f,g \rangle=\frac{1}{T}\int_0^T f(t)\overline{g(t)}dt
+    \]
+    で定義する．
+\end{dfn*}
+
+$f,g,h\in X$，$a,b\in\mathbb{C}$のとき
+\[
+    \langle af+bg,h\rangle=a\langle f,h\rangle +b\langle g,h\rangle
+\]
+\[
+    \langle f,ag+bh\rangle=\overline{a}\langle f,g\rangle +\overline{b}\langle f,h\rangle
+\]
+\[
+    \langle f,g\rangle=\overline{\langle g,f\rangle}
+\]
+
+\begin{dfn*}[$L^2$ノルム]
+    $f\in X$に対して
+    \[
+        \|f\|=\sqrt{\langle f,f\rangle}\geq 0
+    \]
+\end{dfn*}
+
+$\|f\|=0\,\leftrightarrow\,f=0$ $\mu$-$a.e.$である．
+
+\subparagraph{シュワルツの不等式}
+
+\begin{equation}\label{eq:1-18}
+    |\langle f,g\rangle|\leq\|f\|\|g\|
+\end{equation}
+
+\subparagraph{三角不等式}
+
+\begin{equation}\label{eq:1-19}
+    \|f+g\|\leq\|f\|+\|g\|
+\end{equation}
+
+\begin{dfn*}[直交]
+    $f,g$が直交するとは，
+    \[
+        \langle f,g\rangle=0
+    \]
+    となること．
+\end{dfn*}
+
+\begin{dfn*}[直交関数系]
+    $\{f_n\}_{n=1}^\infty \subset X$が正規直交系であるとは，
+    \[
+        \langle f_n,f_m\rangle=\delta_{nm}\quad(n,m=1,2,\ldots)
+    \]
+    となること．
+\end{dfn*}
+
+\textbf{フーリエ関数系}を
+\[
+    \varphi_n(t)=e^{in\omega t}\quad(n\in\mathbb{Z},t\in\mathbb{R})
+\]
+で定義すると，$\{\varphi_n\}_{n=-\infty}^\infty$は正規直交系となる．このとき，フーリエ級数展開
+\[
+    f(t)=\sum_{-\infty}^\infty c[n]\varphi_n(t)
+\]
+\[
+    c[n]=\langle f,\varphi_n \rangle=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\quad(n\in\mathbb{Z})
+\]
+は正規直交系$\{\varphi_n\}$に関する展開であり，フーリエ係数は座標成分である．実フーリエ級数\eqref{eq:1-6}も同様である．
+
+\subsection{正規直交基底とフーリエ級数の平均収束}
+$\{f_n\}_{n=1}^\infty$を$X$の正規直交系とする．
+\begin{dfn*}[正規直交基底（完全正規直交系）]
+    $\{f_n\}_{n=1}^\infty$が正規直交基底もしくは完全正規直交系であるとは，$\forall f\in X$に対して
+    \[
+        \lim_{N\to\infty} \mleft\|f-\sum_{n=1}^N \langle f,f_n\rangle f_n\mright\|=0
+    \]
+    であること．\footnote{
+        ちなみに，完全のつかない正規直交系として$\{\cos x,\cos 2x,\ldots,\sin x,\sin 2x,\ldots\}$が考えられる．これは例えば$f$に定数をとればわかるように，完全正規直交系（正規直交基底）にはならない．$\{1,\cos x,\cos 2x,\ldots,\sin x,\sin 2x,\ldots\}$なら完全正規直交系（正規直交基底）になる．
+    }
+\end{dfn*}
+
+\begin{thm}[パーセバルの等式]\label{thm:1-6}
+    フーリエ関数系$\{\varphi_n\}_{n=-\infty}^\infty$は$X$の正規直交基底で，$\forall f\in X,\, c[n]=\langle f,\varphi_n\rangle$として
+    \begin{equation}\label{eq:1-20}
+        \|f\|^2=\sum_{n=-\infty}^\infty |c[n]|^2
+    \end{equation}
+    が成り立つ．
+\end{thm}
+\begin{proof}
+    はあとで．
+\end{proof}
+
+定理\ref{thm:1-6}より，フーリエ級数展開の\textbf{平均収束（$L^2$-収束）}:
+\[
+    \mleft\|f-\sum_{n=-N}^N c[n]\varphi_n\mright\|\to 0\quad(N\to\infty)
+\]
+がわかる．
+
+\begin{prop}[ベッセルの不等式]\label{prop:1-7}
+    $\{f_n\}_{n=1}^\infty$が正規直交系ならば，$\forall f\in X$に対して
+    \begin{equation}\label{eq:1-22}
+        \sum_{n=1}^\infty |\langle f,f_n\rangle|\leq \|f\|^2
+    \end{equation}が
+    が成り立つ．
+\end{prop}
+
+\begin{proof}
+    \[
+        \begin{split}
+            \mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|^2
+            &= \mleft\langle f-\sum_{n=1}^N\langle f,f_n\rangle f_n, f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\rangle \\
+            &=\|f\|^2-\sum_{n=1}^N\langle f,f_n\rangle\langle f_n,f\rangle-\sum_{n=1}^N\overline{\langle f,f_n\rangle}\langle f_n,f\rangle+\sum_{n=1}^N\sum_{m=1}^N\langle f,f_n\rangle\overline{\langle f,f_m\rangle}\langle f_n,f_m\rangle \\
+            &=\|f\|^2-\sum_{n=1}^N|\langle f,f_n\rangle|^2 \\
+            &\geq 0
+        \end{split}
+    \]
+    より結論を得る．
+\end{proof}
+
+\begin{prop}\label{prop:1-8}
+    $\{f_n\}_{n=1}^\infty$を正規直交系とする．$\{f_n\}_{n=1}^\infty$が正規直交基底であるための必要十分条件は，$\forall f\in X$について
+    \[
+        \|f\|^2=\sum_{n=1}^\infty|\langle f,f_n\rangle|^2
+    \]
+    が成り立つことである．
+\end{prop}
+
+\begin{proof}
+    命題\ref{prop:1-7}をみると，$\{f_n\}$が正規直交基底ならば
+    \[
+        \mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|^2
+        =\|f\|^2-\sum_{n=1}^N|\langle f,f_n\rangle|^2 \overset{n\to\infty}{\longrightarrow} 0
+    \]
+    が成り立つ．逆に，
+    \[
+        \lim_{n\to\infty}\mleft(\|f\|^2-\sum_{n=1}^N|\langle f,f_n\rangle|^2\mright)=0
+    \]
+    ならば
+    \[
+        \lim_{n\to\infty}\,\mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|^2=0
+    \]
+    であることがわかり，$\{f_n\}$は正規直交基底である．
+\end{proof}
+
+
+\begin{lem}\label{lem:1-9}
+    $\{f_n\}$を正規直交系，$a_1,a_2,\ldots,a_N\in\mathbb{C}$，$f\in X$とする．このとき
+    \begin{equation}\label{eq:1-23}
+        \mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|\leq\mleft\|f-\sum_{n=1}^N a_n f_n\mright\|
+    \end{equation}
+    が成り立つ．
+\end{lem}
+
+\begin{proof}
+    $g=f-\sum_{n=1}^N\langle f,f_n\rangle f_n$とする．$\langle g,f_m\rangle=0$に注意すると
+    \[
+        \begin{split}
+            \mleft\|f-\sum_n a_n f_n\mright\|^2
+            &=\mleft\|g+\sum_n(\langle f,f_n\rangle-a_n)f_n\mright\|^2 \\
+            &=\|g\|^2+\mleft\langle g,\sum_n(\langle f,f_n\rangle-a_n)f_n\mright\rangle +\mleft\langle \sum_n(\langle f,f_n\rangle-a_n)f_n,g\mright\rangle +\mleft\|\sum_n(\langle f,f_n\rangle-a_n)f_n\mright\|^2 \\
+            &=\|g\|^2+\mleft\|\sum_n(f_n\rangle-a_n)f_n\mright\|^2 \\
+            &\geq \|g\|^2
+        \end{split}
+    \]
+    となる．
+\end{proof}
+
+\begin{prop*}
+    $f$を周期$T$で周期的かつ有界で$[0,T]$上で積分可能な関数とする．任意の$\varepsilon>0$に対して$\|f-g\|<\varepsilon$となるリプシッツ連続な周期関数$g$が存在する．
+\end{prop*}
+
+（メモ：ルベーグ積分論を使った証明があれば追記したい）
+
+\begin{proof}
+    区間$[0,T]$の分割$\Delta:0=t_0<t_1<\cdots<t_n=T$をとり，周期$T$で周期的な階段関数$f_\Delta (t)$を次式により定める:
+    \[
+        f_\Delta (t)=\inf_{t_j\leq t<t_{j+1}} f(t)\quad(t_j\leq t<t_{j+1}のとき)
+    \]
+    $\Delta$を十分細かく取れば，積分の定義により
+    \begin{equation}
+        \|f-f_\Delta\|=\frac{1}{T}\int_0^T|f(t)-f_\Delta(t)|dt<\frac{\varepsilon}{2} \tag{1}
+    \end{equation}
+    とできる．上式が成立するように$\Delta$をとって固定する．また，
+    \[
+        \lim_{s\to 0}\int_0^T|f_\Delta(t-s)-f_\Delta(t)|dt=0
+    \]
+    であるから，$n_0>0$を十分大きくとれば，$n\geq n_0$のとき
+    \begin{equation}
+        \sup_{|s|\leq 1/n}\frac{1}{T}\int_0^T|f_\Delta(t-s)-f_\Delta(t)|dt<\frac{\varepsilon}{2} \tag{2}
+    \end{equation}
+    が成立する．
+
+    任意の$t\in\mathbb{R}$に対して$\phi(t)\geq 0$で，$|t|\geq 1$のとき$\phi(t)=0$かつ
+    \[
+        \int_{-1}^1 \phi(t)dt=1
+    \]
+    を満たすリプシッツ連続な関数$\phi(t)$をとり，$\phi_n(t)=n\phi(nt)$とする．このとき
+    \begin{equation}
+        |t|\geq 1/nのとき\phi_n(t)=0かつ\int_{-1/n}^{1/n}\phi_n(t)dt=1 \tag{3}
+    \end{equation}
+    となる．関数$f_n(t)$を次式により定める．
+    \[
+        f_n(t)=\int_{-\infty}^\infty \phi_n(t-s)f_\Delta(s)ds=\int_{-1/n}^{1/n}\phi_n(s)f_\Delta(t-s)ds
+    \]
+    $f_\Delta (t)$の周期性より
+    \[
+        f_n(T)=\int_{-1/n}^{1/n}\phi_n(s)f_\Delta(T-s)ds=\int_{-1/n}^{1/n}\phi_n(s)f_\Delta(-s)ds=f_n(0)
+    \]
+    かつ，十分大きな$n>0$に対して，$L_\phi$を関数$\phi$のリプシッツ定数として
+    \[
+        |f_n(t_1)-f_n(t_2)|\leq\int_{-\infty}^\infty|\phi_n(t_1-s)-\phi_n(t_2-s)||f_\Delta(s)|ds\leq 4nL_\phi|t_1-t_2|\sup_{0\leq t\leq T}|f(t)|
+    \]
+    となるから，$f_n(t)$は周期$T$のリプシッツ連続な周期関数である．ここで，$t_1\neq t_2$ならば，$n>0$が十分大きいとき，
+    \[
+        \max\mleft(t_1-\frac{1}{n},t_2-\frac{1}{n}\mright)>\min\mleft(t_1+\frac{1}{n},t_2+\frac{1}{n}\mright)
+    \]
+    であること，および式(3)より，
+    \[
+        \begin{split}
+            \int_{-\infty}^\infty|\phi_n(t_1-s)-\phi_n(t_2-s)|ds
+            &\leq \int_{t_1-1/n}^{t_1+1/n}|\phi_n(t_1-s)|ds+\int_{t_2-1/n}^{t_2+1/n}|\phi_n(t_2-s)|ds \\
+            & =\int_{nt_1-1}^{nt_1+1}|\phi(nt_1-u)|du+\int_{nt_2-1}^{nt_2+1}|\phi(nt_2-u)|du \\
+            &\leq \int_{nt_1-1}^{nt_1+1}|\phi(nt_1-u)-\phi(nt_2-u)|du+\int_{nt_2-1}^{nt_2+1}|\phi(nt_1-u)-\phi(nt_2-u)|du \\
+            &\leq \int_{nt_1-1}^{nt_1+1} nL_\phi|t_1-t_2|du +\int_{nt_2}^{nt_2+1}nL_\phi|t_1-t_2|du \\
+            &\leq 4nL_\phi|t_1-t_2|
+        \end{split}
+    \]
+    となることを用いた．
+
+    式(3)より
+    \[
+        f_n(t)-f_\Delta(t)=\int_{-1/n}^{1/n} \phi_n(s)(f_\Delta(t-s)-f_\Delta(t))ds
+    \]
+    であるから，
+    \[
+        |f_n(t)-f_\Delta(t)|\leq\int_{-1/n}^{1/n}\phi_n(s)|f_\Delta(t-s)-f_\Delta(t)|ds
+    \]
+    となる．さらに，上式を$t$で積分し，積分を交換すると，$n\geq n_0$のとき
+    \[
+        \|f_n-f_\Delta\|\leq\frac{1}{T}\int_{-1/n}^{1/n}\phi_n(s)\int_0^T|f_\Delta(t-s)-f_\Delta(s)|dtds<\frac{\varepsilon}{2}
+    \]
+    が成立する．ここで，式(2)と(3)を用いた．三角不等式により，上式と式(1)とから，$n\geq n_0$のとき，
+    \[
+        \|f-f_n\|\leq\|f-f_\Delta\|+\|f_\Delta-f_n\|<\varepsilon
+    \]
+    となり，$g=f_n$とおけば結論を得る．
+\end{proof}
+
+\begin{note*}
+    上の証明で関数$\phi(t)$を$C^\infty$に取れば，近似関数$g$は$C^\infty$級となる．
+\end{note*}
+
+\setcounter{definition}{5}
+\begin{thm}[パーセバルの等式（再掲）]
+    フーリエ関数系$\{\varphi_n\}_{n=-\infty}^\infty$は$X$の正規直交基底で，$\forall f\in X,\, c[n]=\langle f,\varphi_n\rangle$として
+    \begin{equation}\tag{\ref{eq:1-20}}
+        \|f\|^2=\sum_{n=-\infty}^\infty |c[n]|^2
+    \end{equation}
+    が成り立つ．
+\end{thm}
+
+\begin{proof}
+    $f\in X$，$\forall\varepsilon>0$をとる．すると，上の命題より，リプシッツ連続な周期関数$g$で，$\|f-g\|<\varepsilon/2$をみたすものをとれる．すると，定理\ref{thm:1-5}より，$N$を十分大きくとれば，
+    \[
+        \mleft|g(t)-\sum_{|n|\leq N}c_N[n]\varphi_n(t)\mright|<\frac{\varepsilon}{2}\quad(t\in [0,T])
+    \]
+    が成り立つ\footnote{1.6節で$\varphi_n=e^{in\omega t}$で定めている．}．ここで$\{c_N[n]\}$は
+    \[
+        c_N[n]=\frac{1}{N}\sum_{m=0}^{N-1}g\mleft(\frac{m}{N}T\mright)e^{-i2\pi(m/N)n}\quad(n\in\mathbb{Z})
+    \]
+    である．これより
+    \[
+        \mleft\|g-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\|<\frac{\varepsilon}{2}
+    \]
+    がしたがう．ゆえに
+    \[
+        \mleft\|f-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\|\leq\|f-g\|+\mleft\|g-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\|<\varepsilon
+    \]
+    がわかる．ここで，補題\ref{lem:1-9}を用いると
+    \[
+        \mleft\|f-\sum_{|n|\leq N}\langle f,\varphi_n\rangle\varphi_n\mright\|\leq\mleft\|f-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\|<\varepsilon
+    \]
+    が導かれる．
+\end{proof}
+
+\setcounter{definition}{9}
+
+\subsection{定理\ref{thm:1-3}の証明}
+
+\begin{lem}\label{lem:1-10}
+    $f$を周期$T$のリプシッツ連続な周期関数，$\{c[n]\}$を$f$のフーリエ係数とする．このとき
+    \[
+        \sum_{n=-\infty}^\infty |n|^2|c[n]|^2<\infty
+    \]
+    が成り立つ．
+\end{lem}
+
+\begin{proof}
+    リプシッツ連続性より，$C>0$が存在して
+    \[
+        |f(t+h)-f(t)|\leq C|h|\quad(t,h\in\mathbb{R})
+    \]
+    が成り立つ．$N\geq 1$に対して$h=T/2N$とおき，$f$の$h$だけ差分関数を
+    \[
+        g(t)=\frac{1}{h}\{f(t+h)-f(t)\}=\frac{2N}{T}\mleft\{f\mleft(t+\frac{T}{2N}\mright)-f(t)\mright\}
+    \]
+    と定義すれば，$|g(t)|\leq C$である．$g$のフーリエ係数を$\{d[n]\}$と書くことにしよう．すると，
+    \[
+        \begin{split}
+            d[n]&=\frac{1}{hT}\int_0^T\{f(t+h)-f(t)\}e^{-i\omega nt}dt \\
+            &=\frac{1}{h}(e^{i\omega nh}-1)c[n] \\
+            &=\frac{2N}{T}e^{i\omega nh/2}\cdot 2i\sin\mleft(\frac{\pi n}{2N}\mright)c[n]
+        \end{split}
+    \]
+    が成り立つ．$g$についてパーセバルの等式を用いれば
+    \[
+        \|g\|^2=\sum_{n=-\infty}^\infty|d[n]|^2=\mleft(\frac{4N}{T}\mright)^2\sum_{n=-\infty}^\infty\mleft|\sin\mleft(\frac{\pi n}{2N}\mright)\mright|^2|c[n]|^2
+    \]
+    がわかる．一方，\eqref{eq:1-16}を用いると，
+    \[
+        |n|\leq N\quad ならば\quad \mleft|\sin\mleft(\frac{\pi n}{2N}\mright)\mright|\geq\frac{2}{\pi}\cdot\frac{\pi n}{2N}=\frac{n}{N}
+    \]
+    だから，
+    \[
+        \|g\|^2\geq \frac{16}{T^2}\sum_{n=-\infty}^\infty |n|^2|c[n]|^2
+    \]
+    を得る．$|g(t)|^2\leq C^2$だったので
+    \[
+        \sum_{n=-\infty}^\infty |n|^2|c[n]|^2\leq\frac{T^2C^2}{16}
+    \]
+    がわかる．右辺は$N$に依らないので，$N\to\infty$として求める不等式が導かれる．
+\end{proof}
+
+
+\begin{lem}\label{lem:1-11}
+    $f$を周期$T$のリプシッツ連続な周期関数，$\{c[n]\}$を$f$のフーリエ係数とする．このとき
+    \[
+        \sum_{n=-\infty}^\infty |c[n]|<\infty
+    \]
+    が成り立つ．
+\end{lem}
+
+\begin{proof}
+    $\mathbb{C}^N$でのシュワルツの不等式から
+    \[
+        \begin{split}
+            \sum_{1\leq|n|\leq N}|c[n]|
+            &\leq\mleft(2\sum_{n=1}^N\frac{1}{n^2}\mright)^{1/2}\mleft(\sum_{1\leq|n|\leq N}|n|^2|c[n]|^2\mright) \\
+            &\leq\mleft(2\sum_{n=1}^\infty\frac{1}{n^2}\mright)^{1/2}\mleft(\sum_{n=-\infty}^\infty |n|^2|c[n]|^2\mright) 
+        \end{split}
+    \]
+    がわかる．右辺は補題\ref{lem:1-10}より，有限の定数で$N$に依らない．したがって，$N\to\infty$として補題の主張が成り立つ．
+\end{proof}
+
+\begin{lem}\label{lem:1-12}
+    $f$を周期$T$の連続な周期関数，$\{c[n]\}$を$f$のフーリエ係数とする．\\ このとき，$\sum_{n=-\infty}^\infty |c[n]|<\infty$ならば，フーリエ部分和:
+    \[
+        S_N(t)=\sum_{n=-N}^N c[n]e^{i\omega nt}
+    \]
+    は$N\to\infty$のとき$f$に一様収束する．
+\end{lem}
+
+\begin{proof}
+    $N<M$とすると，
+    \begin{equation}\label{eq:1-24}
+        |S_N(t)-S_M(t)|\leq\sum_{N<|n|\leq M}|c[n]|\leq\sum_{|n|>N}|c[n]|
+    \end{equation}
+    である．仮定により，$N\to\infty$のとき$\sum_{|n|>N}|c[n]|\to 0$だから，\eqref{eq:1-24}の右辺は$0$に収束する．つまり，各$t$ごとに，$\{S_N(t)\}$はコーシー列であり，極限が存在する．そこで$g(t)\equiv\lim_{N\to\infty}S_N(t)$とおく．\eqref{eq:1-24}で$M\to\infty$とすると
+    \[
+        |S_N(t)-g(t)|\leq\sum_{|n|>N}|c[n]|
+    \]
+    となる．右辺は$t$によらず，$N\to\infty$のとき$0$に収束するのだから，$S_N(t)$は$g$に一様収束することになる．これより$\|S_N-g\|\to 0$が従う．一方，定理\ref{thm:1-6}より，$\|S_N-f\|\to 0$だから，$f=g$でなければならない．以上により，$S_N$が$f$に一様収束することが示された． 
+\end{proof}
+
+\begin{note*}
+    補題\ref{lem:1-12}は定理\ref{thm:1-3}よりも強い主張であり，重要である．
+\end{note*}
+
+\begin{note}
+    $\{g_N(t)\}$を連続関数列で$N\to\infty$のとき$g_N(t)$は$g(t)$に一様収束するならば，$g(t)$は連続である．
+\end{note}
+
+\setcounter{definition}{2}
+
+\begin{thm}[（再掲）]
+    $f(t)$がリプシッツ連続ならば，フーリエ級数展開は$f(t)$に一様収束する．
+\end{thm}
+
+\begin{proof}
+    補題\ref{lem:1-11}と補題\ref{lem:1-12}から直ちに導かれる．
+\end{proof}
+
+\setcounter{definition}{12}
+
+\subsection{ギッブス現象と総和法}
+
+\end{document}
