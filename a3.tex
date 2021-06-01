@@ -69,6 +69,7 @@
 \newtheorem{theorem}[definition]{定理}
 \newtheorem{lemma}[definition]{補題}
 \newtheorem{proposition}[definition]{命題}
+\newtheorem{corollary}[definition]{系}
 \newtheorem{formula}[definition]{公式}
 
 \newtheoremstyle{mystyle3}% Name
@@ -282,6 +283,18 @@
 }
 {\end{proposition}\end{tcolorbox}}
 
+\newenvironment{cor}[1][]
+{\begin{tcolorbox}[
+    enhanced,
+    boxrule=0pt,
+    arc=0mm,
+    frame hidden,
+    borderline west={2pt}{-4pt}{blue!50!black},
+    breakable = true
+    ]
+    \begin{corollary}[#1]
+}
+{\end{corollary}\end{tcolorbox}}
 \newenvironment{thm}[1][]
 {\begin{tcolorbox}[
     enhanced,
@@ -863,8 +876,6 @@ $\{f_n\}_{n=1}^\infty$を$X$の正規直交系とする．
     となる．
 \end{proof}
 
-\addtocounter{footnote}{-1}
-
 \begin{prop*}
     $f$を周期$T$で周期的かつ有界で$[0,T]$上で積分可能な関数とする．任意の$\varepsilon>0$に対して$\|f-g\|<\varepsilon$となるリプシッツ連続な周期関数$g$が存在する．\footnotemark
 \end{prop*}
@@ -1096,18 +1107,26 @@ $\{f_n\}_{n=1}^\infty$を$X$の正規直交系とする．
 
 \subsection{ギッブス現象と総和法}
 
-連続じゃないけれども連続からは離れてない関数
+%連続じゃないけれども連続からは離れてない関数を考える．
 
 \begin{thm}
-    $f(t)$を周期$T$の周期関数で，$[0,T]$上では区分的に滑らか\footnote{$a_j (j=1,\ldots ,n-1)$であって，$f(t)$は$[a_j,a_{j+1}]$で$C^1$級で，$f(a_j+0)\,(j<n)$，$f(a_j-0)\, (j>0)$となるものが存在する（$a_0=0,a_n=T$）}な関数であるとする．このとき，フーリエ部分和$S_N(t)$は
+    $f(t)$を周期$T$の周期関数で，$[0,T]$上では区分的に滑らか\footnotemark な関数であるとする．このとき，フーリエ部分和$S_N(t)$は
     \[
         \lim_{N\to\infty} S_N(t)=\begin{cases}
             f(t)                                      & (t:連続)   \\
             \displaystyle\frac{1}{2}\{f(t+0)+f(t-0)\} & (t:不連続)
         \end{cases}
     \]
-    が成り立つ．\footnote{$f(t\pm 0)=\lim_{\varepsilon\to\pm 0}f(t\pm\varepsilon)$}
+    が成り立つ．\footnotemark
 \end{thm}
+
+\addtocounter{footnote}{-1}
+
+\footnotetext{$a_j (j=1,\ldots ,n-1)$であって，$f(t)$は$[a_j,a_{j+1}]$で$C^1$級で，$f(a_j+0)\,(j<n)$，$f(a_j-0)\, (j>0)$となるものが存在する（$a_0=0,a_n=T$）}
+
+\addtocounter{footnote}{1}
+
+\footnotetext{$f(t\pm 0)=\lim_{\varepsilon\to\pm 0}f(t\pm\varepsilon)$}
 
 \begin{proof}
     \[
@@ -1256,5 +1275,184 @@ $G(s)$を$[-1,1]$に台をもつ有界関数で$G(0)=1$かつ$s=0$で連続で�
     \end{cases}
 \]
 をハン窓という．定理\ref{thm:1-14}同様に，連続関数のフーリエ級数のハン窓による部分和は，もとの関数に一様収束する．
+
+\newpage
+
+\section{フーリエ級数の性質と応用}
+
+\subsection{フーリエ級数と微分}
+
+周期$T$の周期関数$f$が
+\[
+    f(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}
+\]
+とフーリエ級数展開されるとき，項別微分できるならば
+\[
+    f'(t)=\sum_{n=-\infty}^\infty in\omega c[n]e^{in\omega t}
+\]
+となる．つまり，$f'(t)$のフーリエ係数は$\{in\omega c[n]\}$となるはずだが，次のような場合にはこれが正当化できる．
+
+\begin{thm}\label{thm:2-1}
+    $f$を周期$T$の連続な周期関数で，$[0,T]$上で有限個の点を除いて微分可能，さらに$f'$は有界で積分可能であるとする．このとき$\{c[n]\}_{n=-\infty}^\infty$，$\{d[n]\}_{n=-\infty}^\infty$をそれぞれ$f,\,f'$のフーリエ係数とすれば
+    \[
+        d[n]=in\omega c[n] \quad (n\in\mathbb{Z})
+    \]
+    が成り立つ．
+\end{thm}
+
+\begin{proof}
+    フーリエ係数の定義と部分積分により
+    \[
+        \begin{split}
+            d[n]&=\frac{1}{T}\int_0^T f'(t) e^{-in\omega t}dt \\
+            &=\frac{1}{T}\blueunderline{\mleft[f(t)e^{-in\omega t}\mright]}{周期性より0}-\frac{1}{T}\int_0^T f(t) (-in\omega)e^{-in\omega t}dt \\[2ex]
+            &=in\omega c[n]
+        \end{split}
+    \]
+\end{proof}
+
+\begin{thm}\label{thm:2-2}
+    $f$を$C^m$級周期関数（$m\in\mathbb{N}$），$\{c[n]\}_{n=-\infty}^\infty$をフーリエ係数とする．このとき，$f$の$k$階微分$f^{(k)}$のフーリエ係数は$\{(i\omega n)^k c[n]\}_{n=-\infty}^\infty$（$k=0,1,\ldots,m$）で与えられる．また，
+    \begin{equation}\label{eq:2-1}
+        \exists C>0\,\textrm{s.t.}\,|c[n]|\leq C(1+|n|)^{-m}\quad (n\in\mathbb{Z})
+    \end{equation}
+\end{thm}
+
+\begin{proof}
+    定理\ref{thm:2-1}を繰り返し用いることで前半は示せる．後半は定理\ref{thm:1-6}を利用して
+    \[
+        \sum_{n=-\infty}^\infty |(in\omega)^m c[n]|=\|f^{(m)}\|\leq\mleft(\sup_t|f^{(m)}(t)|\mright)^2\quad(n\in\mathbb{Z})
+    \]
+    ゆえに
+    \[
+        |(in\omega)^m c[n]|\leq\sup_t|f^{(m)}(t)|\quad(n\in\mathbb{Z})
+    \]
+    が成り立つ．したがって適当な$C$をとれば
+    \[
+        |c[n]|\leq\mleft(\omega^m\sup_t|f^{(m)}(t)|\mright)|n|^{-m}\leq C(1+|n|)^{-m}\quad(n\in\mathbb{Z})
+    \]
+    となる．
+\end{proof}
+
+\begin{thm}\label{thm:2-3}
+    $f$を連続な周期関数，$\{c[n]\}_{n=-\infty}^\infty$をフーリエ係数とする．
+    \begin{equation}\label{eq:2-2}
+        \sum_{n=-\infty}^\infty |n^m||c[n]|<\infty\quad(m\in\mathbb{N})
+    \end{equation}
+    ならば，$f$は$C^m$級である．特に，$a>m+1$に対して
+    \[
+        |c[n]|<C(1+|n|)^{-a}\quad (n\in\mathbb{Z})
+    \]
+    が成り立つならば，$f$は$C^m$級である．
+\end{thm}
+
+\begin{proof}
+    $m\geq 1$について\eqref{eq:2-2}を仮定すると
+    \[
+        \sum_{n=-\infty}^\infty |in\omega c[n]|=|\omega|\sum_{n=-\infty}^\infty |n||c[n]|<\infty
+    \]
+    であるから，$f(t)=\sum_n c[n]e^{in\omega t}$は項別微分ができる．すると
+    \[
+        f'(t)=\sum_{n=-\infty}^\infty in\omega c[n]e^{in\omega t}
+    \]
+    となり，右辺は仮定により$n$についての和が$t$に関して一様収束する．したがって$f'$は連続であり，$f$は$C^1$級である．これを繰り返し用いて前半の主張を得る．後半の主張は前半より直ちに導かれる．
+\end{proof}
+
+\begin{cor}\label{cor:2-4}
+    $f$を連続な周期関数とする．$f$が$C^\infty$級関数であるための（必要）十分条件は
+    \[
+        \forall M>0,\exists C>0\,\textrm{s.t.}\,|c[n]|\leq C(1+|n|)^{-M}\quad(n\in\mathbb{Z})
+    \]
+    である．
+\end{cor}
+
+解析的な関数については，次のようなさらに強い結果が成り立つ\footnote{$C^\omega$級は$C^\infty$級よりも強い条件である．}．
+
+\begin{thm}[ペイリー・ウィナーの定理]\label{thm:2-5}
+    $f$が解析的な周期関数であるための必要十分条件は
+    \begin{equation}\label{eq:2-3}
+        \exists C>0,\exists \varepsilon>0\,\textrm{s.t.}\,|c[n]|\leq Ce^{-\varepsilon|n|}\quad(n\in\mathbb{Z})
+    \end{equation}
+    である．
+\end{thm}
+
+\begin{proof}
+    $f(t)$に対し，複素平面の帯状領域$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上の正則関数$f(z)$であって，$\mathbb{R}$上で$f(t)$に一致するものを考える．このとき，$f(z+2\pi)$と$f(z)$は$\mathbb{R}$上で一致するから，一致の定理によって$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上で$f(z+2\pi)=f(z)$が成り立つ．ゆえに，$\forall \varepsilon\,\textrm{s.t.}\,0<\varepsilon<a$に対して
+    \[
+        \int_0^{\pm i\varepsilon/\omega}f(z)e^{-in\omega z}dz=\int_T^{T\pm i\varepsilon/\omega}f(z)e^{-in\omega z}dz\quad(n\in\mathbb{Z})
+    \]
+    となる．このことに注意すると，コーシーの積分定理より
+    \[
+        c[n]=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt=\frac{1}{T}\int_0^T f(t\mp i\varepsilon/\omega)e^{-in\omega (t\mp i\varepsilon/\omega)}\quad(n\in\mathbb{Z})
+    \]
+    が得られる\footnote{$0\to \pm i\varepsilon/\omega\to T\pm i\varepsilon/\omega\to T \to 0$のような積分路で$f(t)e^{-in\omega t}$を積分すると$0$であることを利用する．}（複号同順）．したがって，$C=\max\{|f(t\pm i\varepsilon/\omega)|:t\in[0,T]\}$とすれば，
+    \[
+        |c[n]|\leq\frac{e^{-\varepsilon|n|}}{T}\int_0^T|f(t\mp i\varepsilon)|dt\leq Ce^{-\varepsilon|n|}
+    \]
+    となり\eqref{eq:2-3}が成り立つ．
+
+    逆に，\eqref{eq:2-3}が成り立つとき，定理3.16（何？）によって
+    \[
+        f(t)=\sum_{n=-\infty}^\infty c[n]e^{-in\omega t}
+    \]
+    である．$z\in \{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$に対して
+    \[
+        f(z)=\sum_{n=-\infty}^\infty c[n]e^{-in\omega z}
+    \]
+    と定めると，右辺は$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上広義一様収束する．また，$\sum_{n=-\infty}^\infty C^{-\varepsilon|n|}<+\infty$であるので，weierstrassの解析関数に対する一様収束定理\footnote{weierstrassのM-testのことだと思う．}によって$f(z)$も$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上の正則関数となる．$f(t)$は$f(z)$の実軸への制限であり，正則関数ならば解析関数である．
+\end{proof}
+
+\paragraph{定数係数の線形微分方程式の周期解}
+
+$P$を
+\[
+    Pf(t)\coloneqq\sum_{j=0}^m a_j\frac{d^j f}{dt^j}(t)
+\]
+で定義される定数係数の線形常微分作用素とする．ここに$a_0,a_1,\ldots,a_m\in\mathbb{C}$は定数である．$g(t)$を周期$T$の周期関数とし
+\[
+    Pf(t)=g(t)
+\]
+を考える．
+
+$f$が$m$階微分可能と仮定すると，定理\ref{thm:2-2}より，$\{c[n]\},\,\{d[n]\}$を$f,g$のフーリエ係数とすると
+\[
+    \sum_{j=0}^m a_j(i\omega n)^j c[n]=d[n]\quad(d\in\mathbb{Z})
+\]
+これは各$n$ごとに独立な方程式だから，$\{d[n]\}$から$\{c[n]\}$が求まるはずである．ここで，
+\[
+    Pf(t)=f''(t)+\lambda f(t)
+\]
+の場合を考えると
+\[
+    (-\omega^2 n^2+\lambda)c[n]=d[n]\quad(d\in\mathbb{Z})
+\]
+となる．
+
+\subparagraph{Case1. $\lambda\notin\{n^2\omega^2|n\in\mathbb{Z}\}$の場合}
+
+このとき
+\[
+    c[n]=\frac{1}{\lambda-n^2\omega^2}d[n]
+\]
+とかける．$g$がリプシッツ連続ならば，補題\ref{lem:1-11}から$\sum_n |d[n]|<+\infty$なので，
+\[
+    \sum_{n=-\infty}^\infty n^2|c[n]|=\sum_{n=-\infty}^\infty\mleft|\frac{n^2}{\lambda-n^2\omega^2}\mright||d[n]|\leq C\sum_{n=-\infty}^\infty|d[n]|<+\infty
+\]
+となる．よって，定理\ref{thm:2-3}より$f=\sum_n c[n]e^{in\omega t}$は$C^2$級関数である．また，唯一の周期回である．特に，$Pf=0$の周期解は$f=0$のみである．
+
+\subparagraph{Case2. $\lambda=n_0^2\omega^2\,(\exists n_0\in\mathbb{Z})$の場合}
+
+このとき$Pf=g$が解けるためには$d[n_0]=0$が必要である．このとき，$n\neq n_0$についてはCase1.の場合と同様に$d[n]$から$c[n]$が解ける．$c[n_0]$はどのように選んでも方程式は満たされる．すなわち，$A,B$を任意定数として
+\[
+    f(t)=\sum_{n\neq n_0}\frac{d[n]}{\lambda-n^2\omega^2}e^{in\omega t}+Ae^{in_0\omega t}+Be^{-in_0\omega t}
+\]
+となる．
+
+さて，$g=0$とした場合は固有値問題
+\[
+    f''+\lambda f=0
+\]
+である．上の考察より，固有値は$\{n^2\omega^2 | n\in\mathbb{Z}\}$であり，固有関数は$e^{in\omega t}$であることがわかる．$n\neq 0$では固有値は二重に縮退しており，各$\lambda=n^2\omega^2$について固有関数は$\{a\cos(n\omega t)+b\sin(n\omega t)|a,b\in\mathbb{C}\}$という2次元の空間を張る．
+
 
 \end{document}
