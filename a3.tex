@@ -19,6 +19,7 @@
 \usepackage{tikz}
 \usetikzlibrary{cd}%矢印の図
 \usetikzlibrary{decorations,decorations.pathreplacing}%tikz-cdを「デコ」る
+\usepackage{fig/gnuplot-lua-tikz}%gnuplot経由画像
 \usepackage{bbm}%指示関数とかはこっちで出す
 %\usepackage[right]{showlabels}%数式番号を左に表示
 \usepackage{booktabs}%表の上線\toprule中線\midrule下線\bottomrule
@@ -26,24 +27,6 @@
 \usepackage[dvipdfmx]{hyperref}%ハイパーリンク
 \usepackage{comment}
 %\usepackage{lscape}%ページを横向きにする
-\usepackage{listings,jlisting}
-\lstset{
-    language=python,
-    frame=single,
-    basicstyle=\ttfamily\footnotesize,
-    commentstyle=\textit,
-    classoffset=1,
-    keywordstyle=\bfseries,
-    framesep=5pt,
-    showstringspaces=false,
-    numbers=left,
-    stepnumber=1,
-    lineskip=-0.2ex,
-    numberstyle=\tiny,
-    tabsize=2,
-    breaklines = true,
-    framexleftmargin=17pt
-}
 
 \makeatletter%subsubsubsection定義
     \newcommand{\subsubsubsection}{\@startsection{paragraph}{4}{\z@}%
@@ -70,10 +53,8 @@
 %physicsでrotもcurlで使う
 \newcommand{\rot}{\curl}
 
-%amsthm style1,2 微分積分学B準拠
-%例
-%定理1.1（中間値の定理）
-%定理=\thmname{#1} 1.1=\thmnumber{#2} （中間値の定理）=\thmnote{（#3）}
+%amsthm style1,2
+%style1 連番
 \newtheoremstyle{mystyle1}% Name
     {}% Space above
     {}% Space below
@@ -114,7 +95,7 @@
 \theoremstyle{mystyle4}
 \newtheorem{note}{注意}[section]
 
-
+%style2 番号なし
 \newtheoremstyle{mystyle2}% Name
     {}% Space above
     {}% Space below
@@ -151,19 +132,7 @@
   \popQED\endtrivlist\@endpefalse
 }
 \renewcommand\proofname{証明}
-\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
-\makeatother
-
-\makeatletter
-\renewenvironment{ans*}[1][解答例]{\par
-  \pushQED{\qed}%
-  \normalfont
-  \topsep6\p@\@plus6\p@ \trivlist
-  \item[\hskip\labelsep{\bfseries\sffamily #1}]\ignorespaces
-}{%
-  \popQED\endtrivlist\@endpefalse
-}
-\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+\renewcommand{\qedsymbol}{\hfill\ensuremath{\blacksquare}}
 \makeatother
 
 \definecolor{shadecolor}{gray}{0.9}
@@ -256,6 +225,13 @@
 %\makeatletter
 %\def\blfootnote{\xdef\@thefnmark{}\@footnotetext}
 %\makeatother
+
+
+\makeatletter
+\renewcommand{\thefigure}{% 図番号の付け方
+\thesection.\arabic{figure}}
+\@addtoreset{figure}{section}
+\makeatother
 
 \makeatletter
 \@addtoreset{equation}{section}
@@ -463,8 +439,8 @@ $f$が奇関数ならば$a[n]=0\quad(n=0,1,2,\ldots)$となり，\textbf{正弦�
 となる．そこで
 \[
     c[n]=\begin{cases}
-        a[0]/2 & (n=0) \\
-        (a[n]-ib[n])/2 & (n>0) \\
+        a[0]/2           & (n=0) \\
+        (a[n]-ib[n])/2   & (n>0) \\
         (a[-n]+ib[-n])/2 & (n<0)
     \end{cases}
 \]
@@ -512,7 +488,7 @@ $n=0$のとき
 $n\neq 0$のとき
 \[
     a[n]=\begin{cases}
-        0 & (nは偶数) \\
+        0                          & (nは偶数) \\
         -\frac{4}{\pi n^2 \omega } & (nは奇数)
     \end{cases}
 \]
@@ -545,10 +521,10 @@ $n>0$として$c[n]=c[-n]$より
 
 \begin{dfn*}[リプシッツ連続（Lipshitz continuous）]
     $\mathbb{R}$上の関数$f(t)$が\textbf{リプシッツ連続}であるとは，
-\[
-    \exists C>0\, \textrm{s.t.}\, \forall t,s\in\mathbb{R},\, |f(t)-f(s)|\leq C|t-s|
-\]
-が成り立つことである．
+    \[
+        \exists C>0\, \textrm{s.t.}\, \forall t,s\in\mathbb{R},\, |f(t)-f(s)|\leq C|t-s|
+    \]
+    が成り立つことである．
 \end{dfn*}
 
 \begin{thm}\label{thm:1-3}
@@ -565,9 +541,9 @@ $X=\mathbb{C}^N$を$N$次元複素線形空間とする．$X$の元を$u=(u[0],u
 
 \begin{dfn*}[エルミート内積]
     $u,v\in X$のエルミート内積:
-\[
-    \langle u,v\rangle=\sum_{n=0}^{N-1}u[n]\overline{v[n]}
-\]
+    \[
+        \langle u,v\rangle=\sum_{n=0}^{N-1}u[n]\overline{v[n]}
+    \]
 \end{dfn*}
 
 \begin{dfn*}[長さ]
@@ -582,7 +558,7 @@ $X=\mathbb{C}^N$を$N$次元複素線形空間とする．$X$の元を$u=(u[0],u
     \[
         \langle u_m,u_n\rangle=\delta_{mn}\quad(n,m=0,1,\ldots,M-1)
     \]
-    が成り立つこと．  
+    が成り立つこと．
 
     $M=N=\dim X$のとき正規直交基底とよばれ，$\forall u\in X$は
     \[
@@ -686,7 +662,7 @@ $u\in X$に対して\textbf{有限フーリエ変換}:
         \sum_{-N/2\leq k< N/2}|k|^2|c_N[k]|^2\leq \frac{C^2}{16}
     \]
     が導かれる．
-    
+
     また，
     \[
         f_N'(t)=\sum_n i\omega n c_N[n]e^{i\omega n t}
@@ -707,7 +683,7 @@ $u\in X$に対して\textbf{有限フーリエ変換}:
     \[
         \begin{split}
             |f(t)-f_N(t)| & \leq |f(t)-f(t_k)|+|f_N(t_k)-f_N(t)| \\
-            & \leq \blueunderline{C|t-t_k|}{リプシッツ連続性}+\blueunderline{C'\sqrt{N}|t-t_k|}{平均値の定理} \\[3ex] 
+            & \leq \blueunderline{C|t-t_k|}{リプシッツ連続性}+\blueunderline{C'\sqrt{N}|t-t_k|}{平均値の定理} \\[3ex]
             & =O(1/\sqrt{N})
         \end{split}
     \]
@@ -746,7 +722,7 @@ $f,g,h\in X$，$a,b\in\mathbb{C}$のとき
     \]
 \end{dfn*}
 
-$\|f\|=0\,\leftrightarrow\,f=0$ $\mu$-$a.e.$である．
+$\|f\|=0\,\Leftrightarrow\,f=0$ $\mu$-$a.e.$である．
 
 \subparagraph{シュワルツの不等式}
 
@@ -887,11 +863,13 @@ $\{f_n\}_{n=1}^\infty$を$X$の正規直交系とする．
     となる．
 \end{proof}
 
+\addtocounter{footnote}{-1}
+
 \begin{prop*}
-    $f$を周期$T$で周期的かつ有界で$[0,T]$上で積分可能な関数とする．任意の$\varepsilon>0$に対して$\|f-g\|<\varepsilon$となるリプシッツ連続な周期関数$g$が存在する．
+    $f$を周期$T$で周期的かつ有界で$[0,T]$上で積分可能な関数とする．任意の$\varepsilon>0$に対して$\|f-g\|<\varepsilon$となるリプシッツ連続な周期関数$g$が存在する．\footnotemark
 \end{prop*}
 
-（メモ：ルベーグ積分論を使った証明があれば追記したい）
+\footnotetext{ルベーグ積分論を用いた証明としては$L^2$空間における連続関数の稠密性が関係していそう．ルベーグ積分（伊藤）の定理24.2など．}
 
 \begin{proof}
     区間$[0,T]$の分割$\Delta:0=t_0<t_1<\cdots<t_n=T$をとり，周期$T$で周期的な階段関数$f_\Delta (t)$を次式により定める:
@@ -996,13 +974,15 @@ $\{f_n\}_{n=1}^\infty$を$X$の正規直交系とする．
     \]
     がしたがう．ゆえに
     \[
-        \mleft\|f-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\|\leq\|f-g\|+\mleft\|g-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\|<\varepsilon
+        \begin{split}
+            \mleft\|f-\sum_{|n|\leq N}\langle f,\varphi_n\rangle\varphi_n\mright\|
+            &\bluenotearrow{\leq}{補題\ref{lem:1-9}}
+            \mleft\|f-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\| \\
+            &\leq\|f-g\|+\mleft\|g-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\| \\
+            &<\varepsilon
+        \end{split}
     \]
-    がわかる．ここで，補題\ref{lem:1-9}を用いると
-    \[
-        \mleft\|f-\sum_{|n|\leq N}\langle f,\varphi_n\rangle\varphi_n\mright\|\leq\mleft\|f-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\|<\varepsilon
-    \]
-    が導かれる．
+    となる．
 \end{proof}
 
 \setcounter{definition}{9}
@@ -1068,7 +1048,7 @@ $\{f_n\}_{n=1}^\infty$を$X$の正規直交系とする．
         \begin{split}
             \sum_{1\leq|n|\leq N}|c[n]|
             &\leq\mleft(2\sum_{n=1}^N\frac{1}{n^2}\mright)^{1/2}\mleft(\sum_{1\leq|n|\leq N}|n|^2|c[n]|^2\mright) \\
-            &\leq\mleft(2\sum_{n=1}^\infty\frac{1}{n^2}\mright)^{1/2}\mleft(\sum_{n=-\infty}^\infty |n|^2|c[n]|^2\mright) 
+            &\leq\mleft(2\sum_{n=1}^\infty\frac{1}{n^2}\mright)^{1/2}\mleft(\sum_{n=-\infty}^\infty |n|^2|c[n]|^2\mright)
         \end{split}
     \]
     がわかる．右辺は補題\ref{lem:1-10}より，有限の定数で$N$に依らない．したがって，$N\to\infty$として補題の主張が成り立つ．
@@ -1091,7 +1071,7 @@ $\{f_n\}_{n=1}^\infty$を$X$の正規直交系とする．
     \[
         |S_N(t)-g(t)|\leq\sum_{|n|>N}|c[n]|
     \]
-    となる．右辺は$t$によらず，$N\to\infty$のとき$0$に収束するのだから，$S_N(t)$は$g$に一様収束することになる．これより$\|S_N-g\|\to 0$が従う．一方，定理\ref{thm:1-6}より，$\|S_N-f\|\to 0$だから，$f=g$でなければならない．以上により，$S_N$が$f$に一様収束することが示された． 
+    となる．右辺は$t$によらず，$N\to\infty$のとき$0$に収束するのだから，$S_N(t)$は$g$に一様収束することになる．これより$\|S_N-g\|\to 0$が従う．一方，定理\ref{thm:1-6}より，$\|S_N-f\|\to 0$だから，$f=g$でなければならない．以上により，$S_N$が$f$に一様収束することが示された．
 \end{proof}
 
 \begin{note*}
@@ -1115,5 +1095,166 @@ $\{f_n\}_{n=1}^\infty$を$X$の正規直交系とする．
 \setcounter{definition}{12}
 
 \subsection{ギッブス現象と総和法}
+
+連続じゃないけれども連続からは離れてない関数
+
+\begin{thm}
+    $f(t)$を周期$T$の周期関数で，$[0,T]$上では区分的に滑らか\footnote{$a_j (j=1,\ldots ,n-1)$であって，$f(t)$は$[a_j,a_{j+1}]$で$C^1$級で，$f(a_j+0)\,(j<n)$，$f(a_j-0)\, (j>0)$となるものが存在する（$a_0=0,a_n=T$）}な関数であるとする．このとき，フーリエ部分和$S_N(t)$は
+    \[
+        \lim_{N\to\infty} S_N(t)=\begin{cases}
+            f(t)                                      & (t:連続)   \\
+            \displaystyle\frac{1}{2}\{f(t+0)+f(t-0)\} & (t:不連続)
+        \end{cases}
+    \]
+    が成り立つ．\footnote{$f(t\pm 0)=\lim_{\varepsilon\to\pm 0}f(t\pm\varepsilon)$}
+\end{thm}
+
+\begin{proof}
+    \[
+        \begin{split}
+            S_N(t)
+            &=\sum_{n=-N}^N c[n]e^{i\omega nt} \\
+            &=\sum_{n=-N}^N \mleft(\frac{1}{T}\int_0^T f(s)e^{-in\omega s}ds\mright)e^{i\omega nt} \\
+            &=\frac{1}{T}\sum_{n=-N}^N \int_0^T f(s)e^{in\omega (t-s)}ds
+        \end{split}
+    \]
+    と変形できる．$f(s)$は$\mathbb{R}$上の関数なので，$f(s)e^{in\omega (t-s)}$の虚部$f(s)\sin\{n\omega(t-s)\}$を積分したものは$0$になる．したがって
+    \[
+        \lim_{N\to\infty}\frac{1}{T}\sum_{n=-N}^N \int_0^T f(s)\cos\{n\omega (t-s)\}ds =\begin{cases}
+            f(t)                                      & (t:連続)   \\
+            \displaystyle\frac{1}{2}\{f(t+0)+f(t-0)\} & (t:不連続)
+        \end{cases}
+    \]
+    を示せばよい．ここで，
+    \[
+        2\sin\frac{\theta}{2}\cos k\theta=\sin \mleft(k+\frac{1}{2}\mright)\theta-\sin\mleft(k-\frac{1}{2}\mright)\theta
+    \]
+    より
+    \[
+        \sum_{k=0}^N\cos k\theta=\frac{\sin\mleft(N+\frac{1}{2}\mright)+\sin\frac{\theta}{2}}{2\sin\frac{\theta}{2}}
+    \]
+    両辺$1/2$を引いて
+    \[
+        \frac{1}{2}+\sum_{k=1}^N\cos k\theta=\frac{\sin\mleft(N+\frac{1}{2}\mright)\theta}{2\sin\frac{\theta}{2}}
+    \]
+    であること\footnote{
+        ちなみに，$D_n(x)=\sum_{k=-n}^n e^{ikx}=1+2\sum_{k=1}^N\cos(kx)=\sin\{(n+1/2)x\}/\sin(x/2)$はディリクレ核とよばれ，これを用いると畳み込みを用いて$S_N(t)$が表現できる．
+    }を利用すると
+    \[
+        \begin{split}
+            \frac{1}{T}\sum_{n=-N}^N \int_0^T f(s)& \cos\{n\omega (t-s)\}ds \\
+            &=\frac{1}{T} \int_0^T f(s)\sum_{n=-N}^N\cos\{n\omega (t-s)\} \\
+            &=\frac{2}{T} \int_0^T f(s)\frac{\sin\frac{(2N+1)\omega(t-s)}{2}}{2\sin\frac{\omega(t-s)}{2}}ds \\
+            &\bluenoteunderleft{=}{周期性の利用} \frac{2}{T} \int_t^{t+T} f(s)\frac{\sin\frac{(2N+1)\omega(t-s)}{2}}{2\sin\frac{\omega(t-s)}{2}}ds \\
+            &=\frac{2}{T} \mleft(\int_t^{t+T/2} + \int_{t+T/2}^{t+T}\mright) f(s)\frac{\sin\frac{(2N+1)\omega(t-s)}{2}}{2\sin\frac{\omega(t-s)}{2}}ds \\
+            &\bluenoteunderleft{=}{$-u=\omega(t-s)/2$,$u=\omega(t-s)/2$と置換} \frac{2}{T}\int_0^{\omega T/4} f(t+2u/\omega)\frac{\sin(2N+1)u}{\sin u}\frac{2}{\omega}du
+            +\frac{2}{T}\int_0^{\omega T/4} f(t-2u/\omega)\frac{\sin(2N+1)u}{\sin u}\frac{2}{\omega}du \\
+            &= \frac{4}{\omega T}\int_0^{\omega T/4} f(t+2u/\omega)\frac{\sin(2N+1)u}{\sin u}du
+            +\frac{4}{\omega T}\int_0^{\omega T/4} f(t-2u/\omega)\frac{\sin(2N+1)u}{\sin u}du
+        \end{split}
+    \]
+    ここまでの議論は$f(s)=1$としても成立していることに注意すると，不連続点$t$では（連続点では$f(t+0)=f(t-0)=f(t)$として考える）
+    \[
+        \begin{split}
+            S_N(t)&-\mleft[\frac{1}{2}\{f(t+0)+f(t-0)\}\mright] \\
+            &=\frac{4}{\omega T}\int_0^{\omega T/4} f(t+2u/\omega)\frac{\sin(2N+1)u}{\sin u}du
+            +\frac{4}{\omega T}\int_0^{\omega T/4} f(t-2u/\omega)\frac{\sin(2N+1)u}{\sin u}du \\
+            & \qquad -\frac{1}{2}\{f(t+0)+f(t-0)\}\mleft[\frac{4}{\omega T}\int_0^{\omega T/4} \frac{\sin(2N+1)u}{\sin u}du
+                +\frac{4}{\omega T}\int_0^{\omega T/4} \frac{\sin(2N+1)u}{\sin u}du\mright] \\
+            &= \frac{4}{\omega T}\int_0^{\omega T/4} \{f(t+2u/\omega)-f(t+0)\}\frac{\sin(2N+1)u}{\sin u}du \\
+            & \qquad +\frac{4}{\omega T}\int_0^{\omega T/4} \{f(t-2u/\omega)-f(t-0)\}\frac{\sin(2N+1)u}{\sin u}du
+        \end{split}
+    \]
+    ここで，$f$は区分的に滑らかであり，$u/\sin u\to 1$（$u\to +0$）に注意すれば，$t$を固定して区間$(0,\omega T/4)$で定義された$u$の関数
+    \[
+        g_\pm(u)=\frac{f(t\pm 2u/\omega)-f(t\pm 0)}{\sin u}=\frac{f(t\pm 2u/\omega)-f(t\pm 0)}{\pm u}\frac{\pm u}{\sin u}
+    \]
+    は有界で有限個の点を除いて連続である（可積分）．したがって，リーマン-ルベーグの定理を利用して
+    \[
+        \lim_{N\to\infty}\int_0^{\omega T/4}g_\pm(u)\sin(2N+1)u\, du=0
+    \]
+    がわかる．したがって
+    \[
+        \lim_{N\to\infty}\mleft|S_N(t)-\mleft[\frac{1}{2}\{f(t+0)+f(t-0)\}\mright]\mright|=0
+    \]
+\end{proof}
+
+\begin{ex}[方形波]
+    \[
+        f_4(t)=\begin{cases}
+            -1 & (-T/2<t<0) \\
+            1  & (0<t<T/2)
+        \end{cases}
+    \]
+\end{ex}
+
+$f_4(t)$は奇関数で，フーリエ展開は
+\[
+    \begin{split}
+        f_4(t)
+        &=\frac{4}{\pi}\sum_{n=0}^\infty \frac{\sin(2n+1)\omega t}{2n+1} \\
+        &=\frac{4}{\pi}\mleft(\sin\omega t+\frac{1}{3}\sin3\omega t+\frac{1}{5}\sin5\omega t+\cdots\mright)
+    \end{split}
+\]
+となる．この展開の部分和$S_N(t)$をグラフにプロットすると図\ref{fig:ex1-4}のようになる．
+
+\begin{figure}
+    \begin{center}
+        \include{fig/ex1-4graph}
+    \end{center}
+    \caption{方形波とそのフーリエ部分和．ただし$T=2\pi$，つまり$\omega=1$．}
+    \label{fig:ex1-4}
+\end{figure}
+
+不連続な点$0,\pm\pi$以外では$N$が大きくなるとき$S_N(t)$は$f_4(t)$に収束することが観察できるが，$T=0,\pm\pi$の近くでは$S_N(t)$は強く振動し，$f(t)$よりも大きく飛び出した点が存在する．しかも$N$を大きくしてもこれは消えない．この現象をギッブス現象という．また，連続な点でも小さな振動は消えない．電子工学では，この飛び出しをオーバーシュート，振動をリップル，リンキングなどと呼ぶ．この飛び出しの高さは，$\Delta t=\omega t,\, (2N+1)\Delta t=\pi$とおくと
+\[
+    \begin{split}
+        S_N(t)
+        &=\frac{4}{\pi}\sum_{n=0}^N \frac{\sin(2n+1)\omega t}{2n+1} \\
+        &=\frac{4}{\pi}\sum_{n=0}^N \frac{\sin(2n+1)\Delta t}{(2n+1)\Delta t}\Delta t \\
+        &\overset{N\to\infty}{\longrightarrow}\frac{2}{\pi}\int_0^\pi \frac{\sin t}{t}dt=1.178978\ldots
+    \end{split}
+\]
+に収束することが示せる．このギッブス現象は，どのような不連続点の周りでも発生する一般的な現象である．これを回避する方法として総和法がある．\qedsymbol
+
+\paragraph{総和法}
+
+$G(s)$を$[-1,1]$に台をもつ有界関数で$G(0)=1$かつ$s=0$で連続であるとする．このとき，重み関数$G(s)$に対応する部分和を
+\[
+    S_N^G(t)=\sum_{n=-N}^N G\mleft(\frac{n}{N}\mright)c[n]e^{in\omega t}\quad(t\in\mathbb{R})
+\]
+とおく．$G(s)$が上の条件を満たせば，形式的には
+\[
+    \lim_{N\to\infty} S_N^G(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}=f(t)
+\]
+となり，同じフーリエ展開を与えるはずである．しかし，収束の性質は$G(s)$の選び方によって異なってくる．このような手法を総和法という．
+
+\subparagraph{フェイエル和（チェザロ和）}
+\[
+    G(s)=\begin{cases}
+        1-|s| & (s\in[-1,1])         \\
+        0     & (\textrm{otherwise})
+    \end{cases}
+\]
+とおいたときの部分和
+\[
+    \sigma_N(t)=S_N^G(t)=\sum_{n=-N}^N\mleft(\frac{N-|n|}{N}\mright)c[n]e^{in\omega t}
+\]
+をフェイエル和という．
+
+\begin{thm}\label{thm:1-14}
+    $f$を連続な周期関数とすると，$\sigma_N(t)$は$N\to\infty$のとき$f$に一様収束する．
+\end{thm}
+
+\subparagraph{ハン窓}
+
+フーリエ級数の総和法はディジタル信号処理で実用的に大切な役割を果たす．この文脈では，重み関数$G(s)$は窓関数とよばれる．
+\[
+    H(s)=\begin{cases}
+        \frac{1}{2}(1+\cos\pi s) & (s\in[-1,1])         \\
+        0                        & (\textrm{otherwise})
+    \end{cases}
+\]
+をハン窓という．定理\ref{thm:1-14}同様に，連続関数のフーリエ級数のハン窓による部分和は，もとの関数に一様収束する．
 
 \end{document}
