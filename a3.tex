@@ -1305,7 +1305,7 @@ $G(s)$を$[-1,1]$に台をもつ有界関数で$G(0)=1$かつ$s=0$で連続で�
     \[
         \begin{split}
             d[n]&=\frac{1}{T}\int_0^T f'(t) e^{-in\omega t}dt \\
-            &=\frac{1}{T}\blueunderline{\mleft[f(t)e^{-in\omega t}\mright]}{周期性より0}-\frac{1}{T}\int_0^T f(t) (-in\omega)e^{-in\omega t}dt \\[2ex]
+            &=\frac{1}{T}\blueunderline{\mleft[f(t)e^{-in\omega t}\mright]_0^T}{周期性より0}-\frac{1}{T}\int_0^T f(t) (-in\omega)e^{-in\omega t}dt \\[2ex]
             &=in\omega c[n]
         \end{split}
     \]
@@ -1455,4 +1455,106 @@ $f$が$m$階微分可能と仮定すると，定理\ref{thm:2-2}より，$\{c[n]
 である．上の考察より，固有値は$\{n^2\omega^2 | n\in\mathbb{Z}\}$であり，固有関数は$e^{in\omega t}$であることがわかる．$n\neq 0$では固有値は二重に縮退しており，各$\lambda=n^2\omega^2$について固有関数は$\{a\cos(n\omega t)+b\sin(n\omega t)|a,b\in\mathbb{C}\}$という2次元の空間を張る．
 
 
+\subsection{偏微分方程式への応用-1:熱方程式}
+
+\paragraph{熱方程式の初期境界値問題}
+
+端点の温度が0の，長さ$R>0$の棒を考える．
+
+\begin{subequations}\label{eq:2-4}
+    \begin{empheq}[left = {\empheqlbrace \,}, right = {}]{align}
+        &\pdv{u}{t}(x,t)=\pdv[2]{u}{x}(x,t) && (x\in(0,R),t>0) \label{eq:2-4a} \\
+        &u(0,t)=u(R,t)=0 && (t>0) \label{eq:2-4b} \\
+        &u(x,0)=f(x) && (x\in[0,R]) \label{eq:2-4c}
+    \end{empheq}
+\end{subequations}
+
+$u(x,t)$は時刻$t$，点$x$での温度を表し，$f(x)$は時刻$t=0$での初期温度である．\eqref{eq:2-4a}は熱方程式，\eqref{eq:2-4b}は境界条件，\eqref{eq:2-4c}は初期条件とよばれる．$t=0,x=0,R$では，境界条件と初期条件はつじつまが会っていなければならないので
+\begin{equation}\label{eq:2-5}
+    f(0)=f(R)=0
+\end{equation}
+が成立する必要がある．\eqref{eq:2-5}を両立条件という．
+
+まず，$u$や$f$は十分に滑らか（少なくともリプシッツ連続）だと仮定して変数分離形の解を考える．
+\[
+    u(x,t)=\xi(x)\tau(t)
+\]
+として\eqref{eq:2-4a}に代入すると
+\[
+    \xi(x)\tau'(t)=\xi''(x)\tau(t)
+\]
+となる．$\xi(x)\neq 0,\tau(t)\neq 0$ならば，$x$に独立，$t$に独立な部分に分解でき，ある定数$a$が存在して
+\[
+    \frac{\tau'(t)}{\tau(t)}=\frac{\xi''(x)}{\xi(x)}=a
+\]
+が成り立つ．これより
+\begin{empheq}[left = {\empheqlbrace \,}, right = {}]{align*}
+    &\tau'(t)=a\tau(t) && (t>0)  \\
+    &\xi''(x)=a\xi(x) && (x\in(0,R))
+\end{empheq}
+が導かれる．第1式はただちに解け
+\[
+    \tau(t)=\tau(0)e^{at}
+\]
+となる．第2式は，
+\[
+    \xi(x)=\begin{cases}
+        \alpha e^{\sqrt{a}x}+\beta e^{-\sqrt{a}x} \quad(\alpha,\beta\in\mathbb{C}) & (a\neq 0) \\
+        \alpha x+\beta \quad(\alpha,\beta \in\mathbb{R})                           & (a=0)
+    \end{cases}
+\]
+となる．$a=0$のとき，境界条件は満たされないので以下$a\neq 0$とする．境界条件\eqref{eq:2-4b}より，
+\begin{empheq}[left = {\empheqlbrace \,}, right = {}]{align*}
+    & \alpha+\beta=0                              \\
+    & \alpha e^{\sqrt{a}R}+\beta e^{-\sqrt{a}R}=0
+\end{empheq}
+が成り立つ必要がある．$(\alpha,\beta)\neq (0,0)$であるためには
+\[
+    \det\mqty(1 & 1 \\ e^{\sqrt{a}R} & e^{-\sqrt{a}R})=e^{-\sqrt{a}R}-e^{\sqrt{a}R}=0
+\]
+つまり
+\[
+    e^{2\sqrt{a}R}=1
+\]
+が満たされていなければならない．よって，$2\sqrt{a}R\in 2\pi i(\mathbb{Z}\setminus\{0\})$，すなわち
+\[
+    a=-\mleft(\frac{\pi n}{R}\mright)^2\quad(n\in\mathbb{Z}\setminus\{0\})
+\]
+また，$\beta=-\alpha$であるので
+\[
+    \xi(x)=\alpha e^{i\pi nx/R}-\alpha e^{-i\pi nx/R}=(2i\alpha)\sin\mleft(\frac{\pi n}{R}x\mright)
+\]
+となる．以上より，$n\in\mathbb{Z}\setminus\{0\}$について
+\[
+    u_n(x,t)=e^{-(\pi n/R)^2 t}\sin\mleft(\frac{\pi n}{R}x\mright)
+\]
+が解となることがわかった．このようにして得られた解の線型結合も解であるので，$\{\tilde b[n]\}$を任意定数として\begin{equation}\label{eq:2-6}
+    u(x,t)=\sum_{n=1}^\infty \tilde b[n]\sin\mleft(\frac{\pi n}{R}x\mright)e^{-(\pi n/R)^2 t}
+\end{equation}
+も（収束すれば，形式的には）\eqref{eq:2-4}を満たすことがわかる．\eqref{eq:2-6}の$t=0$での値は
+\[
+    u(x,0)=\sum_{n=1}^\infty \tilde b[n]\sin\mleft(\frac{\pi n}{R}x\mright)
+\]
+となる．
+
+ここで$f(t)$を周期$2R$の周期関数に拡張する．すなわち
+\[
+    \begin{split}
+        f(x)     & =f(-x)\quad(0\leq x\leq R)                 \\
+        f(x+2mR) & =f(x)\quad (-R\leq x\leq R,m\in\mathbb{Z})
+    \end{split}
+\]
+とする．両立条件\eqref{eq:2-5}より，もとの$f$が連続であれば拡張された$f$も連続であり，$f$は奇関数だから
+\[
+    f(x)=\sum_{n=1}^\infty b[n]\sin\mleft(\frac{\pi n}{R}x\mright)
+\]
+ただし
+\[
+    b[n]=\frac{1}{R}\int_{-R}^R f(x)\sin\mleft(\frac{\pi n}{R}x\mright) dx=\frac{2}{R}\int_0^R f(x)\sin\mleft(\frac{\pi n}{R}x\mright) dx
+\]
+と$f$を正弦フーリエ変換できる．$u(x,0)$が正弦フーリエ変換された$f(x)$と等しいためには$\tilde b[n]=b[n]$とならなくてはならない．したがって，$\{b[n]\}$を上で定められた数列として
+\begin{equation}\label{eq:2-6'}
+    u(x,t)=\sum_{n=1}^\infty b[n]\sin\mleft(\frac{\pi n}{R}x\mright)e^{-(\pi n/R)^2 t}\tag{2.6'}
+\end{equation}
+が\eqref{eq:2-4}の形式的な解を与えることがわかる．
 \end{document}
