@@ -65,12 +65,11 @@
     { }% Space after theorem head, ‘ ‘, or \newline
     {\thmname{#1}\thmnumber{#2}\thmnote{:\,#3\\}}% Theorem head spec (can be left empty, meaning `normal')
 \theoremstyle{mystyle1}
-\newtheorem{definition}{定義}[section]
-\newtheorem{theorem}[definition]{定理}
-\newtheorem{lemma}[definition]{補題}
-\newtheorem{proposition}[definition]{命題}
-\newtheorem{corollary}[definition]{系}
-\newtheorem{formula}[definition]{公式}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{formula}[theorem]{公式}
 
 \newtheoremstyle{mystyle3}% Name
     {}% Space above
@@ -96,6 +95,18 @@
 \theoremstyle{mystyle4}
 \newtheorem{note}{注意}[section]
 
+\newtheoremstyle{mystyle6}% Name
+    {}% Space above
+    {}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries\sffamily}% Theorem head font
+    {\hspace{0.5em}}% Punctuation after theorem head
+    { }% Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnumber{#2}\thmnote{:\,#3\\}}% Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{mystyle6}
+\newtheorem{definition}{定義}[section]
+
 %style2 番号なし
 \newtheoremstyle{mystyle2}% Name
     {}% Space above
@@ -108,7 +119,6 @@
     {\thmname{#1}\thmnote{:\,#3\\}}% Theorem head spec (can be left empty, meaning `normal')
 \theoremstyle{mystyle2}
 \newtheorem{dfn*}{定義}
-\newtheorem{thm*}{定理}
 \newtheorem{exercise*}{演習問題}
 \newtheorem{ex*}{例}
 \newtheorem{qes*}{疑問}
@@ -121,6 +131,18 @@
 \newtheorem{symbol*}{記号}
 \newtheorem{premise*}{前提}
 \newtheorem{proposition*}{命題}
+
+\newtheoremstyle{mystyle5}% Name
+    {}% Space above
+    {}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries\sffamily}% Theorem head font
+    {\hspace{0.5em}}% Punctuation after theorem head
+    { }% Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnote{\,#3\\}}% Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{mystyle5}
+\newtheorem{theorem*}{定理}
 
 %proofの後ろに黒四角をつける
 \makeatletter
@@ -348,6 +370,19 @@
 }
 {\end{proposition*}\end{tcolorbox}}
 
+\newenvironment{thm*}[1][]
+{\begin{tcolorbox}[
+    enhanced,
+    boxrule=0pt,
+    arc=0mm,
+    frame hidden,
+    borderline west={2pt}{-4pt}{red},
+    breakable = true
+    ]
+    \begin{theorem*}[#1]
+}
+{\end{theorem*}\end{tcolorbox}}
+
 \DeclareMathOperator{\supp}{supp}
 
 \title{工業数学A3}
@@ -367,23 +402,23 @@
 $f(t)$を$\mathbb{R}$上の関数とする$(t\in\mathbb{R})$．
 
 \begin{dfn*}[周期関数]
-    $f$が周期$T$の周期関数であるとは，$\forall t\in\mathbb{R}$に対して
-    \[
-        f(t+T)=f(t)\quad(t\in\mathbb{R})
-    \]
-    が成り立つこと．
+	$f$が周期$T$の周期関数であるとは，$\forall t\in\mathbb{R}$に対して
+	\[
+		f(t+T)=f(t)\quad(t\in\mathbb{R})
+	\]
+	が成り立つこと．
 \end{dfn*}
 このとき，$\forall n\in\mathbb{Z}$に対して
 \[
-    f(t+nT)=f(t)\quad(t\in\mathbb{R})
+	f(t+nT)=f(t)\quad(t\in\mathbb{R})
 \]
 が成り立つ．
 
 \begin{dfn*}[フーリエ級数展開]
-    \begin{equation}\label{eq:1-1}
-        f(t)=c+\sum_{n=1}^\infty a[n]\cos(n\omega t)+\sum_{n=1}^\infty b[n]\sin(n\omega t)
-    \end{equation}
-    ここで$\omega=2\pi/T$，$c,a[n],b[n]$は定数．
+	\begin{equation}\label{eq:1-1}
+		f(t)=c+\sum_{n=1}^\infty a[n]\cos(n\omega t)+\sum_{n=1}^\infty b[n]\sin(n\omega t)
+	\end{equation}
+	ここで$\omega=2\pi/T$，$c,a[n],b[n]$は定数．
 \end{dfn*}
 
 これが収束すれば周期$T$の周期関数である．広いクラスの，周期$T$の周期関数は\eqref{eq:1-1}の形に表現できる．
@@ -393,55 +428,55 @@ $f(t)$を$\mathbb{R}$上の関数とする$(t\in\mathbb{R})$．
 \eqref{eq:1-1}における$c,a[n],b[n]$をフーリエ係数とよぶ．
 
 \begin{thm}[三角関数の直交関係]\label{thm:1-1}
-    $n,m$を正の整数とする．
-    \begin{equation}\label{eq:1-2}
-        \frac{2}{T}\int_0^T\cos(n\omega t)\cos(m\omega t) dt=\delta_{nm}
-    \end{equation}
-    \begin{equation}\label{eq:1-3}
-        \frac{2}{T}\int_0^T\sin(n\omega t)\sin(m\omega t) dt=\delta_{nm}
-    \end{equation}
-    \begin{equation}\label{eq:1-4}
-        \frac{2}{T}\int_0^T\sin(n\omega t)\cos(m\omega t) dt=0
-    \end{equation}
-    \begin{equation}\label{eq:1-5}
-        \frac{2}{T}\int_0^T\cos(n\omega t) dt=\frac{2}{T}\sin(n\omega t) dt=0
-    \end{equation}
-    ここで，$\delta_{nm}$はクロネッカーのデルタである．
+	$n,m$を正の整数とする．
+	\begin{equation}\label{eq:1-2}
+		\frac{2}{T}\int_0^T\cos(n\omega t)\cos(m\omega t) dt=\delta_{nm}
+	\end{equation}
+	\begin{equation}\label{eq:1-3}
+		\frac{2}{T}\int_0^T\sin(n\omega t)\sin(m\omega t) dt=\delta_{nm}
+	\end{equation}
+	\begin{equation}\label{eq:1-4}
+		\frac{2}{T}\int_0^T\sin(n\omega t)\cos(m\omega t) dt=0
+	\end{equation}
+	\begin{equation}\label{eq:1-5}
+		\frac{2}{T}\int_0^T\cos(n\omega t) dt=\frac{2}{T}\sin(n\omega t) dt=0
+	\end{equation}
+	ここで，$\delta_{nm}$はクロネッカーのデルタである．
 \end{thm}
 
 \begin{proof}
-    省略．
+	省略．
 \end{proof}
 
 \begin{fml}\label{fml:1-2}
-    周期$T$の周期関数$f(t)$が
-    \begin{equation}\label{eq:1-6}
-        f(t)=\frac{a[0]}{2}+\sum_{n=1}^\infty a[n]\cos(n\omega t)+\sum_{n=1}^\infty a[n]\sin(n\omega t)
-    \end{equation}
-    と表されるならば，フーリエ係数は
-    \begin{equation}\label{eq:1-7}
-        a[n]=\frac{2}{T}\int_0^T f(t)\cos(n\omega t)dt\quad(n=0,1,2,\ldots)
-    \end{equation}
-    \begin{equation}\label{eq:1-8}
-        b[n]=\frac{2}{T}\int_0^T f(t)\sin(n\omega t)dt\quad(n=0,1,2,\ldots)
-    \end{equation}
-    と与えられる．
+	周期$T$の周期関数$f(t)$が
+	\begin{equation}\label{eq:1-6}
+		f(t)=\frac{a[0]}{2}+\sum_{n=1}^\infty a[n]\cos(n\omega t)+\sum_{n=1}^\infty a[n]\sin(n\omega t)
+	\end{equation}
+	と表されるならば，フーリエ係数は
+	\begin{equation}\label{eq:1-7}
+		a[n]=\frac{2}{T}\int_0^T f(t)\cos(n\omega t)dt\quad(n=0,1,2,\ldots)
+	\end{equation}
+	\begin{equation}\label{eq:1-8}
+		b[n]=\frac{2}{T}\int_0^T f(t)\sin(n\omega t)dt\quad(n=0,1,2,\ldots)
+	\end{equation}
+	と与えられる．
 \end{fml}
 
 周期性により
 \begin{equation}\label{eq:1-9}
-    a[n]=\frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega t)dt\quad(n=0,1,2,\ldots)
+	a[n]=\frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega t)dt\quad(n=0,1,2,\ldots)
 \end{equation}
 \begin{equation}\label{eq:1-10}
-    b[n]=\frac{2}{T}\int_{-T/2}^{T/2} f(t)\sin(n\omega t)dt\quad(n=0,1,2,\ldots)
+	b[n]=\frac{2}{T}\int_{-T/2}^{T/2} f(t)\sin(n\omega t)dt\quad(n=0,1,2,\ldots)
 \end{equation}
 とかける．$f$が偶関数ならば$b[n]=0\quad(n=0,1,2,\ldots)$となり，\textbf{余弦フーリエ級数展開}:
 \[
-    f(t)=\frac{a[0]}{2}+\sum_{n=1}^\infty a[n]\cos(n\omega t)
+	f(t)=\frac{a[0]}{2}+\sum_{n=1}^\infty a[n]\cos(n\omega t)
 \]
 $f$が奇関数ならば$a[n]=0\quad(n=0,1,2,\ldots)$となり，\textbf{正弦フーリエ級数展開}:
 \[
-    f(t)=\sum_{n=1}^\infty b[n]\cos(n\omega t)
+	f(t)=\sum_{n=1}^\infty b[n]\cos(n\omega t)
 \]
 をもつといわれる．
 
@@ -449,105 +484,105 @@ $f$が奇関数ならば$a[n]=0\quad(n=0,1,2,\ldots)$となり，\textbf{正弦�
 
 オイラーの公式を用いれば，フーリエ級数展開\eqref{eq:1-6}は
 \[
-    f(t)=\frac{a[0]}{2}+\sum_{n=1}^\infty\mleft(\frac{a[n]}{2}+\frac{b[n]}{2i}\mright)e^{in\omega t}+\sum_{n=1}^\infty\mleft(\frac{a[n]}{2}-\frac{b[n]}{2i}\mright)e^{-in\omega t}
+	f(t)=\frac{a[0]}{2}+\sum_{n=1}^\infty\mleft(\frac{a[n]}{2}+\frac{b[n]}{2i}\mright)e^{in\omega t}+\sum_{n=1}^\infty\mleft(\frac{a[n]}{2}-\frac{b[n]}{2i}\mright)e^{-in\omega t}
 \]
 となる．そこで
 \[
-    c[n]=\begin{cases}
-        a[0]/2           & (n=0) \\
-        (a[n]-ib[n])/2   & (n>0) \\
-        (a[-n]+ib[-n])/2 & (n<0)
-    \end{cases}
+	c[n]=\begin{cases}
+		a[0]/2           & (n=0) \\
+		(a[n]-ib[n])/2   & (n>0) \\
+		(a[-n]+ib[-n])/2 & (n<0)
+	\end{cases}
 \]
 とすると\textbf{複素フーリエ変換}:
 \begin{equation}\label{eq:1-11}
-    f(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}
+	f(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}
 \end{equation}
 が得られる．公式\ref{fml:1-2}もしくは直接計算により
 \[
-    c[n]=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\quad(n\in\mathbb{Z})
+	c[n]=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\quad(n\in\mathbb{Z})
 \]
 が確かめられる．
 
 \subsection{いくつかの実例}
 
 \begin{ex}[三角多項式]
-    三角多項式（$\sin\omega t,\cos\omega t$の多項式）．
+	三角多項式（$\sin\omega t,\cos\omega t$の多項式）．
 \end{ex}
 
 例えば
 \[
-    f_1(t)=(\cos\omega t)^3=\frac{3}{4}\cos\omega t+\frac{1}{4}\cos 3\omega t
+	f_1(t)=(\cos\omega t)^3=\frac{3}{4}\cos\omega t+\frac{1}{4}\cos 3\omega t
 \]
 
 一般的な三角多項式に対しては，$N\in\mathbb{N}$が存在して
 \[
-    f(t)=\sum_{n=-N}^N c[n]e^{in\omega t}
+	f(t)=\sum_{n=-N}^N c[n]e^{in\omega t}
 \]
 の形にかける．
 
 \begin{ex}[三角波]
-    \[
-        f_2(t)=|T|\quad(|t|\leq T/2)
-    \]
+	\[
+		f_2(t)=|T|\quad(|t|\leq T/2)
+	\]
 \end{ex}
 
 $f_2(t)$は偶関数であるから，余弦フーリエ級数展開をもち
 \[
-    a[n]=\frac{2}{T}\int_{-T/2}^{T/2}|t|\cos(n\omega t)dt=\frac{4}{T}\int_0^{T/2}t\cos(n\omega t)dt
+	a[n]=\frac{2}{T}\int_{-T/2}^{T/2}|t|\cos(n\omega t)dt=\frac{4}{T}\int_0^{T/2}t\cos(n\omega t)dt
 \]
 $n=0$のとき
 \[
-    a[0]=\frac{4}{T}\mleft[\frac{t^2}{2}\mright]_0^{T/2}=\frac{T}{2}
+	a[0]=\frac{4}{T}\mleft[\frac{t^2}{2}\mright]_0^{T/2}=\frac{T}{2}
 \]
 $n\neq 0$のとき
 \[
-    a[n]=\begin{cases}
-        0                          & (nは偶数) \\
-        -\frac{4}{\pi n^2 \omega } & (nは奇数)
-    \end{cases}
+	a[n]=\begin{cases}
+		0                          & (nは偶数) \\
+		-\frac{4}{\pi n^2 \omega } & (nは奇数)
+	\end{cases}
 \]
 つまり，$f_2(t)$のフーリエ級数展開は
 \[
-    f_2(t)=\frac{T}{4}-\frac{4}{\pi\omega}\sum_{m=0}^\infty \frac{1}{(2m+1)^2}\cos\{(2m+1)\omega t\}
+	f_2(t)=\frac{T}{4}-\frac{4}{\pi\omega}\sum_{m=0}^\infty \frac{1}{(2m+1)^2}\cos\{(2m+1)\omega t\}
 \]
 となる．
 
 \begin{ex}{}
-    \[
-        f_3(t)=\frac{1}{\frac{5}{4}+\cos\omega t}
-    \]
+	\[
+		f_3(t)=\frac{1}{\frac{5}{4}+\cos\omega t}
+	\]
 \end{ex}
 留数定理を用いてフーリエ係数を計算すると，$n\geq 0$として
 \[
-    c[-n]=\frac{4}{3}(-2)^n
+	c[-n]=\frac{4}{3}(-2)^n
 \]
 $n>0$として$c[n]=c[-n]$より
 \[
-    c[n]=\frac{4}{3}(-2)^{-n}
+	c[n]=\frac{4}{3}(-2)^{-n}
 \]
 となるから，$f_3(t)$のフーリエ級数展開は
 \[
-    f_3(t)=\frac{4}{3}+\frac{8}{3}\sum_{n=1}^\infty (-2)^n\cos(n\omega t)
+	f_3(t)=\frac{4}{3}+\frac{8}{3}\sum_{n=1}^\infty (-2)^n\cos(n\omega t)
 \]
 となる．
 
 \subsection{フーリエ級数の一様収束}
 
 \begin{dfn*}[リプシッツ連続（Lipshitz continuous）]
-    $\mathbb{R}$上の関数$f(t)$が\textbf{リプシッツ連続}であるとは，
-    \[
-        \exists C>0\, \textrm{s.t.}\, \forall t,s\in\mathbb{R},\, |f(t)-f(s)|\leq C|t-s|
-    \]
-    が成り立つことである．
+	$\mathbb{R}$上の関数$f(t)$が\textbf{リプシッツ連続}であるとは，
+	\[
+		\exists C>0\, \textrm{s.t.}\, \forall t,s\in\mathbb{R},\, |f(t)-f(s)|\leq C|t-s|
+	\]
+	が成り立つことである．
 \end{dfn*}
 
 \begin{thm}\label{thm:1-3}
-    $f(t)$がリプシッツ連続ならば，フーリエ級数展開は$f(t)$に一様収束する．
+	$f(t)$がリプシッツ連続ならば，フーリエ級数展開は$f(t)$に一様収束する．
 \end{thm}
 
 \begin{proof}
-    は\ref{sec:1-10}節に後回し．
+	は\ref{sec:1-10}節に後回し．
 \end{proof}
 
 \subsection{有限フーリエ級数}
@@ -555,154 +590,154 @@ $n>0$として$c[n]=c[-n]$より
 $X=\mathbb{C}^N$を$N$次元複素線形空間とする．$X$の元を$u=(u[0],u[1],\cdots,u[N-1])\in X$と書く．
 
 \begin{dfn*}[エルミート内積]
-    $u,v\in X$のエルミート内積:
-    \[
-        \langle u,v\rangle=\sum_{n=0}^{N-1}u[n]\overline{v[n]}
-    \]
+	$u,v\in X$のエルミート内積:
+	\[
+		\langle u,v\rangle=\sum_{n=0}^{N-1}u[n]\overline{v[n]}
+	\]
 \end{dfn*}
 
 \begin{dfn*}[長さ]
-    $u\in X$の長さ:
-    \[
-        |u|=\sqrt{\langle u,u\rangle}
-    \]
+	$u\in X$の長さ:
+	\[
+		|u|=\sqrt{\langle u,u\rangle}
+	\]
 \end{dfn*}
 
 \begin{dfn*}[正規直交系/正規直交基底]
-    $u_0,\ldots,u_{M-1}\in X$が正規直交系であるとは
-    \[
-        \langle u_m,u_n\rangle=\delta_{mn}\quad(n,m=0,1,\ldots,M-1)
-    \]
-    が成り立つこと．
+	$u_0,\ldots,u_{M-1}\in X$が正規直交系であるとは
+	\[
+		\langle u_m,u_n\rangle=\delta_{mn}\quad(n,m=0,1,\ldots,M-1)
+	\]
+	が成り立つこと．
 
-    $M=N=\dim X$のとき正規直交基底とよばれ，$\forall u\in X$は
-    \[
-        u=\sum_{n=0}^{N-1}\langle u,u_n \rangle u_n
-    \]
-    と直交分解できる．$\mathbb{C}^N$の標準的な基底$\bm{e}_n[k]=\delta_{kn}\quad(n,k=0,\ldots,N-1)$は正規直交基底である．
+	$M=N=\dim X$のとき正規直交基底とよばれ，$\forall u\in X$は
+	\[
+		u=\sum_{n=0}^{N-1}\langle u,u_n \rangle u_n
+	\]
+	と直交分解できる．$\mathbb{C}^N$の標準的な基底$\bm{e}_n[k]=\delta_{kn}\quad(n,k=0,\ldots,N-1)$は正規直交基底である．
 \end{dfn*}
 
 有限フーリエ変換の定義に用いられる正規直交基底は，$\alpha=2\pi/N$として
 \[
-    \varphi_n[k]=\frac{1}{\sqrt{N}}\exp(i\alpha nk)\quad(n,k=0,1,\ldots,N-1)
+	\varphi_n[k]=\frac{1}{\sqrt{N}}\exp(i\alpha nk)\quad(n,k=0,1,\ldots,N-1)
 \]
 で定義される．
 
 \begin{prop}\label{prop:1-4}
-    $\{\varphi_0,\ldots,\varphi_{N-1}\}$は$X(=\mathbb{C}^N)$の正規直交基底である．
+	$\{\varphi_0,\ldots,\varphi_{N-1}\}$は$X(=\mathbb{C}^N)$の正規直交基底である．
 \end{prop}
 
 \begin{proof}
-    $n=m$のとき
-    \[
-        |\varphi_n|^2=\langle\varphi_n,\varphi_n\rangle=\frac{1}{N}\sum_{k=0}^{N-1}|e^{i\alpha nk}|^2=1
-    \]
-    $n\neq m$のとき
-    \[
-        \langle\varphi_n,\varphi_m\rangle=\frac{1}{N}\sum_{k=0}^{N-1}e^{i\alpha nk}e^{-i\alpha mk}=\frac{1}{N}\frac{1-e^{i\alpha(n-m)N}}{1-e^{i\alpha n-m}}\bluenotearrow{=}{$\alpha N=2\pi$}0
-    \]
+	$n=m$のとき
+	\[
+		|\varphi_n|^2=\langle\varphi_n,\varphi_n\rangle=\frac{1}{N}\sum_{k=0}^{N-1}|e^{i\alpha nk}|^2=1
+	\]
+	$n\neq m$のとき
+	\[
+		\langle\varphi_n,\varphi_m\rangle=\frac{1}{N}\sum_{k=0}^{N-1}e^{i\alpha nk}e^{-i\alpha mk}=\frac{1}{N}\frac{1-e^{i\alpha(n-m)N}}{1-e^{i\alpha n-m}}\bluenotearrow{=}{$\alpha N=2\pi$}0
+	\]
 \end{proof}
 
 $u\in X$に対して\textbf{有限フーリエ変換}:
 \begin{equation}\label{eq:1-12}
-    \hat u[n]=\langle u,\varphi_n \rangle=\frac{1}{\sqrt{N}}\sum_{k=0}^{N-1}u[k]e^{-i\alpha nk}\quad(n=0,\ldots,N-1)
+	\hat u[n]=\langle u,\varphi_n \rangle=\frac{1}{\sqrt{N}}\sum_{k=0}^{N-1}u[k]e^{-i\alpha nk}\quad(n=0,\ldots,N-1)
 \end{equation}
 とおくと，\textbf{有限フーリエ級数展開}（$\hat u[n]$の\textbf{逆有限フーリエ変換}）:
 \begin{equation}\label{eq:1-13}
-    u[k]=\sum_{n=0}^{N-1}\hat u[n]\varphi_n[k]=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}\hat u[n]e^{i\alpha nk}\quad(n=0,\ldots,N-1)
+	u[k]=\sum_{n=0}^{N-1}\hat u[n]\varphi_n[k]=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}\hat u[n]e^{i\alpha nk}\quad(n=0,\ldots,N-1)
 \end{equation}
 と直交展開される．
 
 有限フーリエ変換，逆有限フーリエ変換はユニタリーな線形変換である．すなわち:
 \begin{equation}\label{eq:1-14}
-    |u|=|\hat u|
+	|u|=|\hat u|
 \end{equation}
 が成り立つ．これは
 \begin{equation}\label{eq:1-15}
-    \langle u,v\rangle=\langle \hat u,\hat v\rangle
+	\langle u,v\rangle=\langle \hat u,\hat v\rangle
 \end{equation}
 であることから従う．
 
 \subsection{有限フーリエ変換の連続極限}
 
 \begin{thm}\label{thm:1-5}
-    $f(t)$を周期$T$のリプシッツ連続な周期関数とし，$\omega=2\pi/T, \alpha=2\pi/N$とする．
-    \[
-        f_N(t)=\sum_{-N/2\leq n<N/2} c_N[n]e^{in\omega t}
-    \]
-    \[
-        c_N[n]=\frac{1}{N}\sum_{m=0}^{N-1}f\mleft(\frac{m}{N}T\mright)e^{-i\alpha nm}\quad(n\in\mathbb{Z})
-    \]
-    と定める．このとき，$f_N(t)$は$f(t)$に一様収束する．
+	$f(t)$を周期$T$のリプシッツ連続な周期関数とし，$\omega=2\pi/T, \alpha=2\pi/N$とする．
+	\[
+		f_N(t)=\sum_{-N/2\leq n<N/2} c_N[n]e^{in\omega t}
+	\]
+	\[
+		c_N[n]=\frac{1}{N}\sum_{m=0}^{N-1}f\mleft(\frac{m}{N}T\mright)e^{-i\alpha nm}\quad(n\in\mathbb{Z})
+	\]
+	と定める．このとき，$f_N(t)$は$f(t)$に一様収束する．
 \end{thm}
 
 \begin{note}\label{note:1-1}
-    \[
-        f_N\mleft(\frac{k}{N}T\mright)=\sum_{-N/2\leq n<N/2} c_N[n]e^{i\alpha nk}=\sum_{n=0}^{N-1}e_N[n]e^{i\alpha nk}=f\mleft(\frac{k}{N}T\mright)
-    \]
-    $f_N(t)$は$f(t_k)$の値を与えたときの補間．
+	\[
+		f_N\mleft(\frac{k}{N}T\mright)=\sum_{-N/2\leq n<N/2} c_N[n]e^{i\alpha nk}=\sum_{n=0}^{N-1}e_N[n]e^{i\alpha nk}=f\mleft(\frac{k}{N}T\mright)
+	\]
+	$f_N(t)$は$f(t_k)$の値を与えたときの補間．
 \end{note}
 
 \begin{proof}
-    まず
-    \[
-        d_N[n]=\frac{1}{N}\sum_{m=0}^{N-1}\mleft\{f\mleft(\frac{m}{N}T\mright)-f\mleft(\frac{m-1}{N}T\mright)\mright\}e^{-i2\pi (m/N)n}
-    \]
-    とおく．$\{d_N[n]\}$は$f(t_n)-f(t_n-(T/N))$の有限フーリエ変換の$1/\sqrt{N}$倍である．リプシッツ連続性の仮定より，$\exists C>0$，
-    \[
-        \mleft|f\mleft(\frac{m}{N}T\mright)-f\mleft(\frac{m-1}{N}T\mright)\mright|\leq\frac{C}{N}\quad(m\in\mathbb{Z})
-    \]
-    が成り立つ．したがって有限フーリエ変換の等長性\eqref{eq:1-14}より
-    \[
-        N\sum_{k=0}^{N-1}|d_N[k]|^2\leq \sum_{m=0}^{N-1}\mleft|\frac{C}{N}\mright|^2=\frac{C^2}{N}
-    \]
-    すなわち
-    \[
-        \sum_{k=0}^{N-1}|d_N[k]|^2\leq \frac{C^2}{N^2}
-    \]
-    が従う．一方，$d_N[k]$の定義により
-    \[
-        d_N[k]=(1-e^{-i 2\pi(k/N)})c_N[k]=2i e^{-i\pi(k/N)}\sin(\pi k/N)c_N[k]
-    \]
-    これとジョルダンの不等式:
-    \begin{equation}\label{eq:1-16}
-        |\sin\theta|\geq\frac{2}{\pi}|\theta|\quad(|\theta|\leq \pi/2)
-    \end{equation}
-    を用いれば
-    \[
-        |d_N[k]|\geq\frac{4|k|}{N}|c_N[k]|\quad\mleft(-\frac{N}{2}\leq k<\frac{N}{2}\mright)
-    \]
-    が従う．$d_N[k]$が周期$N$を持つことに注意して，これらを組み合わせると
-    \[
-        \sum_{-N/2\leq k< N/2}|k|^2|c_N[k]|^2\leq \frac{C^2}{16}
-    \]
-    が導かれる．
+	まず
+	\[
+		d_N[n]=\frac{1}{N}\sum_{m=0}^{N-1}\mleft\{f\mleft(\frac{m}{N}T\mright)-f\mleft(\frac{m-1}{N}T\mright)\mright\}e^{-i2\pi (m/N)n}
+	\]
+	とおく．$\{d_N[n]\}$は$f(t_n)-f(t_n-(T/N))$の有限フーリエ変換の$1/\sqrt{N}$倍である．リプシッツ連続性の仮定より，$\exists C>0$，
+	\[
+		\mleft|f\mleft(\frac{m}{N}T\mright)-f\mleft(\frac{m-1}{N}T\mright)\mright|\leq\frac{C}{N}\quad(m\in\mathbb{Z})
+	\]
+	が成り立つ．したがって有限フーリエ変換の等長性\eqref{eq:1-14}より
+	\[
+		N\sum_{k=0}^{N-1}|d_N[k]|^2\leq \sum_{m=0}^{N-1}\mleft|\frac{C}{N}\mright|^2=\frac{C^2}{N}
+	\]
+	すなわち
+	\[
+		\sum_{k=0}^{N-1}|d_N[k]|^2\leq \frac{C^2}{N^2}
+	\]
+	が従う．一方，$d_N[k]$の定義により
+	\[
+		d_N[k]=(1-e^{-i 2\pi(k/N)})c_N[k]=2i e^{-i\pi(k/N)}\sin(\pi k/N)c_N[k]
+	\]
+	これとジョルダンの不等式:
+	\begin{equation}\label{eq:1-16}
+		|\sin\theta|\geq\frac{2}{\pi}|\theta|\quad(|\theta|\leq \pi/2)
+	\end{equation}
+	を用いれば
+	\[
+		|d_N[k]|\geq\frac{4|k|}{N}|c_N[k]|\quad\mleft(-\frac{N}{2}\leq k<\frac{N}{2}\mright)
+	\]
+	が従う．$d_N[k]$が周期$N$を持つことに注意して，これらを組み合わせると
+	\[
+		\sum_{-N/2\leq k< N/2}|k|^2|c_N[k]|^2\leq \frac{C^2}{16}
+	\]
+	が導かれる．
 
-    また，
-    \[
-        f_N'(t)=\sum_n i\omega n c_N[n]e^{i\omega n t}
-    \]
-    の絶対値を考えると
-    \begin{equation}\label{eq:1-17}
-        \begin{split}
-            |f_N'(t)| & \leq \omega \sqrt{N}\sum_n \frac{n}{\sqrt{N}}|c_N[n]| \\
-            & \bluenoteunderleft{\leq}{Schwarzの不等式} \omega\sqrt{N}\mleft(\sum_n\mleft(\frac{1}{\sqrt{N}}\mright)^2\mright)^{1/2} \mleft(\sum_n|n|^2|c_N[n]|^2\mright)^{1/2} \\
-            & \leq \sqrt{N}C'\quad (C'はある定数)
-        \end{split}
-    \end{equation}
-    となる．さて，$\forall t\in [0,T]$に対して$|t-t_k|\leq T/(2N)$であるような$t_k=(k/N)T$が存在する．$f(t_k)=f_N(t_k)$に注意して（注意\ref{note:1-1}）
-    \[
-        f(t)-f_N(t)=(f(t)-f(t_k))+(f_N(t_k)-f_N(t))
-    \]
-    と分解して考える．$f(t)$のリプシッツ連続性と$f_N'$の微分の評価\eqref{eq:1-17}から
-    \[
-        \begin{split}
-            |f(t)-f_N(t)| & \leq |f(t)-f(t_k)|+|f_N(t_k)-f_N(t)| \\
-            & \leq \blueunderline{C|t-t_k|}{リプシッツ連続性}+\blueunderline{C'\sqrt{N}|t-t_k|}{平均値の定理} \\[3ex]
-            & =O(1/\sqrt{N})
-        \end{split}
-    \]
-    が得られる．つまり，$N\to\infty$のとき$f_N(t)$が$f(t)$に一様収束することが示された．
+	また，
+	\[
+		f_N'(t)=\sum_n i\omega n c_N[n]e^{i\omega n t}
+	\]
+	の絶対値を考えると
+	\begin{equation}\label{eq:1-17}
+		\begin{split}
+			|f_N'(t)| & \leq \omega \sqrt{N}\sum_n \frac{n}{\sqrt{N}}|c_N[n]| \\
+			& \bluenoteunderleft{\leq}{Schwarzの不等式} \omega\sqrt{N}\mleft(\sum_n\mleft(\frac{1}{\sqrt{N}}\mright)^2\mright)^{1/2} \mleft(\sum_n|n|^2|c_N[n]|^2\mright)^{1/2} \\
+			& \leq \sqrt{N}C'\quad (C'はある定数)
+		\end{split}
+	\end{equation}
+	となる．さて，$\forall t\in [0,T]$に対して$|t-t_k|\leq T/(2N)$であるような$t_k=(k/N)T$が存在する．$f(t_k)=f_N(t_k)$に注意して（注意\ref{note:1-1}）
+	\[
+		f(t)-f_N(t)=(f(t)-f(t_k))+(f_N(t_k)-f_N(t))
+	\]
+	と分解して考える．$f(t)$のリプシッツ連続性と$f_N'$の微分の評価\eqref{eq:1-17}から
+	\[
+		\begin{split}
+			|f(t)-f_N(t)| & \leq |f(t)-f(t_k)|+|f_N(t_k)-f_N(t)| \\
+			& \leq \blueunderline{C|t-t_k|}{リプシッツ連続性}+\blueunderline{C'\sqrt{N}|t-t_k|}{平均値の定理} \\[3ex]
+			& =O(1/\sqrt{N})
+		\end{split}
+	\]
+	が得られる．つまり，$N\to\infty$のとき$f_N(t)$が$f(t)$に一様収束することが示された．
 \end{proof}
 
 \subsection{関数空間の内積と直交関数系}
@@ -712,29 +747,29 @@ $u\in X$に対して\textbf{有限フーリエ変換}:
 $X$を周期$T$で周期的で有界かつ$[0,T]$上で積分可能な関数全体とする．
 
 \begin{dfn*}[内積]
-    $f,g\in X$に対して内積を
-    \[
-        \langle f,g \rangle=\frac{1}{T}\int_0^T f(t)\overline{g(t)}dt
-    \]
-    で定義する．
+	$f,g\in X$に対して内積を
+	\[
+		\langle f,g \rangle=\frac{1}{T}\int_0^T f(t)\overline{g(t)}dt
+	\]
+	で定義する．
 \end{dfn*}
 
 $f,g,h\in X$，$a,b\in\mathbb{C}$のとき
 \[
-    \langle af+bg,h\rangle=a\langle f,h\rangle +b\langle g,h\rangle
+	\langle af+bg,h\rangle=a\langle f,h\rangle +b\langle g,h\rangle
 \]
 \[
-    \langle f,ag+bh\rangle=\overline{a}\langle f,g\rangle +\overline{b}\langle f,h\rangle
+	\langle f,ag+bh\rangle=\overline{a}\langle f,g\rangle +\overline{b}\langle f,h\rangle
 \]
 \[
-    \langle f,g\rangle=\overline{\langle g,f\rangle}
+	\langle f,g\rangle=\overline{\langle g,f\rangle}
 \]
 
 \begin{dfn*}[$L^2$ノルム]
-    $f\in X$に対して
-    \[
-        \|f\|=\sqrt{\langle f,f\rangle}\geq 0
-    \]
+	$f\in X$に対して
+	\[
+		\|f\|=\sqrt{\langle f,f\rangle}\geq 0
+	\]
 \end{dfn*}
 
 $\|f\|=0\,\Leftrightarrow\,f=0$ $\mu$-$a.e.$である．
@@ -742,384 +777,379 @@ $\|f\|=0\,\Leftrightarrow\,f=0$ $\mu$-$a.e.$である．
 \subparagraph{シュワルツの不等式}
 
 \begin{equation}\label{eq:1-18}
-    |\langle f,g\rangle|\leq\|f\|\|g\|
+	|\langle f,g\rangle|\leq\|f\|\|g\|
 \end{equation}
 
 \subparagraph{三角不等式}
 
 \begin{equation}\label{eq:1-19}
-    \|f+g\|\leq\|f\|+\|g\|
+	\|f+g\|\leq\|f\|+\|g\|
 \end{equation}
 
 \begin{dfn*}[直交]
-    $f,g$が直交するとは，
-    \[
-        \langle f,g\rangle=0
-    \]
-    となること．
+	$f,g$が直交するとは，
+	\[
+		\langle f,g\rangle=0
+	\]
+	となること．
 \end{dfn*}
 
 \begin{dfn*}[直交関数系]
-    $\{f_n\}_{n=1}^\infty \subset X$が正規直交系であるとは，
-    \[
-        \langle f_n,f_m\rangle=\delta_{nm}\quad(n,m=1,2,\ldots)
-    \]
-    となること．
+	$\{f_n\}_{n=1}^\infty \subset X$が正規直交系であるとは，
+	\[
+		\langle f_n,f_m\rangle=\delta_{nm}\quad(n,m=1,2,\ldots)
+	\]
+	となること．
 \end{dfn*}
 
 \textbf{フーリエ関数系}を
 \[
-    \varphi_n(t)=e^{in\omega t}\quad(n\in\mathbb{Z},t\in\mathbb{R})
+	\varphi_n(t)=e^{in\omega t}\quad(n\in\mathbb{Z},t\in\mathbb{R})
 \]
 で定義すると，$\{\varphi_n\}_{n=-\infty}^\infty$は正規直交系となる．このとき，フーリエ級数展開
 \[
-    f(t)=\sum_{-\infty}^\infty c[n]\varphi_n(t)
+	f(t)=\sum_{-\infty}^\infty c[n]\varphi_n(t)
 \]
 \[
-    c[n]=\langle f,\varphi_n \rangle=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\quad(n\in\mathbb{Z})
+	c[n]=\langle f,\varphi_n \rangle=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\quad(n\in\mathbb{Z})
 \]
 は正規直交系$\{\varphi_n\}$に関する展開であり，フーリエ係数は座標成分である．実フーリエ級数\eqref{eq:1-6}も同様である．
 
 \subsection{正規直交基底とフーリエ級数の平均収束}
 $\{f_n\}_{n=1}^\infty$を$X$の正規直交系とする．
 \begin{dfn*}[正規直交基底（完全正規直交系）]
-    $\{f_n\}_{n=1}^\infty$が正規直交基底もしくは完全正規直交系であるとは，$\forall f\in X$に対して
-    \[
-        \lim_{N\to\infty} \mleft\|f-\sum_{n=1}^N \langle f,f_n\rangle f_n\mright\|=0
-    \]
-    であること．\footnote{
-        ちなみに，完全のつかない正規直交系として$\{\cos x,\cos 2x,\ldots,\sin x,\sin 2x,\ldots\}$が考えられる．これは例えば$f$に定数をとればわかるように，完全正規直交系（正規直交基底）にはならない．$\{1,\cos x,\cos 2x,\ldots,\sin x,\sin 2x,\ldots\}$なら完全正規直交系（正規直交基底）になる．
-    }
+	$\{f_n\}_{n=1}^\infty$が正規直交基底もしくは完全正規直交系であるとは，$\forall f\in X$に対して
+	\[
+		\lim_{N\to\infty} \mleft\|f-\sum_{n=1}^N \langle f,f_n\rangle f_n\mright\|=0
+	\]
+	であること．\footnote{
+		ちなみに，完全のつかない正規直交系として$\{\cos x,\cos 2x,\ldots,\sin x,\sin 2x,\ldots\}$が考えられる．これは例えば$f$に定数をとればわかるように，完全正規直交系（正規直交基底）にはならない．$\{1,\cos x,\cos 2x,\ldots,\sin x,\sin 2x,\ldots\}$なら完全正規直交系（正規直交基底）になる．
+	}
 \end{dfn*}
 
 \begin{thm}[パーセバルの等式]\label{thm:1-6}
-    フーリエ関数系$\{\varphi_n\}_{n=-\infty}^\infty$は$X$の正規直交基底で，$\forall f\in X,\, c[n]=\langle f,\varphi_n\rangle$として
-    \begin{equation}\label{eq:1-20}
-        \|f\|^2=\sum_{n=-\infty}^\infty |c[n]|^2
-    \end{equation}
-    が成り立つ．
+	フーリエ関数系$\{\varphi_n\}_{n=-\infty}^\infty$は$X$の正規直交基底で，$\forall f\in X,\, c[n]=\langle f,\varphi_n\rangle$として
+	\begin{equation}\label{eq:1-20}
+		\|f\|^2=\sum_{n=-\infty}^\infty |c[n]|^2
+	\end{equation}
+	が成り立つ．
 \end{thm}
 \begin{proof}
-    はあとで．
+	はあとで．
 \end{proof}
 
 定理\ref{thm:1-6}より，フーリエ級数展開の\textbf{平均収束（$L^2$-収束）}:
 \[
-    \mleft\|f-\sum_{n=-N}^N c[n]\varphi_n\mright\|\to 0\quad(N\to\infty)
+	\mleft\|f-\sum_{n=-N}^N c[n]\varphi_n\mright\|\to 0\quad(N\to\infty)
 \]
 がわかる．
 
 \begin{prop}[ベッセルの不等式]\label{prop:1-7}
-    $\{f_n\}_{n=1}^\infty$が正規直交系ならば，$\forall f\in X$に対して
-    \begin{equation}\label{eq:1-22}
-        \sum_{n=1}^\infty |\langle f,f_n\rangle|\leq \|f\|^2
-    \end{equation}が
-    が成り立つ．
+	$\{f_n\}_{n=1}^\infty$が正規直交系ならば，$\forall f\in X$に対して
+	\begin{equation}\label{eq:1-22}
+		\sum_{n=1}^\infty |\langle f,f_n\rangle|\leq \|f\|^2
+	\end{equation}が
+	が成り立つ．
 \end{prop}
 
 \begin{proof}
-    \[
-        \begin{split}
-            \mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|^2
-            &= \mleft\langle f-\sum_{n=1}^N\langle f,f_n\rangle f_n, f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\rangle \\
-            &=\|f\|^2-\sum_{n=1}^N\langle f,f_n\rangle\langle f_n,f\rangle-\sum_{n=1}^N\overline{\langle f,f_n\rangle}\langle f_n,f\rangle+\sum_{n=1}^N\sum_{m=1}^N\langle f,f_n\rangle\overline{\langle f,f_m\rangle}\langle f_n,f_m\rangle \\
-            &=\|f\|^2-\sum_{n=1}^N|\langle f,f_n\rangle|^2 \\
-            &\geq 0
-        \end{split}
-    \]
-    より結論を得る．
+	\[
+		\begin{split}
+			\mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|^2
+			&= \mleft\langle f-\sum_{n=1}^N\langle f,f_n\rangle f_n, f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\rangle \\
+			&=\|f\|^2-\sum_{n=1}^N\langle f,f_n\rangle\langle f_n,f\rangle-\sum_{n=1}^N\overline{\langle f,f_n\rangle}\langle f_n,f\rangle+\sum_{n=1}^N\sum_{m=1}^N\langle f,f_n\rangle\overline{\langle f,f_m\rangle}\langle f_n,f_m\rangle \\
+			&=\|f\|^2-\sum_{n=1}^N|\langle f,f_n\rangle|^2 \\
+			&\geq 0
+		\end{split}
+	\]
+	より結論を得る．
 \end{proof}
 
 \begin{prop}\label{prop:1-8}
-    $\{f_n\}_{n=1}^\infty$を正規直交系とする．$\{f_n\}_{n=1}^\infty$が正規直交基底であるための必要十分条件は，$\forall f\in X$について
-    \[
-        \|f\|^2=\sum_{n=1}^\infty|\langle f,f_n\rangle|^2
-    \]
-    が成り立つことである．
+	$\{f_n\}_{n=1}^\infty$を正規直交系とする．$\{f_n\}_{n=1}^\infty$が正規直交基底であるための必要十分条件は，$\forall f\in X$について
+	\[
+		\|f\|^2=\sum_{n=1}^\infty|\langle f,f_n\rangle|^2
+	\]
+	が成り立つことである．
 \end{prop}
 
 \begin{proof}
-    命題\ref{prop:1-7}をみると，$\{f_n\}$が正規直交基底ならば
-    \[
-        \mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|^2
-        =\|f\|^2-\sum_{n=1}^N|\langle f,f_n\rangle|^2 \overset{n\to\infty}{\longrightarrow} 0
-    \]
-    が成り立つ．逆に，
-    \[
-        \lim_{n\to\infty}\mleft(\|f\|^2-\sum_{n=1}^N|\langle f,f_n\rangle|^2\mright)=0
-    \]
-    ならば
-    \[
-        \lim_{n\to\infty}\,\mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|^2=0
-    \]
-    であることがわかり，$\{f_n\}$は正規直交基底である．
+	命題\ref{prop:1-7}をみると，$\{f_n\}$が正規直交基底ならば
+	\[
+		\mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|^2
+		=\|f\|^2-\sum_{n=1}^N|\langle f,f_n\rangle|^2 \overset{n\to\infty}{\longrightarrow} 0
+	\]
+	が成り立つ．逆に，
+	\[
+		\lim_{n\to\infty}\mleft(\|f\|^2-\sum_{n=1}^N|\langle f,f_n\rangle|^2\mright)=0
+	\]
+	ならば
+	\[
+		\lim_{n\to\infty}\,\mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|^2=0
+	\]
+	であることがわかり，$\{f_n\}$は正規直交基底である．
 \end{proof}
 
 
 \begin{lem}\label{lem:1-9}
-    $\{f_n\}$を正規直交系，$a_1,a_2,\ldots,a_N\in\mathbb{C}$，$f\in X$とする．このとき
-    \begin{equation}\label{eq:1-23}
-        \mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|\leq\mleft\|f-\sum_{n=1}^N a_n f_n\mright\|
-    \end{equation}
-    が成り立つ．
+	$\{f_n\}$を正規直交系，$a_1,a_2,\ldots,a_N\in\mathbb{C}$，$f\in X$とする．このとき
+	\begin{equation}\label{eq:1-23}
+		\mleft\|f-\sum_{n=1}^N\langle f,f_n\rangle f_n\mright\|\leq\mleft\|f-\sum_{n=1}^N a_n f_n\mright\|
+	\end{equation}
+	が成り立つ．
 \end{lem}
 
 \begin{proof}
-    $g=f-\sum_{n=1}^N\langle f,f_n\rangle f_n$とする．$\langle g,f_m\rangle=0$に注意すると
-    \[
-        \begin{split}
-            \mleft\|f-\sum_n a_n f_n\mright\|^2
-            &=\mleft\|g+\sum_n(\langle f,f_n\rangle-a_n)f_n\mright\|^2 \\
-            &=\|g\|^2+\mleft\langle g,\sum_n(\langle f,f_n\rangle-a_n)f_n\mright\rangle +\mleft\langle \sum_n(\langle f,f_n\rangle-a_n)f_n,g\mright\rangle +\mleft\|\sum_n(\langle f,f_n\rangle-a_n)f_n\mright\|^2 \\
-            &=\|g\|^2+\mleft\|\sum_n(f_n\rangle-a_n)f_n\mright\|^2 \\
-            &\geq \|g\|^2
-        \end{split}
-    \]
-    となる．
+	$g=f-\sum_{n=1}^N\langle f,f_n\rangle f_n$とする．$\langle g,f_m\rangle=0$に注意すると
+	\[
+		\begin{split}
+			\mleft\|f-\sum_n a_n f_n\mright\|^2
+			&=\mleft\|g+\sum_n(\langle f,f_n\rangle-a_n)f_n\mright\|^2 \\
+			&=\|g\|^2+\mleft\langle g,\sum_n(\langle f,f_n\rangle-a_n)f_n\mright\rangle +\mleft\langle \sum_n(\langle f,f_n\rangle-a_n)f_n,g\mright\rangle +\mleft\|\sum_n(\langle f,f_n\rangle-a_n)f_n\mright\|^2 \\
+			&=\|g\|^2+\mleft\|\sum_n(f_n\rangle-a_n)f_n\mright\|^2 \\
+			&\geq \|g\|^2
+		\end{split}
+	\]
+	となる．
 \end{proof}
 
 \begin{prop*}
-    $f$を周期$T$で周期的かつ有界で$[0,T]$上で積分可能な関数とする．任意の$\varepsilon>0$に対して$\|f-g\|<\varepsilon$となるリプシッツ連続な周期関数$g$が存在する．\footnotemark
+	$f$を周期$T$で周期的かつ有界で$[0,T]$上で積分可能な関数とする．任意の$\varepsilon>0$に対して$\|f-g\|<\varepsilon$となるリプシッツ連続な周期関数$g$が存在する．\footnotemark
 \end{prop*}
 
 \footnotetext{ルベーグ積分論を用いた証明としては$L^2$空間における連続関数の稠密性が関係していそう．ルベーグ積分（伊藤）の定理24.2など．}
 
 \begin{proof}
-    区間$[0,T]$の分割$\Delta:0=t_0<t_1<\cdots<t_n=T$をとり，周期$T$で周期的な階段関数$f_\Delta (t)$を次式により定める:
-    \[
-        f_\Delta (t)=\inf_{t_j\leq t<t_{j+1}} f(t)\quad(t_j\leq t<t_{j+1}のとき)
-    \]
-    $\Delta$を十分細かく取れば，積分の定義により
-    \begin{equation}
-        \|f-f_\Delta\|=\frac{1}{T}\int_0^T|f(t)-f_\Delta(t)|dt<\frac{\varepsilon}{2} \tag{1}
-    \end{equation}
-    とできる．上式が成立するように$\Delta$をとって固定する．また，
-    \[
-        \lim_{s\to 0}\int_0^T|f_\Delta(t-s)-f_\Delta(t)|dt=0
-    \]
-    であるから，$n_0>0$を十分大きくとれば，$n\geq n_0$のとき
-    \begin{equation}
-        \sup_{|s|\leq 1/n}\frac{1}{T}\int_0^T|f_\Delta(t-s)-f_\Delta(t)|dt<\frac{\varepsilon}{2} \tag{2}
-    \end{equation}
-    が成立する．
+	区間$[0,T]$の分割$\Delta:0=t_0<t_1<\cdots<t_n=T$をとり，周期$T$で周期的な階段関数$f_\Delta (t)$を次式により定める:
+	\[
+		f_\Delta (t)=\inf_{t_j\leq t<t_{j+1}} f(t)\quad(t_j\leq t<t_{j+1}のとき)
+	\]
+	$\Delta$を十分細かく取れば，積分の定義により
+	\begin{equation}
+		\|f-f_\Delta\|=\frac{1}{T}\int_0^T|f(t)-f_\Delta(t)|dt<\frac{\varepsilon}{2} \tag{1}
+	\end{equation}
+	とできる．上式が成立するように$\Delta$をとって固定する．また，
+	\[
+		\lim_{s\to 0}\int_0^T|f_\Delta(t-s)-f_\Delta(t)|dt=0
+	\]
+	であるから，$n_0>0$を十分大きくとれば，$n\geq n_0$のとき
+	\begin{equation}
+		\sup_{|s|\leq 1/n}\frac{1}{T}\int_0^T|f_\Delta(t-s)-f_\Delta(t)|dt<\frac{\varepsilon}{2} \tag{2}
+	\end{equation}
+	が成立する．
 
-    任意の$t\in\mathbb{R}$に対して$\phi(t)\geq 0$で，$|t|\geq 1$のとき$\phi(t)=0$かつ
-    \[
-        \int_{-1}^1 \phi(t)dt=1
-    \]
-    を満たすリプシッツ連続な関数$\phi(t)$をとり，$\phi_n(t)=n\phi(nt)$とする．このとき
-    \begin{equation}
-        |t|\geq 1/nのとき\phi_n(t)=0かつ\int_{-1/n}^{1/n}\phi_n(t)dt=1 \tag{3}
-    \end{equation}
-    となる．関数$f_n(t)$を次式により定める．
-    \[
-        f_n(t)=\int_{-\infty}^\infty \phi_n(t-s)f_\Delta(s)ds=\int_{-1/n}^{1/n}\phi_n(s)f_\Delta(t-s)ds
-    \]
-    $f_\Delta (t)$の周期性より
-    \[
-        f_n(T)=\int_{-1/n}^{1/n}\phi_n(s)f_\Delta(T-s)ds=\int_{-1/n}^{1/n}\phi_n(s)f_\Delta(-s)ds=f_n(0)
-    \]
-    かつ，十分大きな$n>0$に対して，$L_\phi$を関数$\phi$のリプシッツ定数として
-    \[
-        |f_n(t_1)-f_n(t_2)|\leq\int_{-\infty}^\infty|\phi_n(t_1-s)-\phi_n(t_2-s)||f_\Delta(s)|ds\leq 4nL_\phi|t_1-t_2|\sup_{0\leq t\leq T}|f(t)|
-    \]
-    となるから，$f_n(t)$は周期$T$のリプシッツ連続な周期関数である．ここで，$t_1\neq t_2$ならば，$n>0$が十分大きいとき，
-    \[
-        \max\mleft(t_1-\frac{1}{n},t_2-\frac{1}{n}\mright)>\min\mleft(t_1+\frac{1}{n},t_2+\frac{1}{n}\mright)
-    \]
-    であること，および式(3)より，
-    \[
-        \begin{split}
-            \int_{-\infty}^\infty|\phi_n(t_1-s)-\phi_n(t_2-s)|ds
-            &\leq \int_{t_1-1/n}^{t_1+1/n}|\phi_n(t_1-s)|ds+\int_{t_2-1/n}^{t_2+1/n}|\phi_n(t_2-s)|ds \\
-            & =\int_{nt_1-1}^{nt_1+1}|\phi(nt_1-u)|du+\int_{nt_2-1}^{nt_2+1}|\phi(nt_2-u)|du \\
-            &\leq \int_{nt_1-1}^{nt_1+1}|\phi(nt_1-u)-\phi(nt_2-u)|du+\int_{nt_2-1}^{nt_2+1}|\phi(nt_1-u)-\phi(nt_2-u)|du \\
-            &\leq \int_{nt_1-1}^{nt_1+1} nL_\phi|t_1-t_2|du +\int_{nt_2}^{nt_2+1}nL_\phi|t_1-t_2|du \\
-            &\leq 4nL_\phi|t_1-t_2|
-        \end{split}
-    \]
-    となることを用いた．
+	任意の$t\in\mathbb{R}$に対して$\phi(t)\geq 0$で，$|t|\geq 1$のとき$\phi(t)=0$かつ
+	\[
+		\int_{-1}^1 \phi(t)dt=1
+	\]
+	を満たすリプシッツ連続な関数$\phi(t)$をとり，$\phi_n(t)=n\phi(nt)$とする．このとき
+	\begin{equation}
+		|t|\geq 1/nのとき\phi_n(t)=0かつ\int_{-1/n}^{1/n}\phi_n(t)dt=1 \tag{3}
+	\end{equation}
+	となる．関数$f_n(t)$を次式により定める．
+	\[
+		f_n(t)=\int_{-\infty}^\infty \phi_n(t-s)f_\Delta(s)ds=\int_{-1/n}^{1/n}\phi_n(s)f_\Delta(t-s)ds
+	\]
+	$f_\Delta (t)$の周期性より
+	\[
+		f_n(T)=\int_{-1/n}^{1/n}\phi_n(s)f_\Delta(T-s)ds=\int_{-1/n}^{1/n}\phi_n(s)f_\Delta(-s)ds=f_n(0)
+	\]
+	かつ，十分大きな$n>0$に対して，$L_\phi$を関数$\phi$のリプシッツ定数として
+	\[
+		|f_n(t_1)-f_n(t_2)|\leq\int_{-\infty}^\infty|\phi_n(t_1-s)-\phi_n(t_2-s)||f_\Delta(s)|ds\leq 4nL_\phi|t_1-t_2|\sup_{0\leq t\leq T}|f(t)|
+	\]
+	となるから，$f_n(t)$は周期$T$のリプシッツ連続な周期関数である．ここで，$t_1\neq t_2$ならば，$n>0$が十分大きいとき，
+	\[
+		\max\mleft(t_1-\frac{1}{n},t_2-\frac{1}{n}\mright)>\min\mleft(t_1+\frac{1}{n},t_2+\frac{1}{n}\mright)
+	\]
+	であること，および式(3)より，
+	\[
+		\begin{split}
+			\int_{-\infty}^\infty|\phi_n(t_1-s)-\phi_n(t_2-s)|ds
+			&\leq \int_{t_1-1/n}^{t_1+1/n}|\phi_n(t_1-s)|ds+\int_{t_2-1/n}^{t_2+1/n}|\phi_n(t_2-s)|ds \\
+			& =\int_{nt_1-1}^{nt_1+1}|\phi(nt_1-u)|du+\int_{nt_2-1}^{nt_2+1}|\phi(nt_2-u)|du \\
+			&\leq \int_{nt_1-1}^{nt_1+1}|\phi(nt_1-u)-\phi(nt_2-u)|du+\int_{nt_2-1}^{nt_2+1}|\phi(nt_1-u)-\phi(nt_2-u)|du \\
+			&\leq \int_{nt_1-1}^{nt_1+1} nL_\phi|t_1-t_2|du +\int_{nt_2}^{nt_2+1}nL_\phi|t_1-t_2|du \\
+			&\leq 4nL_\phi|t_1-t_2|
+		\end{split}
+	\]
+	となることを用いた．
 
-    式(3)より
-    \[
-        f_n(t)-f_\Delta(t)=\int_{-1/n}^{1/n} \phi_n(s)(f_\Delta(t-s)-f_\Delta(t))ds
-    \]
-    であるから，
-    \[
-        |f_n(t)-f_\Delta(t)|\leq\int_{-1/n}^{1/n}\phi_n(s)|f_\Delta(t-s)-f_\Delta(t)|ds
-    \]
-    となる．さらに，上式を$t$で積分し，積分を交換すると，$n\geq n_0$のとき
-    \[
-        \|f_n-f_\Delta\|\leq\frac{1}{T}\int_{-1/n}^{1/n}\phi_n(s)\int_0^T|f_\Delta(t-s)-f_\Delta(s)|dtds<\frac{\varepsilon}{2}
-    \]
-    が成立する．ここで，式(2)と(3)を用いた．三角不等式により，上式と式(1)とから，$n\geq n_0$のとき，
-    \[
-        \|f-f_n\|\leq\|f-f_\Delta\|+\|f_\Delta-f_n\|<\varepsilon
-    \]
-    となり，$g=f_n$とおけば結論を得る．
+	式(3)より
+	\[
+		f_n(t)-f_\Delta(t)=\int_{-1/n}^{1/n} \phi_n(s)(f_\Delta(t-s)-f_\Delta(t))ds
+	\]
+	であるから，
+	\[
+		|f_n(t)-f_\Delta(t)|\leq\int_{-1/n}^{1/n}\phi_n(s)|f_\Delta(t-s)-f_\Delta(t)|ds
+	\]
+	となる．さらに，上式を$t$で積分し，積分を交換すると，$n\geq n_0$のとき
+	\[
+		\|f_n-f_\Delta\|\leq\frac{1}{T}\int_{-1/n}^{1/n}\phi_n(s)\int_0^T|f_\Delta(t-s)-f_\Delta(s)|dtds<\frac{\varepsilon}{2}
+	\]
+	が成立する．ここで，式(2)と(3)を用いた．三角不等式により，上式と式(1)とから，$n\geq n_0$のとき，
+	\[
+		\|f-f_n\|\leq\|f-f_\Delta\|+\|f_\Delta-f_n\|<\varepsilon
+	\]
+	となり，$g=f_n$とおけば結論を得る．
 \end{proof}
 
 \begin{note*}
-    上の証明で関数$\phi(t)$を$C^\infty$に取れば，近似関数$g$は$C^\infty$級となる．
+	上の証明で関数$\phi(t)$を$C^\infty$に取れば，近似関数$g$は$C^\infty$級となる．
 \end{note*}
 
-\setcounter{definition}{5}
-\begin{thm}[パーセバルの等式（再掲）]
-    フーリエ関数系$\{\varphi_n\}_{n=-\infty}^\infty$は$X$の正規直交基底で，$\forall f\in X,\, c[n]=\langle f,\varphi_n\rangle$として
-    \begin{equation}\tag{\ref{eq:1-20}}
-        \|f\|^2=\sum_{n=-\infty}^\infty |c[n]|^2
-    \end{equation}
-    が成り立つ．
-\end{thm}
+\begin{thm*}[\ref{thm:1-6}:パーセバルの等式（再掲）]
+	フーリエ関数系$\{\varphi_n\}_{n=-\infty}^\infty$は$X$の正規直交基底で，$\forall f\in X,\, c[n]=\langle f,\varphi_n\rangle$として
+	\begin{equation}\tag{\ref{eq:1-20}}
+		\|f\|^2=\sum_{n=-\infty}^\infty |c[n]|^2
+	\end{equation}
+	が成り立つ．
+\end{thm*}
 
 \begin{proof}
-    $f\in X$，$\forall\varepsilon>0$をとる．すると，上の命題より，リプシッツ連続な周期関数$g$で，$\|f-g\|<\varepsilon/2$をみたすものをとれる．すると，定理\ref{thm:1-5}より，$N$を十分大きくとれば，
-    \[
-        \mleft|g(t)-\sum_{|n|\leq N}c_N[n]\varphi_n(t)\mright|<\frac{\varepsilon}{2}\quad(t\in [0,T])
-    \]
-    が成り立つ\footnote{1.6節で$\varphi_n=e^{in\omega t}$で定めている．}．ここで$\{c_N[n]\}$は
-    \[
-        c_N[n]=\frac{1}{N}\sum_{m=0}^{N-1}g\mleft(\frac{m}{N}T\mright)e^{-i2\pi(m/N)n}\quad(n\in\mathbb{Z})
-    \]
-    である．これより
-    \[
-        \mleft\|g-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\|<\frac{\varepsilon}{2}
-    \]
-    がしたがう．ゆえに
-    \[
-        \begin{split}
-            \mleft\|f-\sum_{|n|\leq N}\langle f,\varphi_n\rangle\varphi_n\mright\|
-            &\bluenotearrow{\leq}{補題\ref{lem:1-9}}
-            \mleft\|f-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\| \\
-            &\leq\|f-g\|+\mleft\|g-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\| \\
-            &<\varepsilon
-        \end{split}
-    \]
-    となる．
+	$f\in X$，$\forall\varepsilon>0$をとる．すると，上の命題より，リプシッツ連続な周期関数$g$で，$\|f-g\|<\varepsilon/2$をみたすものをとれる．すると，定理\ref{thm:1-5}より，$N$を十分大きくとれば，
+	\[
+		\mleft|g(t)-\sum_{|n|\leq N}c_N[n]\varphi_n(t)\mright|<\frac{\varepsilon}{2}\quad(t\in [0,T])
+	\]
+	が成り立つ\footnote{1.6節で$\varphi_n=e^{in\omega t}$で定めている．}．ここで$\{c_N[n]\}$は
+	\[
+		c_N[n]=\frac{1}{N}\sum_{m=0}^{N-1}g\mleft(\frac{m}{N}T\mright)e^{-i2\pi(m/N)n}\quad(n\in\mathbb{Z})
+	\]
+	である．これより
+	\[
+		\mleft\|g-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\|<\frac{\varepsilon}{2}
+	\]
+	がしたがう．ゆえに
+	\[
+		\begin{split}
+			\mleft\|f-\sum_{|n|\leq N}\langle f,\varphi_n\rangle\varphi_n\mright\|
+			&\bluenotearrow{\leq}{補題\ref{lem:1-9}}
+			\mleft\|f-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\| \\
+			&\leq\|f-g\|+\mleft\|g-\sum_{|n|\leq N}c_N[n]\varphi_n\mright\| \\
+			&<\varepsilon
+		\end{split}
+	\]
+	となる．
 \end{proof}
 
-\setcounter{definition}{9}
+\setcounter{theorem}{9}
 
 \subsection{定理\ref{thm:1-3}の証明}\label{sec:1-10}
 
 \begin{lem}\label{lem:1-10}
-    $f$を周期$T$のリプシッツ連続な周期関数，$\{c[n]\}$を$f$のフーリエ係数とする．このとき
-    \[
-        \sum_{n=-\infty}^\infty |n|^2|c[n]|^2<\infty
-    \]
-    が成り立つ．
+	$f$を周期$T$のリプシッツ連続な周期関数，$\{c[n]\}$を$f$のフーリエ係数とする．このとき
+	\[
+		\sum_{n=-\infty}^\infty |n|^2|c[n]|^2<\infty
+	\]
+	が成り立つ．
 \end{lem}
 
 \begin{proof}
-    リプシッツ連続性より，$C>0$が存在して
-    \[
-        |f(t+h)-f(t)|\leq C|h|\quad(t,h\in\mathbb{R})
-    \]
-    が成り立つ．$N\geq 1$に対して$h=T/2N$とおき，$f$の$h$だけ差分関数を
-    \[
-        g(t)=\frac{1}{h}\{f(t+h)-f(t)\}=\frac{2N}{T}\mleft\{f\mleft(t+\frac{T}{2N}\mright)-f(t)\mright\}
-    \]
-    と定義すれば，$|g(t)|\leq C$である．$g$のフーリエ係数を$\{d[n]\}$と書くことにしよう．すると，
-    \[
-        \begin{split}
-            d[n]&=\frac{1}{hT}\int_0^T\{f(t+h)-f(t)\}e^{-i\omega nt}dt \\
-            &=\frac{1}{h}(e^{i\omega nh}-1)c[n] \\
-            &=\frac{2N}{T}e^{i\omega nh/2}\cdot 2i\sin\mleft(\frac{\pi n}{2N}\mright)c[n]
-        \end{split}
-    \]
-    が成り立つ．$g$についてパーセバルの等式を用いれば
-    \[
-        \|g\|^2=\sum_{n=-\infty}^\infty|d[n]|^2=\mleft(\frac{4N}{T}\mright)^2\sum_{n=-\infty}^\infty\mleft|\sin\mleft(\frac{\pi n}{2N}\mright)\mright|^2|c[n]|^2
-    \]
-    がわかる．一方，\eqref{eq:1-16}を用いると，
-    \[
-        |n|\leq N\quad ならば\quad \mleft|\sin\mleft(\frac{\pi n}{2N}\mright)\mright|\geq\frac{2}{\pi}\cdot\frac{\pi n}{2N}=\frac{n}{N}
-    \]
-    だから，
-    \[
-        \|g\|^2\geq \frac{16}{T^2}\sum_{n=-N}^N |n|^2|c[n]|^2
-    \]
-    を得る．$|g(t)|^2\leq C^2$だったので
-    \[
-        \sum_{n=-N}^N |n|^2|c[n]|^2\leq\frac{T^2C^2}{16}
-    \]
-    がわかる．右辺は$N$に依らないので，$N\to\infty$として求める不等式が導かれる．
+	リプシッツ連続性より，$C>0$が存在して
+	\[
+		|f(t+h)-f(t)|\leq C|h|\quad(t,h\in\mathbb{R})
+	\]
+	が成り立つ．$N\geq 1$に対して$h=T/2N$とおき，$f$の$h$だけ差分関数を
+	\[
+		g(t)=\frac{1}{h}\{f(t+h)-f(t)\}=\frac{2N}{T}\mleft\{f\mleft(t+\frac{T}{2N}\mright)-f(t)\mright\}
+	\]
+	と定義すれば，$|g(t)|\leq C$である．$g$のフーリエ係数を$\{d[n]\}$と書くことにしよう．すると，
+	\[
+		\begin{split}
+			d[n]&=\frac{1}{hT}\int_0^T\{f(t+h)-f(t)\}e^{-i\omega nt}dt \\
+			&=\frac{1}{h}(e^{i\omega nh}-1)c[n] \\
+			&=\frac{2N}{T}e^{i\omega nh/2}\cdot 2i\sin\mleft(\frac{\pi n}{2N}\mright)c[n]
+		\end{split}
+	\]
+	が成り立つ．$g$についてパーセバルの等式を用いれば
+	\[
+		\|g\|^2=\sum_{n=-\infty}^\infty|d[n]|^2=\mleft(\frac{4N}{T}\mright)^2\sum_{n=-\infty}^\infty\mleft|\sin\mleft(\frac{\pi n}{2N}\mright)\mright|^2|c[n]|^2
+	\]
+	がわかる．一方，\eqref{eq:1-16}を用いると，
+	\[
+		|n|\leq N\quad ならば\quad \mleft|\sin\mleft(\frac{\pi n}{2N}\mright)\mright|\geq\frac{2}{\pi}\cdot\frac{\pi n}{2N}=\frac{n}{N}
+	\]
+	だから，
+	\[
+		\|g\|^2\geq \frac{16}{T^2}\sum_{n=-N}^N |n|^2|c[n]|^2
+	\]
+	を得る．$|g(t)|^2\leq C^2$だったので
+	\[
+		\sum_{n=-N}^N |n|^2|c[n]|^2\leq\frac{T^2C^2}{16}
+	\]
+	がわかる．右辺は$N$に依らないので，$N\to\infty$として求める不等式が導かれる．
 \end{proof}
 
 
 \begin{lem}\label{lem:1-11}
-    $f$を周期$T$のリプシッツ連続な周期関数，$\{c[n]\}$を$f$のフーリエ係数とする．このとき
-    \[
-        \sum_{n=-\infty}^\infty |c[n]|<\infty
-    \]
-    が成り立つ．
+	$f$を周期$T$のリプシッツ連続な周期関数，$\{c[n]\}$を$f$のフーリエ係数とする．このとき
+	\[
+		\sum_{n=-\infty}^\infty |c[n]|<\infty
+	\]
+	が成り立つ．
 \end{lem}
 
 \begin{proof}
-    $\mathbb{C}^N$でのシュワルツの不等式から
-    \[
-        \begin{split}
-            \sum_{1\leq|n|\leq N}|c[n]|
-            &\leq\mleft(2\sum_{n=1}^N\frac{1}{n^2}\mright)^{1/2}\mleft(\sum_{1\leq|n|\leq N}|n|^2|c[n]|^2\mright) \\
-            &\leq\mleft(2\sum_{n=1}^\infty\frac{1}{n^2}\mright)^{1/2}\mleft(\sum_{n=-\infty}^\infty |n|^2|c[n]|^2\mright)
-        \end{split}
-    \]
-    がわかる．右辺は補題\ref{lem:1-10}より，有限の定数で$N$に依らない．したがって，$N\to\infty$として補題の主張が成り立つ．
+	$\mathbb{C}^N$でのシュワルツの不等式から
+	\[
+		\begin{split}
+			\sum_{1\leq|n|\leq N}|c[n]|
+			&\leq\mleft(2\sum_{n=1}^N\frac{1}{n^2}\mright)^{1/2}\mleft(\sum_{1\leq|n|\leq N}|n|^2|c[n]|^2\mright) \\
+			&\leq\mleft(2\sum_{n=1}^\infty\frac{1}{n^2}\mright)^{1/2}\mleft(\sum_{n=-\infty}^\infty |n|^2|c[n]|^2\mright)
+		\end{split}
+	\]
+	がわかる．右辺は補題\ref{lem:1-10}より，有限の定数で$N$に依らない．したがって，$N\to\infty$として補題の主張が成り立つ．
 \end{proof}
 
 \begin{lem}\label{lem:1-12}
-    $f$を周期$T$の連続な周期関数，$\{c[n]\}$を$f$のフーリエ係数とする．\\ このとき，$\sum_{n=-\infty}^\infty |c[n]|<\infty$ならば，フーリエ部分和:
-    \[
-        S_N(t)=\sum_{n=-N}^N c[n]e^{i\omega nt}
-    \]
-    は$N\to\infty$のとき$f$に一様収束する．
+	$f$を周期$T$の連続な周期関数，$\{c[n]\}$を$f$のフーリエ係数とする．\\ このとき，$\sum_{n=-\infty}^\infty |c[n]|<\infty$ならば，フーリエ部分和:
+	\[
+		S_N(t)=\sum_{n=-N}^N c[n]e^{i\omega nt}
+	\]
+	は$N\to\infty$のとき$f$に一様収束する．
 \end{lem}
 
 \begin{proof}
-    $N<M$とすると，
-    \begin{equation}\label{eq:1-24}
-        |S_N(t)-S_M(t)|\leq\sum_{N<|n|\leq M}|c[n]|\leq\sum_{|n|>N}|c[n]|
-    \end{equation}
-    である．仮定により，$N\to\infty$のとき$\sum_{|n|>N}|c[n]|\to 0$だから，\eqref{eq:1-24}の右辺は$0$に収束する．つまり，各$t$ごとに，$\{S_N(t)\}$はコーシー列であり，極限が存在する．そこで$g(t)\equiv\lim_{N\to\infty}S_N(t)$とおく．\eqref{eq:1-24}で$M\to\infty$とすると
-    \[
-        |S_N(t)-g(t)|\leq\sum_{|n|>N}|c[n]|
-    \]
-    となる．右辺は$t$によらず，$N\to\infty$のとき$0$に収束するのだから，$S_N(t)$は$g$に一様収束することになる．これより$\|S_N-g\|\to 0$が従う．一方，定理\ref{thm:1-6}より，$\|S_N-f\|\to 0$だから，$f=g$でなければならない．以上により，$S_N$が$f$に一様収束することが示された．
+	$N<M$とすると，
+	\begin{equation}\label{eq:1-24}
+		|S_N(t)-S_M(t)|\leq\sum_{N<|n|\leq M}|c[n]|\leq\sum_{|n|>N}|c[n]|
+	\end{equation}
+	である．仮定により，$N\to\infty$のとき$\sum_{|n|>N}|c[n]|\to 0$だから，\eqref{eq:1-24}の右辺は$0$に収束する．つまり，各$t$ごとに，$\{S_N(t)\}$はコーシー列であり，極限が存在する．そこで$g(t)\equiv\lim_{N\to\infty}S_N(t)$とおく．\eqref{eq:1-24}で$M\to\infty$とすると
+	\[
+		|S_N(t)-g(t)|\leq\sum_{|n|>N}|c[n]|
+	\]
+	となる．右辺は$t$によらず，$N\to\infty$のとき$0$に収束するのだから，$S_N(t)$は$g$に一様収束することになる．これより$\|S_N-g\|\to 0$が従う．一方，定理\ref{thm:1-6}より，$\|S_N-f\|\to 0$だから，$f=g$でなければならない．以上により，$S_N$が$f$に一様収束することが示された．
 \end{proof}
 
 \begin{note*}
-    補題\ref{lem:1-12}は定理\ref{thm:1-3}よりも強い主張であり，重要である．
+	補題\ref{lem:1-12}は定理\ref{thm:1-3}よりも強い主張であり，重要である．
 \end{note*}
 
 \begin{note}
-    $\{g_N(t)\}$を連続関数列で$N\to\infty$のとき$g_N(t)$は$g(t)$に一様収束するならば，$g(t)$は連続である．
+	$\{g_N(t)\}$を連続関数列で$N\to\infty$のとき$g_N(t)$は$g(t)$に一様収束するならば，$g(t)$は連続である．
 \end{note}
 
-\setcounter{definition}{2}
-
-\begin{thm}[（再掲）]
-    $f(t)$がリプシッツ連続ならば，フーリエ級数展開は$f(t)$に一様収束する．
-\end{thm}
+\begin{thm*}[\ref{thm:1-3}（再掲）]
+	$f(t)$がリプシッツ連続ならば，フーリエ級数展開は$f(t)$に一様収束する．
+\end{thm*}
 
 \begin{proof}
-    補題\ref{lem:1-11}と補題\ref{lem:1-12}から直ちに導かれる．
+	補題\ref{lem:1-11}と補題\ref{lem:1-12}から直ちに導かれる．
 \end{proof}
-
-\setcounter{definition}{12}
 
 \subsection{ギッブス現象と総和法}
 
 %連続じゃないけれども連続からは離れてない関数を考える．
 
 \begin{thm}
-    $f(t)$を周期$T$の周期関数で，$[0,T]$上では区分的に滑らか\footnotemark な関数であるとする．このとき，フーリエ部分和$S_N(t)$は
-    \[
-        \lim_{N\to\infty} S_N(t)=\begin{cases}
-            f(t)                                      & (t:連続)   \\
-            \displaystyle\frac{1}{2}\{f(t+0)+f(t-0)\} & (t:不連続)
-        \end{cases}
-    \]
-    が成り立つ．\footnotemark
+	$f(t)$を周期$T$の周期関数で，$[0,T]$上では区分的に滑らか\footnotemark な関数であるとする．このとき，フーリエ部分和$S_N(t)$は
+	\[
+		\lim_{N\to\infty} S_N(t)=\begin{cases}
+			f(t)                                      & (t:連続)   \\
+			\displaystyle\frac{1}{2}\{f(t+0)+f(t-0)\} & (t:不連続)
+		\end{cases}
+	\]
+	が成り立つ．\footnotemark
 \end{thm}
 
 \addtocounter{footnote}{-1}
@@ -1131,110 +1161,110 @@ $\{f_n\}_{n=1}^\infty$を$X$の正規直交系とする．
 \footnotetext{$f(t\pm 0)=\lim_{\varepsilon\to\pm 0}f(t\pm\varepsilon)$}
 
 \begin{proof}
-    \[
-        \begin{split}
-            S_N(t)
-            &=\sum_{n=-N}^N c[n]e^{i\omega nt} \\
-            &=\sum_{n=-N}^N \mleft(\frac{1}{T}\int_0^T f(s)e^{-in\omega s}ds\mright)e^{i\omega nt} \\
-            &=\frac{1}{T}\sum_{n=-N}^N \int_0^T f(s)e^{in\omega (t-s)}ds
-        \end{split}
-    \]
-    と変形できる．$f(s)$は$\mathbb{R}$上の関数なので，$f(s)e^{in\omega (t-s)}$の虚部$f(s)\sin\{n\omega(t-s)\}$を積分したものは$0$になる．したがって
-    \[
-        \lim_{N\to\infty}\frac{1}{T}\sum_{n=-N}^N \int_0^T f(s)\cos\{n\omega (t-s)\}ds =\begin{cases}
-            f(t)                                      & (t:連続)   \\
-            \displaystyle\frac{1}{2}\{f(t+0)+f(t-0)\} & (t:不連続)
-        \end{cases}
-    \]
-    を示せばよい．ここで，
-    \[
-        2\sin\frac{\theta}{2}\cos k\theta=\sin \mleft(k+\frac{1}{2}\mright)\theta-\sin\mleft(k-\frac{1}{2}\mright)\theta
-    \]
-    より
-    \[
-        \sum_{k=0}^N\cos k\theta=\frac{\sin\mleft(N+\frac{1}{2}\mright)+\sin\frac{\theta}{2}}{2\sin\frac{\theta}{2}}
-    \]
-    両辺$1/2$を引いて
-    \[
-        \frac{1}{2}+\sum_{k=1}^N\cos k\theta=\frac{\sin\mleft(N+\frac{1}{2}\mright)\theta}{2\sin\frac{\theta}{2}}
-    \]
-    であること\footnote{
-        ちなみに，$D_n(x)=\sum_{k=-n}^n e^{ikx}=1+2\sum_{k=1}^N\cos(kx)=\sin\{(n+1/2)x\}/\sin(x/2)$はディリクレ核とよばれ，これを用いると畳み込みを用いて$S_N(t)$が表現できる．
-    }を利用すると
-    \[
-        \begin{split}
-            \frac{1}{T}\sum_{n=-N}^N \int_0^T f(s)& \cos\{n\omega (t-s)\}ds \\
-            &=\frac{1}{T} \int_0^T f(s)\sum_{n=-N}^N\cos\{n\omega (t-s)\} \\
-            &=\frac{2}{T} \int_0^T f(s)\frac{\sin\frac{(2N+1)\omega(t-s)}{2}}{2\sin\frac{\omega(t-s)}{2}}ds \\
-            &\bluenoteunderleft{=}{周期性の利用} \frac{2}{T} \int_t^{t+T} f(s)\frac{\sin\frac{(2N+1)\omega(t-s)}{2}}{2\sin\frac{\omega(t-s)}{2}}ds \\
-            &=\frac{2}{T} \mleft(\int_t^{t+T/2} + \int_{t+T/2}^{t+T}\mright) f(s)\frac{\sin\frac{(2N+1)\omega(t-s)}{2}}{2\sin\frac{\omega(t-s)}{2}}ds \\
-            &\bluenoteunderleft{=}{$-u=\omega(t-s)/2$,$u=\omega(t-s)/2$と置換} \frac{2}{T}\int_0^{\omega T/4} f(t+2u/\omega)\frac{\sin(2N+1)u}{\sin u}\frac{2}{\omega}du
-            +\frac{2}{T}\int_0^{\omega T/4} f(t-2u/\omega)\frac{\sin(2N+1)u}{\sin u}\frac{2}{\omega}du \\
-            &= \frac{4}{\omega T}\int_0^{\omega T/4} f(t+2u/\omega)\frac{\sin(2N+1)u}{\sin u}du
-            +\frac{4}{\omega T}\int_0^{\omega T/4} f(t-2u/\omega)\frac{\sin(2N+1)u}{\sin u}du
-        \end{split}
-    \]
-    ここまでの議論は$f(s)=1$としても成立していることに注意すると，不連続点$t$では（連続点では$f(t+0)=f(t-0)=f(t)$として考える）
-    \[
-        \begin{split}
-            S_N(t)&-\mleft[\frac{1}{2}\{f(t+0)+f(t-0)\}\mright] \\
-            &=\frac{4}{\omega T}\int_0^{\omega T/4} f(t+2u/\omega)\frac{\sin(2N+1)u}{\sin u}du
-            +\frac{4}{\omega T}\int_0^{\omega T/4} f(t-2u/\omega)\frac{\sin(2N+1)u}{\sin u}du \\
-            & \qquad -\frac{1}{2}\{f(t+0)+f(t-0)\}\mleft[\frac{4}{\omega T}\int_0^{\omega T/4} \frac{\sin(2N+1)u}{\sin u}du
-                +\frac{4}{\omega T}\int_0^{\omega T/4} \frac{\sin(2N+1)u}{\sin u}du\mright] \\
-            &= \frac{4}{\omega T}\int_0^{\omega T/4} \{f(t+2u/\omega)-f(t+0)\}\frac{\sin(2N+1)u}{\sin u}du \\
-            & \qquad +\frac{4}{\omega T}\int_0^{\omega T/4} \{f(t-2u/\omega)-f(t-0)\}\frac{\sin(2N+1)u}{\sin u}du
-        \end{split}
-    \]
-    ここで，$f$は区分的に滑らかであり，$u/\sin u\to 1$（$u\to +0$）に注意すれば，$t$を固定して区間$(0,\omega T/4)$で定義された$u$の関数
-    \[
-        g_\pm(u)=\frac{f(t\pm 2u/\omega)-f(t\pm 0)}{\sin u}=\frac{f(t\pm 2u/\omega)-f(t\pm 0)}{\pm u}\frac{\pm u}{\sin u}
-    \]
-    は有界で有限個の点を除いて連続である（可積分）．したがって，リーマン-ルベーグの定理を利用して
-    \[
-        \lim_{N\to\infty}\int_0^{\omega T/4}g_\pm(u)\sin(2N+1)u\, du=0
-    \]
-    がわかる．したがって
-    \[
-        \lim_{N\to\infty}\mleft|S_N(t)-\mleft[\frac{1}{2}\{f(t+0)+f(t-0)\}\mright]\mright|=0
-    \]
+	\[
+		\begin{split}
+			S_N(t)
+			&=\sum_{n=-N}^N c[n]e^{i\omega nt} \\
+			&=\sum_{n=-N}^N \mleft(\frac{1}{T}\int_0^T f(s)e^{-in\omega s}ds\mright)e^{i\omega nt} \\
+			&=\frac{1}{T}\sum_{n=-N}^N \int_0^T f(s)e^{in\omega (t-s)}ds
+		\end{split}
+	\]
+	と変形できる．$f(s)$は$\mathbb{R}$上の関数なので，$f(s)e^{in\omega (t-s)}$の虚部$f(s)\sin\{n\omega(t-s)\}$を積分したものは$0$になる．したがって
+	\[
+		\lim_{N\to\infty}\frac{1}{T}\sum_{n=-N}^N \int_0^T f(s)\cos\{n\omega (t-s)\}ds =\begin{cases}
+			f(t)                                      & (t:連続)   \\
+			\displaystyle\frac{1}{2}\{f(t+0)+f(t-0)\} & (t:不連続)
+		\end{cases}
+	\]
+	を示せばよい．ここで，
+	\[
+		2\sin\frac{\theta}{2}\cos k\theta=\sin \mleft(k+\frac{1}{2}\mright)\theta-\sin\mleft(k-\frac{1}{2}\mright)\theta
+	\]
+	より
+	\[
+		\sum_{k=0}^N\cos k\theta=\frac{\sin\mleft(N+\frac{1}{2}\mright)+\sin\frac{\theta}{2}}{2\sin\frac{\theta}{2}}
+	\]
+	両辺$1/2$を引いて
+	\[
+		\frac{1}{2}+\sum_{k=1}^N\cos k\theta=\frac{\sin\mleft(N+\frac{1}{2}\mright)\theta}{2\sin\frac{\theta}{2}}
+	\]
+	であること\footnote{
+		ちなみに，$D_n(x)=\sum_{k=-n}^n e^{ikx}=1+2\sum_{k=1}^N\cos(kx)=\sin\{(n+1/2)x\}/\sin(x/2)$はディリクレ核とよばれ，これを用いると畳み込みを用いて$S_N(t)$が表現できる．例\ref{ex:2-7}参照．
+	}を利用すると
+	\[
+		\begin{split}
+			\frac{1}{T}\sum_{n=-N}^N \int_0^T f(s)& \cos\{n\omega (t-s)\}ds \\
+			&=\frac{1}{T} \int_0^T f(s)\sum_{n=-N}^N\cos\{n\omega (t-s)\} \\
+			&=\frac{2}{T} \int_0^T f(s)\frac{\sin\frac{(2N+1)\omega(t-s)}{2}}{2\sin\frac{\omega(t-s)}{2}}ds \\
+			&\bluenoteunderleft{=}{周期性の利用} \frac{2}{T} \int_t^{t+T} f(s)\frac{\sin\frac{(2N+1)\omega(t-s)}{2}}{2\sin\frac{\omega(t-s)}{2}}ds \\
+			&=\frac{2}{T} \mleft(\int_t^{t+T/2} + \int_{t+T/2}^{t+T}\mright) f(s)\frac{\sin\frac{(2N+1)\omega(t-s)}{2}}{2\sin\frac{\omega(t-s)}{2}}ds \\
+			&\bluenoteunderleft{=}{$-u=\omega(t-s)/2$,$u=\omega(t-s)/2$と置換} \frac{2}{T}\int_0^{\omega T/4} f(t+2u/\omega)\frac{\sin(2N+1)u}{\sin u}\frac{2}{\omega}du
+			+\frac{2}{T}\int_0^{\omega T/4} f(t-2u/\omega)\frac{\sin(2N+1)u}{\sin u}\frac{2}{\omega}du \\
+			&= \frac{4}{\omega T}\int_0^{\omega T/4} f(t+2u/\omega)\frac{\sin(2N+1)u}{\sin u}du
+			+\frac{4}{\omega T}\int_0^{\omega T/4} f(t-2u/\omega)\frac{\sin(2N+1)u}{\sin u}du
+		\end{split}
+	\]
+	ここまでの議論は$f(s)=1$としても成立していることに注意すると，不連続点$t$では（連続点では$f(t+0)=f(t-0)=f(t)$として考える）
+	\[
+		\begin{split}
+			S_N(t)&-\mleft[\frac{1}{2}\{f(t+0)+f(t-0)\}\mright] \\
+			&=\frac{4}{\omega T}\int_0^{\omega T/4} f(t+2u/\omega)\frac{\sin(2N+1)u}{\sin u}du
+			+\frac{4}{\omega T}\int_0^{\omega T/4} f(t-2u/\omega)\frac{\sin(2N+1)u}{\sin u}du \\
+			& \qquad -\frac{1}{2}\{f(t+0)+f(t-0)\}\mleft[\frac{4}{\omega T}\int_0^{\omega T/4} \frac{\sin(2N+1)u}{\sin u}du
+				+\frac{4}{\omega T}\int_0^{\omega T/4} \frac{\sin(2N+1)u}{\sin u}du\mright] \\
+			&= \frac{4}{\omega T}\int_0^{\omega T/4} \{f(t+2u/\omega)-f(t+0)\}\frac{\sin(2N+1)u}{\sin u}du \\
+			& \qquad +\frac{4}{\omega T}\int_0^{\omega T/4} \{f(t-2u/\omega)-f(t-0)\}\frac{\sin(2N+1)u}{\sin u}du
+		\end{split}
+	\]
+	ここで，$f$は区分的に滑らかであり，$u/\sin u\to 1$（$u\to +0$）に注意すれば，$t$を固定して区間$(0,\omega T/4)$で定義された$u$の関数
+	\[
+		g_\pm(u)=\frac{f(t\pm 2u/\omega)-f(t\pm 0)}{\sin u}=\frac{f(t\pm 2u/\omega)-f(t\pm 0)}{\pm u}\frac{\pm u}{\sin u}
+	\]
+	は有界で有限個の点を除いて連続である（可積分）．したがって，リーマン-ルベーグの定理を利用して
+	\[
+		\lim_{N\to\infty}\int_0^{\omega T/4}g_\pm(u)\sin(2N+1)u\, du=0
+	\]
+	がわかる．したがって
+	\[
+		\lim_{N\to\infty}\mleft|S_N(t)-\mleft[\frac{1}{2}\{f(t+0)+f(t-0)\}\mright]\mright|=0
+	\]
 \end{proof}
 
 \begin{ex}[方形波]
-    \[
-        f_4(t)=\begin{cases}
-            -1 & (-T/2<t<0) \\
-            1  & (0<t<T/2)
-        \end{cases}
-    \]
+	\[
+		f_4(t)=\begin{cases}
+			-1 & (-T/2<t<0) \\
+			1  & (0<t<T/2)
+		\end{cases}
+	\]
 \end{ex}
 
 $f_4(t)$は奇関数で，フーリエ展開は
 \[
-    \begin{split}
-        f_4(t)
-        &=\frac{4}{\pi}\sum_{n=0}^\infty \frac{\sin(2n+1)\omega t}{2n+1} \\
-        &=\frac{4}{\pi}\mleft(\sin\omega t+\frac{1}{3}\sin3\omega t+\frac{1}{5}\sin5\omega t+\cdots\mright)
-    \end{split}
+	\begin{split}
+		f_4(t)
+		&=\frac{4}{\pi}\sum_{n=0}^\infty \frac{\sin(2n+1)\omega t}{2n+1} \\
+		&=\frac{4}{\pi}\mleft(\sin\omega t+\frac{1}{3}\sin3\omega t+\frac{1}{5}\sin5\omega t+\cdots\mright)
+	\end{split}
 \]
 となる．この展開の部分和$S_N(t)$をグラフにプロットすると図\ref{fig:ex1-4}のようになる．
 
 \begin{figure}
-    \begin{center}
-        \include{fig/ex1-4graph}
-    \end{center}
-    \caption{方形波とそのフーリエ部分和．ただし$T=2\pi$，つまり$\omega=1$．}
-    \label{fig:ex1-4}
+	\begin{center}
+		\include{fig/ex1-4graph}
+	\end{center}
+	\caption{方形波とそのフーリエ部分和．ただし$T=2\pi$，つまり$\omega=1$．}
+	\label{fig:ex1-4}
 \end{figure}
 
 不連続な点$0,\pm\pi$以外では$N$が大きくなるとき$S_N(t)$は$f_4(t)$に収束することが観察できるが，$T=0,\pm\pi$の近くでは$S_N(t)$は強く振動し，$f(t)$よりも大きく飛び出した点が存在する．しかも$N$を大きくしてもこれは消えない．この現象をギッブス現象という．また，連続な点でも小さな振動は消えない．電子工学では，この飛び出しをオーバーシュート，振動をリップル，リンキングなどと呼ぶ．この飛び出しの高さは，$\Delta t=\omega t,\, (2N+1)\Delta t=\pi$とおくと
 \[
-    \begin{split}
-        S_N(t)
-        &=\frac{4}{\pi}\sum_{n=0}^N \frac{\sin(2n+1)\omega t}{2n+1} \\
-        &=\frac{4}{\pi}\sum_{n=0}^N \frac{\sin(2n+1)\Delta t}{(2n+1)\Delta t}\Delta t \\
-        &\overset{N\to\infty}{\longrightarrow}\frac{2}{\pi}\int_0^\pi \frac{\sin t}{t}dt=1.178978\ldots
-    \end{split}
+	\begin{split}
+		S_N(t)
+		&=\frac{4}{\pi}\sum_{n=0}^N \frac{\sin(2n+1)\omega t}{2n+1} \\
+		&=\frac{4}{\pi}\sum_{n=0}^N \frac{\sin(2n+1)\Delta t}{(2n+1)\Delta t}\Delta t \\
+		&\overset{N\to\infty}{\longrightarrow}\frac{2}{\pi}\int_0^\pi \frac{\sin t}{t}dt=1.178978\ldots
+	\end{split}
 \]
 に収束することが示せる．このギッブス現象は，どのような不連続点の周りでも発生する一般的な現象である．これを回避する方法として総和法がある．\qedsymbol
 
@@ -1242,42 +1272,42 @@ $f_4(t)$は奇関数で，フーリエ展開は
 
 $G(s)$を$[-1,1]$に台をもつ有界関数で$G(0)=1$かつ$s=0$で連続であるとする．このとき，重み関数$G(s)$に対応する部分和を
 \[
-    S_N^G(t)=\sum_{n=-N}^N G\mleft(\frac{n}{N}\mright)c[n]e^{in\omega t}\quad(t\in\mathbb{R})
+	S_N^G(t)=\sum_{n=-N}^N G\mleft(\frac{n}{N}\mright)c[n]e^{in\omega t}\quad(t\in\mathbb{R})
 \]
 とおく．$G(s)$が上の条件を満たせば，形式的には
 \[
-    \lim_{N\to\infty} S_N^G(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}=f(t)
+	\lim_{N\to\infty} S_N^G(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}=f(t)
 \]
 となり，同じフーリエ展開を与えるはずである．しかし，収束の性質は$G(s)$の選び方によって異なってくる．このような手法を総和法という．
 
 \subparagraph{フェイエル和（チェザロ和）}
 \[
-    G(s)=\begin{cases}
-        1-|s| & (s\in[-1,1])         \\
-        0     & (\textrm{otherwise})
-    \end{cases}
+	G(s)=\begin{cases}
+		1-|s| & (s\in[-1,1])         \\
+		0     & (\textrm{otherwise})
+	\end{cases}
 \]
 とおいたときの部分和
 \[
-    \sigma_N(t)=S_N^G(t)=\sum_{n=-N}^N\mleft(\frac{N-|n|}{N}\mright)c[n]e^{in\omega t}
+	\sigma_N(t)=S_N^G(t)=\sum_{n=-N}^N\mleft(\frac{N-|n|}{N}\mright)c[n]e^{in\omega t}
 \]
 をフェイエル和という．
 
 \begin{thm}\label{thm:1-14}
-    $f$を連続な周期関数とすると，$\sigma_N(t)$は$N\to\infty$のとき$f$に一様収束する．
+	$f$を連続な周期関数とすると，$\sigma_N(t)$は$N\to\infty$のとき$f$に一様収束する．
 \end{thm}
 
 \begin{proof}
-    は\ref{sec:2-5}節に回す
+	は\ref{sec:2-5}節に回す
 \end{proof}
 \subparagraph{ハン窓}
 
 フーリエ級数の総和法はディジタル信号処理で実用的に大切な役割を果たす．この文脈では，重み関数$G(s)$は窓関数とよばれる．
 \[
-    H(s)=\begin{cases}
-        \frac{1}{2}(1+\cos\pi s) & (s\in[-1,1])         \\
-        0                        & (\textrm{otherwise})
-    \end{cases}
+	H(s)=\begin{cases}
+		\frac{1}{2}(1+\cos\pi s) & (s\in[-1,1])         \\
+		0                        & (\textrm{otherwise})
+	\end{cases}
 \]
 をハン窓という．定理\ref{thm:1-14}同様に，連続関数のフーリエ級数のハン窓による部分和は，もとの関数に一様収束する．
 
@@ -1289,147 +1319,147 @@ $G(s)$を$[-1,1]$に台をもつ有界関数で$G(0)=1$かつ$s=0$で連続で�
 
 周期$T$の周期関数$f$が
 \[
-    f(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}
+	f(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}
 \]
 とフーリエ級数展開されるとき，項別微分できるならば
 \[
-    f'(t)=\sum_{n=-\infty}^\infty in\omega c[n]e^{in\omega t}
+	f'(t)=\sum_{n=-\infty}^\infty in\omega c[n]e^{in\omega t}
 \]
 となる．つまり，$f'(t)$のフーリエ係数は$\{in\omega c[n]\}$となるはずだが，次のような場合にはこれが正当化できる．
 
 \begin{thm}\label{thm:2-1}
-    $f$を周期$T$の連続な周期関数で，$[0,T]$上で有限個の点を除いて微分可能，さらに$f'$は有界で積分可能であるとする．このとき$\{c[n]\}_{n=-\infty}^\infty$，$\{d[n]\}_{n=-\infty}^\infty$をそれぞれ$f,\,f'$のフーリエ係数とすれば
-    \[
-        d[n]=in\omega c[n] \quad (n\in\mathbb{Z})
-    \]
-    が成り立つ．
+	$f$を周期$T$の連続な周期関数で，$[0,T]$上で有限個の点を除いて微分可能，さらに$f'$は有界で積分可能であるとする．このとき$\{c[n]\}_{n=-\infty}^\infty$，$\{d[n]\}_{n=-\infty}^\infty$をそれぞれ$f,\,f'$のフーリエ係数とすれば
+	\[
+		d[n]=in\omega c[n] \quad (n\in\mathbb{Z})
+	\]
+	が成り立つ．
 \end{thm}
 
 \begin{proof}
-    フーリエ係数の定義と部分積分により
-    \[
-        \begin{split}
-            d[n]&=\frac{1}{T}\int_0^T f'(t) e^{-in\omega t}dt \\
-            &=\frac{1}{T}\blueunderline{\mleft[f(t)e^{-in\omega t}\mright]_0^T}{周期性より0}-\frac{1}{T}\int_0^T f(t) (-in\omega)e^{-in\omega t}dt \\[2ex]
-            &=in\omega c[n]
-        \end{split}
-    \]
+	フーリエ係数の定義と部分積分により
+	\[
+		\begin{split}
+			d[n]&=\frac{1}{T}\int_0^T f'(t) e^{-in\omega t}dt \\
+			&=\frac{1}{T}\blueunderline{\mleft[f(t)e^{-in\omega t}\mright]_0^T}{周期性より0}-\frac{1}{T}\int_0^T f(t) (-in\omega)e^{-in\omega t}dt \\[2ex]
+			&=in\omega c[n]
+		\end{split}
+	\]
 \end{proof}
 
 \begin{thm}\label{thm:2-2}
-    $f$を$C^m$級周期関数（$m\in\mathbb{N}$），$\{c[n]\}_{n=-\infty}^\infty$をフーリエ係数とする．このとき，$f$の$k$階微分$f^{(k)}$のフーリエ係数は$\{(i\omega n)^k c[n]\}_{n=-\infty}^\infty$（$k=0,1,\ldots,m$）で与えられる．また，
-    \begin{equation}\label{eq:2-1}
-        \exists C>0\,\textrm{s.t.}\,|c[n]|\leq C(1+|n|)^{-m}\quad (n\in\mathbb{Z})
-    \end{equation}
+	$f$を$C^m$級周期関数（$m\in\mathbb{N}$），$\{c[n]\}_{n=-\infty}^\infty$をフーリエ係数とする．このとき，$f$の$k$階微分$f^{(k)}$のフーリエ係数は$\{(i\omega n)^k c[n]\}_{n=-\infty}^\infty$（$k=0,1,\ldots,m$）で与えられる．また，
+	\begin{equation}\label{eq:2-1}
+		\exists C>0\,\textrm{s.t.}\,|c[n]|\leq C(1+|n|)^{-m}\quad (n\in\mathbb{Z})
+	\end{equation}
 \end{thm}
 
 \begin{proof}
-    定理\ref{thm:2-1}を繰り返し用いることで前半は示せる．後半は定理\ref{thm:1-6}を利用して
-    \[
-        \sum_{n=-\infty}^\infty |(in\omega)^m c[n]|=\|f^{(m)}\|\leq\mleft(\sup_t|f^{(m)}(t)|\mright)^2\quad(n\in\mathbb{Z})
-    \]
-    ゆえに
-    \[
-        |(in\omega)^m c[n]|\leq\sup_t|f^{(m)}(t)|\quad(n\in\mathbb{Z})
-    \]
-    が成り立つ．したがって適当な$C$をとれば
-    \[
-        |c[n]|\leq\mleft(\omega^m\sup_t|f^{(m)}(t)|\mright)|n|^{-m}\leq C(1+|n|)^{-m}\quad(n\in\mathbb{Z})
-    \]
-    となる．
+	定理\ref{thm:2-1}を繰り返し用いることで前半は示せる．後半は定理\ref{thm:1-6}を利用して
+	\[
+		\sum_{n=-\infty}^\infty |(in\omega)^m c[n]|=\|f^{(m)}\|\leq\mleft(\sup_t|f^{(m)}(t)|\mright)^2\quad(n\in\mathbb{Z})
+	\]
+	ゆえに
+	\[
+		|(in\omega)^m c[n]|\leq\sup_t|f^{(m)}(t)|\quad(n\in\mathbb{Z})
+	\]
+	が成り立つ．したがって適当な$C$をとれば
+	\[
+		|c[n]|\leq\mleft(\omega^m\sup_t|f^{(m)}(t)|\mright)|n|^{-m}\leq C(1+|n|)^{-m}\quad(n\in\mathbb{Z})
+	\]
+	となる．
 \end{proof}
 
 \begin{thm}\label{thm:2-3}
-    $f$を連続な周期関数，$\{c[n]\}_{n=-\infty}^\infty$をフーリエ係数とする．
-    \begin{equation}\label{eq:2-2}
-        \sum_{n=-\infty}^\infty |n^m||c[n]|<\infty\quad(m\in\mathbb{N})
-    \end{equation}
-    ならば，$f$は$C^m$級である．特に，$a>m+1$に対して
-    \[
-        |c[n]|<C(1+|n|)^{-a}\quad (n\in\mathbb{Z})
-    \]
-    が成り立つならば，$f$は$C^m$級である．
+	$f$を連続な周期関数，$\{c[n]\}_{n=-\infty}^\infty$をフーリエ係数とする．
+	\begin{equation}\label{eq:2-2}
+		\sum_{n=-\infty}^\infty |n^m||c[n]|<\infty\quad(m\in\mathbb{N})
+	\end{equation}
+	ならば，$f$は$C^m$級である．特に，$a>m+1$に対して
+	\[
+		|c[n]|<C(1+|n|)^{-a}\quad (n\in\mathbb{Z})
+	\]
+	が成り立つならば，$f$は$C^m$級である．
 \end{thm}
 
 \begin{proof}
-    $m\geq 1$について\eqref{eq:2-2}を仮定すると
-    \[
-        \sum_{n=-\infty}^\infty |in\omega c[n]|=|\omega|\sum_{n=-\infty}^\infty |n||c[n]|<\infty
-    \]
-    であるから，$f(t)=\sum_n c[n]e^{in\omega t}$は項別微分ができる．すると
-    \[
-        f'(t)=\sum_{n=-\infty}^\infty in\omega c[n]e^{in\omega t}
-    \]
-    となり，右辺は仮定により$n$についての和が$t$に関して一様収束する．したがって$f'$は連続であり，$f$は$C^1$級である．これを繰り返し用いて前半の主張を得る．後半の主張は前半より直ちに導かれる．
+	$m\geq 1$について\eqref{eq:2-2}を仮定すると
+	\[
+		\sum_{n=-\infty}^\infty |in\omega c[n]|=|\omega|\sum_{n=-\infty}^\infty |n||c[n]|<\infty
+	\]
+	であるから，$f(t)=\sum_n c[n]e^{in\omega t}$は項別微分ができる．すると
+	\[
+		f'(t)=\sum_{n=-\infty}^\infty in\omega c[n]e^{in\omega t}
+	\]
+	となり，右辺は仮定により$n$についての和が$t$に関して一様収束する．したがって$f'$は連続であり，$f$は$C^1$級である．これを繰り返し用いて前半の主張を得る．後半の主張は前半より直ちに導かれる．
 \end{proof}
 
 \begin{cor}\label{cor:2-4}
-    $f$を連続な周期関数とする．$f$が$C^\infty$級関数であるための（必要）十分条件は
-    \[
-        \forall M>0,\exists C>0\,\textrm{s.t.}\,|c[n]|\leq C(1+|n|)^{-M}\quad(n\in\mathbb{Z})
-    \]
-    である．
+	$f$を連続な周期関数とする．$f$が$C^\infty$級関数であるための（必要）十分条件は
+	\[
+		\forall M>0,\exists C>0\,\textrm{s.t.}\,|c[n]|\leq C(1+|n|)^{-M}\quad(n\in\mathbb{Z})
+	\]
+	である．
 \end{cor}
 
 解析的な関数については，次のようなさらに強い結果が成り立つ\footnote{$C^\omega$級は$C^\infty$級よりも強い条件である．}．
 
 \begin{thm}[ペイリー・ウィナーの定理]\label{thm:2-5}
-    $f$が解析的な周期関数であるための必要十分条件は
-    \begin{equation}\label{eq:2-3}
-        \exists C>0,\exists \varepsilon>0\,\textrm{s.t.}\,|c[n]|\leq Ce^{-\varepsilon|n|}\quad(n\in\mathbb{Z})
-    \end{equation}
-    である．
+	$f$が解析的な周期関数であるための必要十分条件は
+	\begin{equation}\label{eq:2-3}
+		\exists C>0,\exists \varepsilon>0\,\textrm{s.t.}\,|c[n]|\leq Ce^{-\varepsilon|n|}\quad(n\in\mathbb{Z})
+	\end{equation}
+	である．
 \end{thm}
 
 \begin{proof}
-    $f(t)$に対し，複素平面の帯状領域$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上の正則関数$f(z)$であって，$\mathbb{R}$上で$f(t)$に一致するものを考える．このとき，$f(z+2\pi)$と$f(z)$は$\mathbb{R}$上で一致するから，一致の定理によって$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上で$f(z+2\pi)=f(z)$が成り立つ．ゆえに，$\forall \varepsilon\,\textrm{s.t.}\,0<\varepsilon<a$に対して
-    \[
-        \int_0^{\pm i\varepsilon/\omega}f(z)e^{-in\omega z}dz=\int_T^{T\pm i\varepsilon/\omega}f(z)e^{-in\omega z}dz\quad(n\in\mathbb{Z})
-    \]
-    となる．このことに注意すると，コーシーの積分定理より
-    \[
-        c[n]=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt=\frac{1}{T}\int_0^T f(t\mp i\varepsilon/\omega)e^{-in\omega (t\mp i\varepsilon/\omega)}\quad(n\in\mathbb{Z})
-    \]
-    が得られる\footnote{$0\to \pm i\varepsilon/\omega\to T\pm i\varepsilon/\omega\to T \to 0$のような積分路で$f(t)e^{-in\omega t}$を積分すると$0$であることを利用する．}（複号同順）．したがって，$C=\max\{|f(t\pm i\varepsilon/\omega)|:t\in[0,T]\}$とすれば，
-    \[
-        |c[n]|\leq\frac{e^{-\varepsilon|n|}}{T}\int_0^T|f(t\mp i\varepsilon)|dt\leq Ce^{-\varepsilon|n|}
-    \]
-    となり\eqref{eq:2-3}が成り立つ．
+	$f(t)$に対し，複素平面の帯状領域$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上の正則関数$f(z)$であって，$\mathbb{R}$上で$f(t)$に一致するものを考える．このとき，$f(z+2\pi)$と$f(z)$は$\mathbb{R}$上で一致するから，一致の定理によって$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上で$f(z+2\pi)=f(z)$が成り立つ．ゆえに，$\forall \varepsilon\,\textrm{s.t.}\,0<\varepsilon<a$に対して
+	\[
+		\int_0^{\pm i\varepsilon/\omega}f(z)e^{-in\omega z}dz=\int_T^{T\pm i\varepsilon/\omega}f(z)e^{-in\omega z}dz\quad(n\in\mathbb{Z})
+	\]
+	となる．このことに注意すると，コーシーの積分定理より
+	\[
+		c[n]=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt=\frac{1}{T}\int_0^T f(t\mp i\varepsilon/\omega)e^{-in\omega (t\mp i\varepsilon/\omega)}\quad(n\in\mathbb{Z})
+	\]
+	が得られる\footnote{$0\to \pm i\varepsilon/\omega\to T\pm i\varepsilon/\omega\to T \to 0$のような積分路で$f(t)e^{-in\omega t}$を積分すると$0$であることを利用する．}（複号同順）．したがって，$C=\max\{|f(t\pm i\varepsilon/\omega)|:t\in[0,T]\}$とすれば，
+	\[
+		|c[n]|\leq\frac{e^{-\varepsilon|n|}}{T}\int_0^T|f(t\mp i\varepsilon)|dt\leq Ce^{-\varepsilon|n|}
+	\]
+	となり\eqref{eq:2-3}が成り立つ．
 
-    逆に，\eqref{eq:2-3}が成り立つとき，定理3.16（何？）によって
-    \[
-        f(t)=\sum_{n=-\infty}^\infty c[n]e^{-in\omega t}
-    \]
-    である．$z\in \{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$に対して
-    \[
-        f(z)=\sum_{n=-\infty}^\infty c[n]e^{-in\omega z}
-    \]
-    と定めると，右辺は$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上広義一様収束する．また，$\sum_{n=-\infty}^\infty C^{-\varepsilon|n|}<+\infty$であるので，weierstrassの解析関数に対する一様収束定理\footnote{weierstrassのM-testのことだと思う．}によって$f(z)$も$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上の正則関数となる．$f(t)$は$f(z)$の実軸への制限であり，正則関数ならば解析関数である．
+	逆に，\eqref{eq:2-3}が成り立つとき，定理3.16（何？）によって
+	\[
+		f(t)=\sum_{n=-\infty}^\infty c[n]e^{-in\omega t}
+	\]
+	である．$z\in \{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$に対して
+	\[
+		f(z)=\sum_{n=-\infty}^\infty c[n]e^{-in\omega z}
+	\]
+	と定めると，右辺は$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上広義一様収束する．また，$\sum_{n=-\infty}^\infty C^{-\varepsilon|n|}<+\infty$であるので，weierstrassの解析関数に対する一様収束定理\footnote{weierstrassのM-testのことだと思う．}によって$f(z)$も$\{z\in\mathbb{C}:|\Im z|<a,\exists a>0\}$上の正則関数となる．$f(t)$は$f(z)$の実軸への制限であり，正則関数ならば解析関数である．
 \end{proof}
 
 \paragraph{定数係数の線形微分方程式の周期解}
 
 $P$を
 \[
-    Pf(t)\coloneqq\sum_{j=0}^m a_j\frac{d^j f}{dt^j}(t)
+	Pf(t)\coloneqq\sum_{j=0}^m a_j\frac{d^j f}{dt^j}(t)
 \]
 で定義される定数係数の線形常微分作用素とする．ここに$a_0,a_1,\ldots,a_m\in\mathbb{C}$は定数である．$g(t)$を周期$T$の周期関数とし
 \[
-    Pf(t)=g(t)
+	Pf(t)=g(t)
 \]
 を考える．
 
 $f$が$m$階微分可能と仮定すると，定理\ref{thm:2-2}より，$\{c[n]\},\,\{d[n]\}$を$f,g$のフーリエ係数とすると
 \[
-    \sum_{j=0}^m a_j(i\omega n)^j c[n]=d[n]\quad(d\in\mathbb{Z})
+	\sum_{j=0}^m a_j(i\omega n)^j c[n]=d[n]\quad(d\in\mathbb{Z})
 \]
 これは各$n$ごとに独立な方程式だから，$\{d[n]\}$から$\{c[n]\}$が求まるはずである．ここで，
 \[
-    Pf(t)=f''(t)+\lambda f(t)
+	Pf(t)=f''(t)+\lambda f(t)
 \]
 の場合を考えると
 \[
-    (-\omega^2 n^2+\lambda)c[n]=d[n]\quad(d\in\mathbb{Z})
+	(-\omega^2 n^2+\lambda)c[n]=d[n]\quad(d\in\mathbb{Z})
 \]
 となる．
 
@@ -1437,11 +1467,11 @@ $f$が$m$階微分可能と仮定すると，定理\ref{thm:2-2}より，$\{c[n]
 
 このとき
 \[
-    c[n]=\frac{1}{\lambda-n^2\omega^2}d[n]
+	c[n]=\frac{1}{\lambda-n^2\omega^2}d[n]
 \]
 とかける．$g$がリプシッツ連続ならば，補題\ref{lem:1-11}から$\sum_n |d[n]|<+\infty$なので，
 \[
-    \sum_{n=-\infty}^\infty n^2|c[n]|=\sum_{n=-\infty}^\infty\mleft|\frac{n^2}{\lambda-n^2\omega^2}\mright||d[n]|\leq C\sum_{n=-\infty}^\infty|d[n]|<+\infty
+	\sum_{n=-\infty}^\infty n^2|c[n]|=\sum_{n=-\infty}^\infty\mleft|\frac{n^2}{\lambda-n^2\omega^2}\mright||d[n]|\leq C\sum_{n=-\infty}^\infty|d[n]|<+\infty
 \]
 となる．よって，定理\ref{thm:2-3}より$f=\sum_n c[n]e^{in\omega t}$は$C^2$級関数である．また，唯一の周期回である．特に，$Pf=0$の周期解は$f=0$のみである．
 
@@ -1449,13 +1479,13 @@ $f$が$m$階微分可能と仮定すると，定理\ref{thm:2-2}より，$\{c[n]
 
 このとき$Pf=g$が解けるためには$d[n_0]=0$が必要である．このとき，$n\neq n_0$についてはCase1.の場合と同様に$d[n]$から$c[n]$が解ける．$c[n_0]$はどのように選んでも方程式は満たされる．すなわち，$A,B$を任意定数として
 \[
-    f(t)=\sum_{n\neq n_0}\frac{d[n]}{\lambda-n^2\omega^2}e^{in\omega t}+Ae^{in_0\omega t}+Be^{-in_0\omega t}
+	f(t)=\sum_{n\neq n_0}\frac{d[n]}{\lambda-n^2\omega^2}e^{in\omega t}+Ae^{in_0\omega t}+Be^{-in_0\omega t}
 \]
 となる．
 
 さて，$g=0$とした場合は固有値問題
 \[
-    f''+\lambda f=0
+	f''+\lambda f=0
 \]
 である．上の考察より，固有値は$\{n^2\omega^2 | n\in\mathbb{Z}\}$であり，固有関数は$e^{in\omega t}$であることがわかる．$n\neq 0$では固有値は二重に縮退しており，各$\lambda=n^2\omega^2$について固有関数は$\{a\cos(n\omega t)+b\sin(n\omega t)|a,b\in\mathbb{C}\}$という2次元の空間を張る．
 
@@ -1467,175 +1497,202 @@ $f$が$m$階微分可能と仮定すると，定理\ref{thm:2-2}より，$\{c[n]
 端点の温度が0の，長さ$R>0$の棒を考える．
 
 \begin{subequations}\label{eq:2-4}
-    \begin{empheq}[left = {\empheqlbrace \,}, right = {}]{align}
-        &\pdv{u}{t}(x,t)=\pdv[2]{u}{x}(x,t) && (x\in(0,R),t>0) \label{eq:2-4a} \\
-        &u(0,t)=u(R,t)=0 && (t>0) \label{eq:2-4b} \\
-        &u(x,0)=f(x) && (x\in[0,R]) \label{eq:2-4c}
-    \end{empheq}
+	\begin{empheq}[left = {\empheqlbrace \,}, right = {}]{align}
+		&\pdv{u}{t}(x,t)=\pdv[2]{u}{x}(x,t) && (x\in(0,R),t>0) \label{eq:2-4a} \\
+		&u(0,t)=u(R,t)=0 && (t>0) \label{eq:2-4b} \\
+		&u(x,0)=f(x) && (x\in[0,R]) \label{eq:2-4c}
+	\end{empheq}
 \end{subequations}
 
 $u(x,t)$は時刻$t$，点$x$での温度を表し，$f(x)$は時刻$t=0$での初期温度である．\eqref{eq:2-4a}は熱方程式，\eqref{eq:2-4b}は境界条件，\eqref{eq:2-4c}は初期条件とよばれる．$t=0,x=0,R$では，境界条件と初期条件はつじつまが会っていなければならないので
 \begin{equation}\label{eq:2-5}
-    f(0)=f(R)=0
+	f(0)=f(R)=0
 \end{equation}
 が成立する必要がある．\eqref{eq:2-5}を両立条件という．
 
 まず，$u$や$f$は十分に滑らか（少なくともリプシッツ連続）だと仮定して変数分離形の解を考える．
 \[
-    u(x,t)=\xi(x)\tau(t)
+	u(x,t)=\xi(x)\tau(t)
 \]
 として\eqref{eq:2-4a}に代入すると
 \[
-    \xi(x)\tau'(t)=\xi''(x)\tau(t)
+	\xi(x)\tau'(t)=\xi''(x)\tau(t)
 \]
 となる．$\xi(x)\neq 0,\tau(t)\neq 0$ならば，$x$に独立，$t$に独立な部分に分解でき，ある定数$a$が存在して
 \[
-    \frac{\tau'(t)}{\tau(t)}=\frac{\xi''(x)}{\xi(x)}=a
+	\frac{\tau'(t)}{\tau(t)}=\frac{\xi''(x)}{\xi(x)}=a
 \]
 が成り立つ．これより
 \begin{empheq}[left = {\empheqlbrace \,}, right = {}]{align*}
-    &\tau'(t)=a\tau(t) && (t>0)  \\
-    &\xi''(x)=a\xi(x) && (x\in(0,R))
+	&\tau'(t)=a\tau(t) && (t>0)  \\
+	&\xi''(x)=a\xi(x) && (x\in(0,R))
 \end{empheq}
 が導かれる．第1式はただちに解け
 \[
-    \tau(t)=\tau(0)e^{at}
+	\tau(t)=\tau(0)e^{at}
 \]
 となる．第2式は，
 \[
-    \xi(x)=\begin{cases}
-        \alpha e^{\sqrt{a}x}+\beta e^{-\sqrt{a}x} \quad(\alpha,\beta\in\mathbb{C}) & (a\neq 0) \\
-        \alpha x+\beta \quad(\alpha,\beta \in\mathbb{R})                           & (a=0)
-    \end{cases}
+	\xi(x)=\begin{cases}
+		\alpha e^{\sqrt{a}x}+\beta e^{-\sqrt{a}x} \quad(\alpha,\beta\in\mathbb{C}) & (a\neq 0) \\
+		\alpha x+\beta \quad(\alpha,\beta \in\mathbb{R})                           & (a=0)
+	\end{cases}
 \]
 となる．$a=0$のとき，境界条件は満たされないので以下$a\neq 0$とする．境界条件\eqref{eq:2-4b}より，
 \begin{empheq}[left = {\empheqlbrace \,}, right = {}]{align*}
-    & \alpha+\beta=0                              \\
-    & \alpha e^{\sqrt{a}R}+\beta e^{-\sqrt{a}R}=0
+	& \alpha+\beta=0                              \\
+	& \alpha e^{\sqrt{a}R}+\beta e^{-\sqrt{a}R}=0
 \end{empheq}
 が成り立つ必要がある．$(\alpha,\beta)\neq (0,0)$であるためには
 \[
-    \det\mqty(1 & 1 \\ e^{\sqrt{a}R} & e^{-\sqrt{a}R})=e^{-\sqrt{a}R}-e^{\sqrt{a}R}=0
+	\det\mqty(1 & 1 \\ e^{\sqrt{a}R} & e^{-\sqrt{a}R})=e^{-\sqrt{a}R}-e^{\sqrt{a}R}=0
 \]
 つまり
 \[
-    e^{2\sqrt{a}R}=1
+	e^{2\sqrt{a}R}=1
 \]
 が満たされていなければならない．よって，$2\sqrt{a}R\in 2\pi i(\mathbb{Z}\setminus\{0\})$，すなわち
 \[
-    a=-\mleft(\frac{\pi n}{R}\mright)^2\quad(n\in\mathbb{Z}\setminus\{0\})
+	a=-\mleft(\frac{\pi n}{R}\mright)^2\quad(n\in\mathbb{Z}\setminus\{0\})
 \]
 また，$\beta=-\alpha$であるので
 \[
-    \xi(x)=\alpha e^{i\pi nx/R}-\alpha e^{-i\pi nx/R}=(2i\alpha)\sin\mleft(\frac{\pi n}{R}x\mright)
+	\xi(x)=\alpha e^{i\pi nx/R}-\alpha e^{-i\pi nx/R}=(2i\alpha)\sin\mleft(\frac{\pi n}{R}x\mright)
 \]
 となる．以上より，$n\in\mathbb{Z}\setminus\{0\}$について
 \[
-    u_n(x,t)=e^{-(\pi n/R)^2 t}\sin\mleft(\frac{\pi n}{R}x\mright)
+	u_n(x,t)=e^{-(\pi n/R)^2 t}\sin\mleft(\frac{\pi n}{R}x\mright)
 \]
 が解となることがわかった．このようにして得られた解の線型結合も解であるので，$\{\tilde b[n]\}$を任意定数として\begin{equation}\label{eq:2-6}
-    u(x,t)=\sum_{n=1}^\infty \tilde b[n]\sin\mleft(\frac{\pi n}{R}x\mright)e^{-(\pi n/R)^2 t}
+	u(x,t)=\sum_{n=1}^\infty \tilde b[n]\sin\mleft(\frac{\pi n}{R}x\mright)e^{-(\pi n/R)^2 t}
 \end{equation}
 も（収束すれば，形式的には）\eqref{eq:2-4}を満たすことがわかる．\eqref{eq:2-6}の$t=0$での値は
 \[
-    u(x,0)=\sum_{n=1}^\infty \tilde b[n]\sin\mleft(\frac{\pi n}{R}x\mright)
+	u(x,0)=\sum_{n=1}^\infty \tilde b[n]\sin\mleft(\frac{\pi n}{R}x\mright)
 \]
 となる．
 
 ここで$f(t)$を周期$2R$の周期関数に拡張する．すなわち
 \[
-    \begin{split}
-        f(x)     & =f(-x)\quad(0\leq x\leq R)                 \\
-        f(x+2mR) & =f(x)\quad (-R\leq x\leq R,m\in\mathbb{Z})
-    \end{split}
+	\begin{split}
+		f(x)     & =f(-x)\quad(0\leq x\leq R)                 \\
+		f(x+2mR) & =f(x)\quad (-R\leq x\leq R,m\in\mathbb{Z})
+	\end{split}
 \]
 とする．両立条件\eqref{eq:2-5}より，もとの$f$が連続であれば拡張された$f$も連続であり，$f$は奇関数だから
 \[
-    f(x)=\sum_{n=1}^\infty b[n]\sin\mleft(\frac{\pi n}{R}x\mright)
+	f(x)=\sum_{n=1}^\infty b[n]\sin\mleft(\frac{\pi n}{R}x\mright)
 \]
 ただし
 \[
-    b[n]=\frac{1}{R}\int_{-R}^R f(x)\sin\mleft(\frac{\pi n}{R}x\mright) dx=\frac{2}{R}\int_0^R f(x)\sin\mleft(\frac{\pi n}{R}x\mright) dx
+	b[n]=\frac{1}{R}\int_{-R}^R f(x)\sin\mleft(\frac{\pi n}{R}x\mright) dx=\frac{2}{R}\int_0^R f(x)\sin\mleft(\frac{\pi n}{R}x\mright) dx
 \]
 と$f$を正弦フーリエ変換できる．$u(x,0)$が正弦フーリエ変換された$f(x)$と等しいためには$\tilde b[n]=b[n]$とならなくてはならない．したがって，$\{b[n]\}$を上で定められた数列として
 \begin{equation}\label{eq:2-6'}
-    u(x,t)=\sum_{n=1}^\infty b[n]\sin\mleft(\frac{\pi n}{R}x\mright)e^{-(\pi n/R)^2 t}\tag{2.6'}
+	u(x,t)=\sum_{n=1}^\infty b[n]\sin\mleft(\frac{\pi n}{R}x\mright)e^{-(\pi n/R)^2 t}\tag{2.6'}
 \end{equation}
 が\eqref{eq:2-4}の形式的な解を与えることがわかる．実際，$f$がリプシッツ連続なら，この主張は正当化でき，さらに\eqref{eq:2-4}の解はこれ以外にないことが証明できる．
 
 \begin{thm}\label{thm:2-5}
-    $f$を$[0,R]$上のリプシッツ連続な関数で，両立条件\eqref{eq:2-5}をみたすと仮定する．このとき，$\omega=\pi/R$として
-    \[
-        \begin{split}
-            b[n]&=\frac{2}{R}\int_0^R f(x)\sin(n\omega x)dx\quad(n\geq 1) \\
-            u(x,t)&=\sum_{n=1}^\infty b[n]\sin(n\omega x)e^{-n^2\omega^2 t}
-        \end{split}
-    \]
-    とおけば，$u(x,t)$は$[0,R]\times [0,\infty)$で連続，$(0,R)\times(0,\infty)$で無限回微分可能であり，\eqref{eq:2-4}をみたす．さらに，$[0,R]\times [0,\infty)$で連続，$(0,R)\times(0,\infty)$で2回連続微分可能な唯一の\eqref{eq:2-4}の解である．
+	$f$を$[0,R]$上のリプシッツ連続な関数で，両立条件\eqref{eq:2-5}をみたすと仮定する．このとき，$\omega=\pi/R$として
+	\[
+		\begin{split}
+			b[n]&=\frac{2}{R}\int_0^R f(x)\sin(n\omega x)dx\quad(n\geq 1) \\
+			u(x,t)&=\sum_{n=1}^\infty b[n]\sin(n\omega x)e^{-n^2\omega^2 t}
+		\end{split}
+	\]
+	とおけば，$u(x,t)$は$[0,R]\times [0,\infty)$で連続，$(0,R)\times(0,\infty)$で無限回微分可能であり，\eqref{eq:2-4}をみたす．さらに，$[0,R]\times [0,\infty)$で連続，$(0,R)\times(0,\infty)$で2回連続微分可能な唯一の\eqref{eq:2-4}の解である．
 \end{thm}
 
 \begin{proof}
-    これの証明には次の補題が必要となるので後で書く．
+	これの証明には次の補題が必要となるので後で書く．
 \end{proof}
 
 \begin{lem}[エネルギー不等式]\label{lem:2-7}
-    $w(x,t)$が$x$について2回連続微分可能，$t$について1回連続微分可能で，熱方程式の初期境界値問題\eqref{eq:2-4}を満たすならば
-    \begin{equation}
-        \int_0^R w(x,t)^2 dx\leq \int_0^R f(x)^2 dx\quad(t>0)
-    \end{equation}
-    が成り立つ．
+	$w(x,t)$が$x$について2回連続微分可能，$t$について1回連続微分可能で，熱方程式の初期境界値問題\eqref{eq:2-4}を満たすならば
+	\begin{equation}\label{eq:2-8}
+		\int_0^R w(x,t)^2 dx\leq \int_0^R f(x)^2 dx\quad(t>0)
+	\end{equation}
+	が成り立つ．
 \end{lem}
 
 \begin{proof}
-    \[
-        \begin{split}
-            \pdv{t}\int_0^R w(x,t)^2 dx
-            &=2\int_0^R\mleft(\pdv{t}w(x,t)\mright)w(x,t)dx \\
-            &=2\int_0^R \mleft(\pdv[2]{x} w(x,t)\mright)w(x,t)dx \\
-            &\bluenoteunderleft{=}{部分積分と境界条件\eqref{eq:2-4b}}-2\int_0^R\mleft|\pdv{x}w(x,t) \mright|^2 dx \\
-            &\leq 0
-        \end{split}
-    \]
-    したがって
-    \[
-        \int_0^R w(x,t)^2 dx\leq  \int_0^R w(x,0)^2 dx =\int_0^R f(x)^2 dx
-    \]
+	\[
+		\begin{split}
+			\pdv{t}\int_0^R w(x,t)^2 dx
+			&=2\int_0^R\mleft(\pdv{t}w(x,t)\mright)w(x,t)dx \\
+			&=2\int_0^R \mleft(\pdv[2]{x} w(x,t)\mright)w(x,t)dx \\
+			&\bluenoteunderleft{=}{部分積分と境界条件\eqref{eq:2-4b}}-2\int_0^R\mleft|\pdv{x}w(x,t) \mright|^2 dx \\
+			&\leq 0
+		\end{split}
+	\]
+	したがって
+	\[
+		\int_0^R w(x,t)^2 dx\leq  \int_0^R w(x,0)^2 dx =\int_0^R f(x)^2 dx
+	\]
 \end{proof}
 
-\setcounter{definition}{5}
-
-\begin{thm}[（再掲）]
-    $f$を$[0,R]$上のリプシッツ連続な関数で，両立条件\eqref{eq:2-5}をみたすと仮定する．このとき，$\omega=\pi/R$として
-    \[
-        \begin{split}
-            b[n]&=\frac{2}{R}\int_0^R f(x)\sin(n\omega x)dx\quad(n\geq 1) \\
-            u(x,t)&=\sum_{n=1}^\infty b[n]\sin(n\omega x)e^{-n^2\omega^2 t}
-        \end{split}
-    \]
-    とおけば，$u(x,t)$は$[0,R]\times [0,\infty)$で連続，$(0,R)\times(0,\infty)$で無限回微分可能であり，\eqref{eq:2-4}をみたす．さらに，$[0,R]\times [0,\infty)$で連続，$(0,R)\times(0,\infty)$で2回連続微分可能な唯一の\eqref{eq:2-4}の解である．
-\end{thm}
+\begin{thm*}[\ref{thm:2-5}（再掲）]
+	$f$を$[0,R]$上のリプシッツ連続な関数で，両立条件\eqref{eq:2-5}をみたすと仮定する．このとき，$\omega=\pi/R$として
+	\[
+		\begin{split}
+			b[n]&=\frac{2}{R}\int_0^R f(x)\sin(n\omega x)dx\quad(n\geq 1) \\
+			u(x,t)&=\sum_{n=1}^\infty b[n]\sin(n\omega x)e^{-n^2\omega^2 t}
+		\end{split}
+	\]
+	とおけば，$u(x,t)$は$[0,R]\times [0,\infty)$で連続，$(0,R)\times(0,\infty)$で無限回微分可能であり，\eqref{eq:2-4}をみたす．さらに，$[0,R]\times [0,\infty)$で連続，$(0,R)\times(0,\infty)$で2回連続微分可能な唯一の\eqref{eq:2-4}の解である．
+\end{thm*}
 
 \begin{proof}
-    あとでしっかり書く
-    \[
-        \forall M>0,\exists C_M>0\,\textrm{s.t.}\, e^{-s}(1+s)^M\leq C_M
-    \]
-    と補題\ref{lem:1-11}とから
-    \[
-        |b[n]e^{-n^2\omega^2 t}|\leq C_M(1+n^2\omega^2 t)^{-M}
-    \]
-    系\ref{cor:2-4}により$u(x,t)$は$x$について$C^\infty$級
+	\[
+		\forall M>0,\exists C_M>0\,\textrm{s.t.}\, e^{-s}\leq C_M(1+s)^{-M}
+	\]
+	となること\footnote{$O(e^s)$の方が$O(s^M)$よりも強いことからわかる．以下も同様．}と，補題\ref{lem:1-11}とから
+	\begin{equation}\label{eq:2-7}
+		|b[n]e^{-n^2\omega^2 t}|\leq C_M(1+n^2\omega^2 t)^{-M}
+	\end{equation}
+	より，系\ref{cor:2-4}により$u(x,t)$は$x$について$C^\infty$級．
 
-    また$\forall K\in\mathbb{N},\forall T>0,\exists C_{K,T}>0\,(\textrm{s.t.}\, \forall t\in[0,T])$
-    \[
-        |(n^2 \omega^2)^K b[n]e^{-n^2\omega^2 t}\sin(n\omega x)|\leq C_{K,T}(1+n^2\omega^2 t)^{-2}\quad(n\in\mathbb{Z})
-    \]
-    より，$\forall t\in[0,T]$について
-    \[
-        \pdv[K]{u}{t}=\sum_{n=1}^\infty (-n^2\omega^2)^K b[n]e^{-n^2\omega^2 t}\sin(n\omega x)
-    \]
-    は絶対収束（定理2.3の証明を参照）
-    $u(x,t)$は$t$について$C^\infty$級
+	また$\forall K\in\mathbb{N},\forall T>0,\exists C_{K,T}>0\,(\textrm{s.t.}\, \forall t\in[0,T])$
+	\[
+		|(n^2 \omega^2)^K b[n]e^{-n^2\omega^2 t}\sin(n\omega x)|\leq C_{K,T}(1+n^2\omega^2 t)^{-2}\quad(n\in\mathbb{Z})
+	\]
+	より，$\forall t\in[0,T]$について
+	\[
+		\pdv[K]{u}{t}\,(x,t)=\sum_{n=1}^\infty (-n^2\omega^2)^K b[n]e^{-n^2\omega^2 t}\sin(n\omega x)
+	\]
+	は絶対収束することがわかるので（定理\ref{thm:2-3}の証明を参照），
+	$u(x,t)$は$t$について$C^\infty$級．したがって$u$は熱方程式\eqref{eq:2-4a}をみたすことがわかる．
+
+	また，上の評価によりフーリエ級数は一様収束するので，境界条件\eqref{eq:2-4b}をみたす．
+
+	次に$\forall\varepsilon>0$をとる．補題\ref{lem:1-11}より
+	\[
+		\sum_{n>N}|b[n]|<\frac{\varepsilon}{2}
+	\]
+	とすることができる．また$t_0>0$を十分小さくとれば
+	\[
+		\sum_{n=1}^N(1-e^{-n^2\omega^2t_0})|b[n]|<\frac{\varepsilon}{2}
+	\]
+	となるようにできる．すると
+	\[
+		f(x)-u(x,t)=\sum_{n=1}^\infty b[n]\sin(n\omega t)(1-e^{-n^2\omega^2t})
+	\]
+	なので，$0<t<t_0$のとき
+	\[
+		\begin{split}
+			|f(x)-u(x,t)|&\leq\sum_{n=1}^\infty |b[n]|(1-e^{-n^2\omega^2t}) \\
+			&\leq \sum_{n>N}|b[n]|+\sum_{n=1}^N|b[n]|(1-e^{-n^2\omega^2t_0}) \\
+			&<\varepsilon
+		\end{split}
+	\]
+	がわかる．$\varepsilon$は任意だったので，$t\to 0$のとき$u(x,t)$が$f(x)$に一様収束することを意味する．つまり，$u$は$t=0$までこめて連続で，初期条件\eqref{eq:2-4c}をみたす．
+
+	一意性を示す．$u(x,t)$と$\tilde u(x,t)$がともに熱方程式\eqref{eq:2-4}をみたすとすると，$w(x,t=u(x,t)-\tilde u(x,t))$は初期条件$f=0$として初期境界値問題\eqref{eq:2-4}をみたす．よって，補題\ref{lem:2-7}より
+	\[
+		\int_0^R w(x,t)^2dx\leq \int_0^R w(x,0)^2dx=0
+	\]
+	となり，$w(x,t)\equiv 0$でなければならない，つまり$w(x,t)\equiv \tilde u(x,t)$である，
 \end{proof}
 
 \subsection{偏微分方程式への応用-2：ディリクレ問題}
@@ -1643,28 +1700,28 @@ $u(x,t)$は時刻$t$，点$x$での温度を表し，$f(x)$は時刻$t=0$での�
 省略
 
 \setcounter{equation}{14}
-\setcounter{definition}{10}
+\setcounter{theorem}{10}
 
 \subsection{積のフーリエ級数展開とたたみこみ}
 
 $f$を周期$T$の周期関数とするとき，$f$のフーリエ係数を
 \[
-    (\mathcal{F}f)[n]=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\quad(n\in\mathbb{Z})
+	(\mathcal{F}f)[n]=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\quad(n\in\mathbb{Z})
 \]
 とかくことにする\footnote{つまり$c[n]=(\mathcal{F}f)[n]$．}．すなわち，$\mathcal{F}$は周期関数の空間$X$から数列の集合への，フーリエ係数を対応させる線形写像\footnote{作用素ということもある．}である．逆に，$c=\{c[n]\}_{n=-\infty}^\infty$とするとき
 \[
-    (\mathcal{F}^* c)(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}\quad(t\in\mathbb{R})
+	(\mathcal{F}^* c)(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}\quad(t\in\mathbb{R})
 \]
 と書くことにする．$\mathcal{F}^* c$は一般には収束するとは限らないが，$l^1$-条件：
 \begin{equation}\label{eq:2-15}
-    \sum_{n=-\infty}^\infty |c[n]|<+\infty
+	\sum_{n=-\infty}^\infty |c[n]|<+\infty
 \end{equation}
 が満たされれば$\mathcal{F}^* c$は一様収束する．
 
 ここで，$l^1(\mathbb{Z})=\{c=\{c[n]\}_{n=-\infty}^{\infty} | \sum_{n=-\infty}^\infty |c[n]|<+\infty  \}$とかく\footnote{つまり$l^1(\mathbb{Z})$は$l^1$-条件をみたす数列全体である．同様に$l^2(\mathbb{Z})$数列空間なども考えることができる．}．
 $c\in l^1(\mathbb{Z})$ならば$\mathcal{F}^* c$は一様収束し，$\mathcal{F}\mathcal{F}^* c=c$となる（補題\ref{lem:1-12}）．また，$f$がリプシッツ連続ならば$\mathcal{F}f\in l^1(\mathbb{Z})$，$\mathcal{F}^*\mathcal{F} f=f$（補題\ref{lem:1-11}）．$f\in X$ならば平均収束の意味で$\mathcal{F}^*\mathcal{F} f=f$（定理\ref{thm:1-6}）．以上の意味で
 \[
-    \mathcal{F}^*=\mathcal{F}^{-1}
+	\mathcal{F}^*=\mathcal{F}^{-1}
 \]
 が成り立つ．\footnote{写像だと思えば逆写像があると捉えられる．ただし必ずしも逆写像があるわけではなく，定義域を制限させるなどする必要がある．例えばリプシッツ連続な関数に$\mathcal{F}$を作用させた後に$\mathcal{F}^*$を作用させてもリプシッツ連続な関数になるとは限らない．}
 
@@ -1673,11 +1730,11 @@ $c\in l^1(\mathbb{Z})$ならば$\mathcal{F}^* c$は一様収束し，$\mathcal{F
 \paragraph{数列のたたみこみ}
 
 \begin{dfn*}[数列のたたみこみ]
-    一般に，数列$c,d$に対して
-    \begin{equation}\label{eq:2-16}
-        p[n]=\sum_{m=-\infty}^\infty c[m]d[n-m]\quad(n\in\mathbb{Z})
-    \end{equation}
-    で与えられる数列$p=\{p[n]\}$をたたみこみと言い，$c*d$とかく．
+	一般に，数列$c,d$に対して
+	\begin{equation}\label{eq:2-16}
+		p[n]=\sum_{m=-\infty}^\infty c[m]d[n-m]\quad(n\in\mathbb{Z})
+	\end{equation}
+	で与えられる数列$p=\{p[n]\}$をたたみこみと言い，$c*d$とかく．
 \end{dfn*}
 
 $c,d\in l^1(\mathbb{Z})$ならば$c*d\in l^1(\mathbb{Z})$である\footnote{
@@ -1687,155 +1744,584 @@ $(c*d)[n]=\sum_{m=-\infty}^\infty c[m]d[n-m]=\sum_{k=-\infty}^\infty c[n-k]d[k]=
 }．
 
 \begin{thm}\label{thm:2-11}
-    $f,g$を周期$T$の連続な周期関数で，$\mathcal{F}f,\mathcal{F}g\in l^1(\mathbb{Z})$をみたすとする．このとき，
-    \[
-        \mathcal{F}(fg)=(\mathcal{F}f)*(\mathcal{F}g)
-    \]
-    が成り立つ．
+	$f,g$を周期$T$の連続な周期関数で，$\mathcal{F}f,\mathcal{F}g\in l^1(\mathbb{Z})$をみたすとする．このとき，
+	\[
+		\mathcal{F}(fg)=(\mathcal{F}f)*(\mathcal{F}g)
+	\]
+	が成り立つ．
 \end{thm}
 
 \begin{proof}
-    $c=\mathcal{F}f,d=\mathcal{F}g\in l^1(\mathbb{Z})$とする．このとき
-    \[
-        \begin{split}
-            f(t)g(t)&=\sum_{m=-\infty}^\infty c[m]e^{im\omega t}\sum_{n=-\infty}^\infty d[n]e^{in\omega t} \\
-            &=\sum_{m=-\infty}^\infty\sum_{n=-\infty}^\infty c[m]d[n]e^{i(n+m)\omega t}
-        \end{split}
-    \]
-    とかける．仮定より絶対収束し，無限和の取り方は自由に変えられるので
-    \[
-        f(t)g(t)=\sum_{k=-\infty}^\infty\mleft(\sum_{m=-\infty}^\infty c[m]d[k-m]\mright)e^{ik\omega t}
-    \]
-    となる．ゆえに積$f(t)g(t)$のフーリエ係数は
-    \[
-        p[n]=\sum_{m=-\infty}^\infty c[m]d[n-m]\quad(n\in\mathbb{Z})
-    \]
-    となるが，これは$p=c*d$を意味しており，$p=\mathcal{F}(fg),c=\mathcal{F}f,d=\mathcal{F}g$だったので$\mathcal{F}(fg)=(\mathcal{F}f)*(\mathcal{F}g)$であることが示せた．
+	$c=\mathcal{F}f,d=\mathcal{F}g\in l^1(\mathbb{Z})$とする．このとき
+	\[
+		\begin{split}
+			f(t)g(t)&=\sum_{m=-\infty}^\infty c[m]e^{im\omega t}\sum_{n=-\infty}^\infty d[n]e^{in\omega t} \\
+			&=\sum_{m=-\infty}^\infty\sum_{n=-\infty}^\infty c[m]d[n]e^{i(n+m)\omega t}
+		\end{split}
+	\]
+	とかける．仮定より絶対収束し，無限和の取り方は自由に変えられるので
+	\[
+		f(t)g(t)=\sum_{k=-\infty}^\infty\mleft(\sum_{m=-\infty}^\infty c[m]d[k-m]\mright)e^{ik\omega t}
+	\]
+	となる．ゆえに積$f(t)g(t)$のフーリエ係数は
+	\[
+		p[n]=\sum_{m=-\infty}^\infty c[m]d[n-m]\quad(n\in\mathbb{Z})
+	\]
+	となるが，これは$p=c*d$を意味しており，$p=\mathcal{F}(fg),c=\mathcal{F}f,d=\mathcal{F}g$だったので$\mathcal{F}(fg)=(\mathcal{F}f)*(\mathcal{F}g)$であることが示せた．
 \end{proof}
 
 \paragraph{関数のたたみこみ}
 
 \begin{dfn*}[関数のたたみこみ]
-    $f,g$を周期$T$の周期関数とする．この$f,g$に対して$f$と$g$のたたみこみ$f*g(t)$を
-    \[
-        f*g(t)=\int_0^T f(s)g(t-s)ds\quad(t\in\mathbb{R})
-    \]
-    で定義する．
+	$f,g$を周期$T$の周期関数とする．この$f,g$に対して$f$と$g$のたたみこみ$f*g(t)$を
+	\[
+		f*g(t)=\int_0^T f(s)g(t-s)ds\quad(t\in\mathbb{R})
+	\]
+	で定義する．
 \end{dfn*}
 
-数列の場合と同様に$f*g=g*f$が成り立ち，$f,g$が有界ならば$f*g$も有界である．また，$f,g$が有界でなくても$\|f\|,\|g\|<+\infty$ならば$f*g$は有界．
+数列の場合と同様に$f*g=g*f$が成り立ち，$f,g$が有界ならば$f*g$も有界である．また，$f,g$が有界でなくても$\|f\|,\|g\|<+\infty$ならば$f*g$は有界である\footnote{
+	$ |f*g(t)|\leq \int_0^T |f(s)||g(t-s)|ds
+		\leq\mleft(\int_0^T |f(s)|^2ds\mright)^{1/2}\mleft(\int_0^T |g(t-s)|^2ds\mright)^{1/2}
+		=\|f\|\|g\|$からわかる．実際には$f,g$が可測関数で二乗可積分であればよい．
+}．
 
 \begin{thm}\label{thm:2-12}
-    $f,g$を周期$T$の有界な周期関数とする．このとき
-    \[
-        (\mathcal{F}f)[n]\cdot (\mathcal{F}g)[n]=\frac{1}{T}\mathcal{F}(f*g)[n]\quad(n\in\mathbb{Z})
-    \]
-    が成り立つ．また，$c,d\in l^1(\mathbb{Z})$ならば，
-    \[
-        \mathcal{F}^*(cd)(t)=\frac{1}{T}(\mathcal{F}^*c)*(\mathcal{F}^*d)(t)\quad(t\in\mathbb{R})
-    \]
-    が成り立つ．
+	$f,g$を周期$T$の有界な周期関数とする．このとき
+	\[
+		(\mathcal{F}f)[n]\cdot (\mathcal{F}g)[n]=\frac{1}{T}\mathcal{F}(f*g)[n]\quad(n\in\mathbb{Z})
+	\]
+	が成り立つ．また，$c,d\in l^1(\mathbb{Z})$ならば，
+	\[
+		\mathcal{F}^*(cd)(t)=\frac{1}{T}(\mathcal{F}^*c)*(\mathcal{F}^*d)(t)\quad(t\in\mathbb{R})
+	\]
+	が成り立つ．
 \end{thm}
 
 \begin{proof}
-    前半は
-    \[
-        \begin{split}
-            (\mathcal{F}f)[n]\cdot (\mathcal{F}g)[n]
-            &=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\cdot\frac{1}{T}\int_0^T g(s)e^{-in\omega s}ds \\
-            &=\frac{1}{T^2}\int_0^T\int_0^T f(t)g(s)e^{-im\omega(t+s)}dsdt \\
-            &=\frac{1}{T^2}\int_0^T\int_{t-T}^t f(t)g(u-t)e^{-in\omega u}dudt \\
-            &=\frac{1}{T}\int_0^T\mleft(\frac{1}{T}\int_0^T f(t)g(u-t)dt\mright)e^{-in\omega u}du \\
-            &=\frac{1}{T}\int_0^T \mleft(\frac{1}{T}(f*g)(u)\mright) e^{-in\omega u}du \\
-            &=\mathcal{F}\mleft(\frac{1}{T}(f*g)\mright)[n] \\
-            &=\frac{1}{T}\mathcal{F}(f*g)[n]
-        \end{split}
-    \]
-    後半は
-    \[
-        \begin{split}
-            \mathcal{F}^*(cd)(t)&=\sum_{n=-\infty}^\infty c[n]d[n]e^{in\omega t} \\
-            &=\frac{1}{T}\int_0^T \sum_{m=-\infty}^\infty\sum_{n=-\infty}^\infty c[m]d[n] e^{i (m-n)\omega s}ds \cdot e^{in\omega t} \footnotemark \\
-            &=\frac{1}{T}\int_0^T \sum_{m=-\infty}^\infty c[m]e^{im\omega s}\sum_{n=-\infty}^\infty d[n]e^{in\omega (t-s)} ds \\
-            &=\frac{1}{T}\int_0^T(\mathcal{F}^*c)(s)\,(\mathcal{F}^*d)(t-s)ds \\
-            &=\frac{1}{T}(\mathcal{F}^*c)*(\mathcal{F}^*d)(t)
-        \end{split}
-    \]
-    からわかる．
-    \footnotetext{
-        直交性（定理\ref{thm:1-1}）により$m\neq n$のとき，この積分は$0$になる．$m=n$のときは積分値が$T$になることにも注意．また，$c,d\in l^1(\mathbb{Z})$なので$\|\mathcal{F}^*c\|$と$\|\mathcal{F}^*d\|$は有界で$(\mathcal{F}^*c)*(\mathcal{F}^*d)(t)$も有界．
-    }
+	前半は
+	\[
+		\begin{split}
+			(\mathcal{F}f)[n]\cdot (\mathcal{F}g)[n]
+			&=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\cdot\frac{1}{T}\int_0^T g(s)e^{-in\omega s}ds \\
+			&=\frac{1}{T^2}\int_0^T\int_0^T f(t)g(s)e^{-im\omega(t+s)}dsdt \\
+			&=\frac{1}{T^2}\int_0^T\int_{t-T}^t f(t)g(u-t)e^{-in\omega u}dudt \\
+			&=\frac{1}{T}\int_0^T\mleft(\frac{1}{T}\int_0^T f(t)g(u-t)dt\mright)e^{-in\omega u}du \\
+			&=\frac{1}{T}\int_0^T \mleft(\frac{1}{T}(f*g)(u)\mright) e^{-in\omega u}du \\
+			&=\mathcal{F}\mleft(\frac{1}{T}(f*g)\mright)[n] \\
+			&=\frac{1}{T}\mathcal{F}(f*g)[n]
+		\end{split}
+	\]
+	後半は
+	\[
+		\begin{split}
+			\mathcal{F}^*(cd)(t)&=\sum_{n=-\infty}^\infty c[n]d[n]e^{in\omega t} \\
+			&=\frac{1}{T}\int_0^T \sum_{m=-\infty}^\infty\sum_{n=-\infty}^\infty c[m]d[n] e^{i (m-n)\omega s}ds \cdot e^{in\omega t} \footnotemark \\
+			&=\frac{1}{T}\int_0^T \sum_{m=-\infty}^\infty c[m]e^{im\omega s}\sum_{n=-\infty}^\infty d[n]e^{in\omega (t-s)} ds \\
+			&=\frac{1}{T}\int_0^T(\mathcal{F}^*c)(s)\,(\mathcal{F}^*d)(t-s)ds \\
+			&=\frac{1}{T}(\mathcal{F}^*c)*(\mathcal{F}^*d)(t)
+		\end{split}
+	\]
+	からわかる．
+	\footnotetext{
+		直交性（定理\ref{thm:1-1}）により$m\neq n$のとき，この積分は$0$になる．$m=n$のときは積分値が$T$になることにも注意．また，$c,d\in l^1(\mathbb{Z})$なので$\|\mathcal{F}^*c\|$と$\|\mathcal{F}^*d\|$は有界で$(\mathcal{F}^*c)*(\mathcal{F}^*d)(t)$も有界．
+	}
 \end{proof}
 
 \subsection{フーリエ級数の総和法・再論}\label{sec:2-5}
 
 $G(s)$を重み関数（$\supp G=[-1,1],G(0)=1,s=0$で連続）とすると
 \[
-    g_N(t)=\frac{1}{T}\mathcal{F}^*\mleft(G\mleft(\frac{n}{N}\mright)\mright)(t)=\frac{1}{T}\sum_{n=-N}^NG\mleft(\frac{n}{N}\mright)e^{in\omega t}
+	g_N(t)=\frac{1}{T}\mathcal{F}^*\mleft(G\mleft(\frac{n}{N}\mright)\mright)(t)=\frac{1}{T}\sum_{n=-N}^NG\mleft(\frac{n}{N}\mright)e^{in\omega t}
 \]
 とおけば，$f$のフーリエ級数の重み関数$G$に対応する部分和$S_N^G(t)$は
 \[
-    S_N^G(t)=\mathcal{F}^*\mleft(G\mleft(\frac{n}{N}\mright)(\mathcal{F}f)[n]\mright)(t)=(g_N*f)(t)=\int_0^T g_N(s)f(t-s)ds
+	S_N^G(t)=\mathcal{F}^*\mleft(G\mleft(\frac{n}{N}\mright)(\mathcal{F}f)[n]\mright)(t)=(g_N*f)(t)=\int_0^T g_N(s)f(t-s)ds
 \]
 となる．
 
 \setcounter{example}{6}
 
-\begin{ex}[フーリエ部分和]
-    フーリエ部分和の対応する重み関数$G$は
-    \[
-        G(s)=\begin{cases}
-            1 & (|s|\leq 1) \\
-            0 & (|s|>1)
-        \end{cases}
-    \]
-    で与えられた．このとき対応する周期関数はディリクレ核
-    \[
-        D_N(t)=\frac{1}{T}\sum_{n=-N}^N e^{in\omega t}=\begin{cases}
-            \frac{1}{T}\frac{\sin(N+\frac{1}{2})\omega t}{\sin\frac{1}{2}\omega t} & (t\notin T\mathbb{Z}) \\
-            \frac{1}{T}(2N+1)                                                      & (t\in T\mathbb{Z})
-        \end{cases}
-    \]
-    となり，これを用いると
-    \[
-        S_N(t)=D_N*f(t)
-    \]
-    と書くことができる．
+\begin{ex}[フーリエ部分和]\label{ex:2-7}
+	フーリエ部分和の対応する重み関数$G$は
+	\[
+		G(s)=\begin{cases}
+			1 & (|s|\leq 1) \\
+			0 & (|s|>1)
+		\end{cases}
+	\]
+	で与えられた．このとき対応する周期関数はディリクレ核
+	\[
+		D_N(t)=\frac{1}{T}\sum_{n=-N}^N e^{in\omega t}=\begin{cases}
+			\frac{1}{T}\frac{\sin(N+\frac{1}{2})\omega t}{\sin\frac{1}{2}\omega t} & (t\notin T\mathbb{Z}) \\
+			\frac{1}{T}(2N+1)                                                      & (t\in T\mathbb{Z})
+		\end{cases}
+	\]
+	となり，これを用いると
+	\[
+		S_N(t)=D_N*f(t)
+	\]
+	と書くことができる．
 \end{ex}
 
-\begin{ex}[フェイエル和]
-    フェイエル和の対応する重み関数$G$は
-    \[
-        G(s)=\begin{cases}
-            1-|s| & (|s|\leq 1) \\
-            0     & (|s|>1)
-        \end{cases}
-    \]
-    で与えられた．このとき対応する周期関数はフェイエル核
-    \[
-        F_N(t)=\frac{1}{T}\sum_{n=-N}^N \frac{N-|n|}{N}e^{in\omega t}=\begin{cases}
-            \frac{1}{TN}\mleft(\frac{\sin\frac{1}{2}N\omega t}{\sin\frac{1}{2}\omega t}\mright)^2 & (t\notin T\mathbb{Z}) \\
-            \frac{N}{T}                                                                           & (t\in T\mathbb{Z})
-        \end{cases}
-    \]
-    となり，これを用いると
-    \[
-        S_N(t)=F_N*f(t)
-    \]
-    と書くことができる．
+\begin{ex}[フェイエル和]\label{ex:2-8}
+	フェイエル和の対応する重み関数$G$は
+	\[
+		G(s)=\begin{cases}
+			1-|s| & (|s|\leq 1) \\
+			0     & (|s|>1)
+		\end{cases}
+	\]
+	で与えられた．このとき対応する周期関数はフェイエル核
+	\[
+		F_N(t)=\frac{1}{T}\sum_{n=-N}^N \frac{N-|n|}{N}e^{in\omega t}=\begin{cases}
+			\frac{1}{TN}\mleft(\frac{\sin\frac{1}{2}N\omega t}{\sin\frac{1}{2}\omega t}\mright)^2 & (t\notin T\mathbb{Z}) \\
+			\frac{N}{T}                                                                           & (t\in T\mathbb{Z})
+		\end{cases}
+	\]
+	となり，これを用いると
+	\[
+		S_N(t)=F_N*f(t)
+	\]
+	と書くことができる．
 \end{ex}
 
-memo:定理2.6未完成，関数のたたみこみの性質を追記する，例2.7,2.8を追記する
+\paragraph{フェイエル核の性質}
+
+\begin{lem}\label{lem:2-13}
+	\begin{enumerate}
+		\item $\forall N\in\mathbb{N}$，$\forall t\in\mathbb{R}$に対して$F_N(t)\geq 0$．
+		\item $\forall N\in\mathbb{N}$について\[ \int_0^T F_N(t) dt=1 \]となる．
+		\item $\forall \delta>0$に対して$N\to\infty$のとき$[\delta,T-\delta]$上で$F_N(t)$は$0$に一様収束する．
+	\end{enumerate}
+\end{lem}
+
+\begin{proof}
+	\begin{enumerate}
+		\item $F_N(t)$の表現から明らか．
+		\item $F_N$を実際に積分する．
+		      \[
+			      \begin{split}
+				      \int_0^T F_N(t)dt&=\sum_{n=-N}^N\frac{N-|n|}{N}\frac{1}{T}\blueunderline{\int_0^T e^{in\omega t}dt}{$n\neq 0$なら$0$になる} \\
+				      &=\frac{1}{T}\int_0^T dt \\
+				      &=1
+			      \end{split}
+		      \]
+		\item $t\in[\delta,T-\delta]$なら$|\sin(\omega t/2)|\geq \sin(\omega \delta/2)>0$であるので
+		      \[
+			      |F_N(t)|\leq\frac{1}{TN}\mleft(\frac{1}{\sin(\omega \delta/2)}\mright)^2\leq \frac{1}{TN}\mleft(\frac{2}{2\omega \delta/2}\mright)^2=\frac{1}{N}\frac{4}{T\omega^2\delta^2}
+		      \]
+		      が成り立つ．$N\to\infty$とすれば$|F_N(t)|\to 0$となる．
+	\end{enumerate}
+\end{proof}
+
+\begin{thm}\label{thm:2-14}
+	$g_N(t)$を周期$T$の連続な周期関数で
+	\begin{enumerate}
+		\item $\exists M>0, \forall N\in\mathbb{N},\int_0^T g_N(t)dt=1,\int_0^T|g_N(t)|dt\leq M$
+		\item $\forall \delta>0,\lim_{N\to\infty}\int_\delta^{T-\delta}|g_N(t)|dt=0$
+	\end{enumerate}
+	とする．このとき，$f$が連続な周期関数ならば，$N\to\infty$で$g_N*f$は$f$に一様収束する．
+\end{thm}
+
+\begin{proof}
+	$f_N=g_N*f$とおく．仮定(i)から
+	\[
+		\begin{split}
+			f(t)-f_N(t)&=\int_0^Tg_N(s)f(t)ds-\int_0^t g_N(s)f(t-s)ds \\
+			&=\int_0^T g_N(s)\{f(t)-f(t-s)\}ds
+		\end{split}
+	\]
+	$f$は$[0,T]$上の連続関数だから，一様連続．つまり
+	\[
+		\forall\varepsilon>0,\exists\delta>0\,\,\textrm{s.t.}\,\,|t-s|<\delta\Rightarrow|f(t)-f(s)|<\frac{\varepsilon}{2M}
+	\]
+	が成り立っている．また，仮定(ii)から
+	\[
+		\forall\varepsilon>0,\exists N_0\in\mathbb{N}\,\,\textrm{s.t.}\,\,N\geq N_0\Rightarrow \int_{\delta}^{T-\delta}|g_N(t)|dt<\frac{\varepsilon}{4\sup_s|f(s)|}
+	\]
+	が成り立つので
+	\[
+		\begin{split}
+			|f(t)-f_N(t)|&\leq\int_0^T|g_N(t)||f(t)-f(t-s)|ds \\
+			&=\int_{-\delta}^\delta|g_N(t)||f(t)-f(t-s)|ds +\int_\delta^{T-\delta}|g_N(t)||f(t)-f(t-s)|ds\\
+			&\leq \frac{\varepsilon}{2M}\blueunderline[pos=1.0]{\int_{-\delta}^\delta|g_N(s)|ds}{$\leq M$}+2\sup_s|f(s)|\int_\delta^{T-\delta}|g_N(s)|ds \\[1ex]
+			&<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon
+		\end{split}
+	\]
+	よって$f_N=g_N*f$が$f$に一様収束することがわかった．
+\end{proof}
+
+\begin{thm*}[\ref{thm:1-14}（再掲）]
+	$f$を連続な周期関数とすると，$\sigma_N(t)$は$N\to\infty$のとき$f$に一様収束する．
+\end{thm*}
+
+\[
+	\sigma_N(t)=S_N^G(t)=\sum_{n=-N}^N\mleft(\frac{N-|n|}{N}\mright)c[n]e^{in\omega t}
+\]
+をフェイエル和というのだった．
+
+\begin{proof}
+	補題\ref{lem:2-13}と定理\ref{thm:2-14}からわかる．
+\end{proof}
+
+ディリクレ核$D_N(t)$は定理\ref{thm:2-14}の条件を満たさない．
+
+\subsection{離散フーリエ変換と差分方程式}
+
+数列$c=\{c[n]\}_{n=-\infty}^\infty$が与えられたとき
+\[
+	f(t)=\mathcal{F}^*c(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}\quad (t\in\mathbb{R})
+\]
+ただし
+\[
+	c[n]=\mathcal{F} f[n]=\frac{1}{T}\int_0^T f(t)e^{-in\omega t}dt\quad(n\in\mathbb{Z})
+\]
+とする．$\mathcal{F}^*$を$l^1(\mathbb{Z})$から連続な周期関数の集合への写像とする．これを離散フーリエ変換という．
 
 
+$\{\alpha_j\}_{j=-m}^m\subset\mathbb{C}$を定数の列とし，$a=\{a[n]\},b=\{b[n]\}$に関する方程式
+\begin{equation}\label{eq:2-18}
+	(Aa)[n]=\sum_{j=-m}^m \alpha_j a[n-j]=b[n]
+\end{equation}
+を考える．このような形の方程式を差分方程式という．
 
+\begin{thm}\label{thm:2-15}
+	複素数列$\alpha=\{\alpha_j\}_{j=-m}^m\subset l^1(\mathbb{Z})$に対して
+	\begin{equation}\label{eq:2-12}
+		\tilde A(t)=\sum_{j=-m}^m \alpha_j e^{ij\omega t}\neq 0\quad (t\in\mathbb{R})
+	\end{equation}
+	が満たされていると仮定する．このとき，任意の$b\in l^1(\mathbb{Z})$に対して，\eqref{eq:2-18}の解$a\in l^1(\mathbb{Z})$がただ1つ存在し
+	\begin{subequations}\label{eq:2-20}
+		\begin{empheq}[]{align}
+			&a=g*b \\
+			&g=\mathcal{F}\mleft(\frac{1}{\tilde A}\mright)\in l^1(\mathbb{Z})
+		\end{empheq}
+	\end{subequations}
+	で与えられる．
+\end{thm}
 
+\begin{proof}
+	\eqref{eq:2-18}を離散フーリエ変換すると
+	\[
+		\begin{split}
+			\mathcal{F}^*(Aa)(t)
+			&=\sum_{j=-m}^m\alpha_j\mathcal{F}^*(a[n-j])(t) \\
+			&=\sum_{j=-m}^m\alpha_j e^{ij\omega t}(\mathcal{F}^*a)(t) \\
+			&=\tilde A(t)(\mathcal{F}^*a)(t)\\
+			&=(\mathcal{F}^*b)(t)
+		\end{split}
+	\]
+	より
+	\[
+		\tilde A(t)(\mathcal{F}^*a)(t)=(\mathcal{F}^*b)(t)
+	\]
+	と書き換えることができる．いま$\tilde A(t)$は連続な関数で$\inf|\tilde A(t)|>0$であり，$1/\tilde A(t)$は有界連続関数である．さらに$\tilde A(t)$は三角多項式で解析的であるので$1/\tilde A(t)$も解析的，特になめらかである．$b\in l^1(\mathbb{Z})$が与えられたとして\eqref{eq:2-18}を$a\in l^1(\mathbb{Z})$について解くことで，解は
+	\[
+		(\mathcal{F}^*a)(t)=\frac{1}{\tilde A(t)}(\mathcal{F}^*b)(t)
+	\]
+	となる．両辺に$\mathcal{F}$を作用させて定理\ref{thm:2-11}を用いると
+	\[
+		a=\mathcal{F}\mleft(\mleft(\frac{1}{\tilde A}\mright)(\mathcal{F}^*b)\mright)=\mathcal{F}\mleft(\frac{1}{\tilde A}\mright)*b
+	\]
+	であることがわかる．さらに$\mathcal{F}(1/\tilde A)\in l^1(\mathbb{Z})$であることが補題\ref{lem:1-11}もしくは定理\ref{thm:2-2}からわかる．
+\end{proof}
 
+\begin{note}
+	$\alpha_{-m},\alpha_m\neq 0$ならば，\eqref{eq:2-18}の解全体は$2m$次元線型空間をなす．定理\ref{thm:2-15}が成り立てば$l^1(\mathbb{Z})$に入るものは1つだけである．
+\end{note}
 
+\begin{ex}
+	数列$a=\{a[n]\}$に対して，差分ラプラシアン
+	\[
+		\Delta a[n]=a[n+1]+a[n-1]
+	\]
+	$\lambda\in\mathbb{C}$を任意の定数として，差分方程式
+	\[
+		\Delta a+\lambda a=b
+	\]
+	を考える．$\tilde \Delta (t)=e^{-i\omega t}+e^{i\omega t}=2\cos\omega t$より
+	\[
+		(2\cos\omega t+\lambda)  \mathcal{F}^*a(t)=\mathcal{F}^*b(t)
+	\]
+	$b\in l^1(\mathbb{Z}),\lambda\notin[-2,2]$ならば，定理\ref{thm:2-15}より
+	\[
+		a[n]=\mathcal{F}((2\cos\omega t+\lambda)^{-1})*b[n]
+	\]
+\end{ex}
 
+\subsection{離散時間信号処理とフィルター}
 
+\paragraph{ディジタル信号処理（離散時間信号処理）}
 
+\begin{dfn*}[離散時間信号]
+	$c=\{c[n]\}_{n=-\infty}^\infty$は離散的な時間毎にサンプリングされた量
+\end{dfn*}
 
+\begin{dfn*}[フィルター]
+	$A:c\mapsto A(c)$と対応する写像．$A(c)$も離散信号．次の2つの性質をみたす：
+	\begin{enumerate}
+		\item $A$は線形：$c,d$を離散時間信号，$\alpha,\beta\in\mathbb{C}$のとき
+		      \[
+			      A(\alpha c+\beta d)=\alpha A(c)+\beta A(d)
+		      \]
+		\item $A$は時不変：つまり$V$を平行移動
+		      \[
+			      (Vc)[n]=c[n-1]
+		      \]
+		      とするとき，
+		      \[
+			      A(Vc)=V(A(c))
+		      \]
+	\end{enumerate}
+\end{dfn*}
 
+\begin{dfn*}[インパルス・レスポンス]
+	フィルター$A$のインパルス・レスポンス$\{h[n]\}$は
+	\[
+		h[n]=(A\delta)[n]\quad(n\in\mathbb{Z})
+	\]
+	ただし$\delta[n]=\delta_{n0}$
+\end{dfn*}
+
+以下では$\{h[n]\}$が有界数列である場合だけ考える．すると，$\forall c\in l^1(\mathbb{Z})$に対して（形式的には）
+\[
+	(Ac)[n]=(h*c)[n],\quad Ac=h*c
+\]
+が成り立つ．
+
+\begin{dfn*}[因果的]
+	$A$が因果的であるとは，$\forall n<0, h[n]=0$であることである．
+\end{dfn*}
+
+\begin{dfn*}[FIRフィルター]
+	有限個の$n$を除いて$h[n]=0$であるようなフィルター$A$のこと．
+\end{dfn*}
+
+\begin{dfn*}[IIRフィルター]
+	有限個の$n$以外$h[n]\neq 0$であるようなフィルター$A$のこと．
+\end{dfn*}
+
+$c$が離散時間のとき，
+\begin{itemize}
+	\item $\mathcal{F}^*c$を$c$のスペクトル（周波数域$[-T/2,T/2]$）
+	\item $(\mathcal{F}^*c)(t)$をスペクトル振幅
+	\item $\mathcal{F}^*(Ac)(t)=\mathcal{F}^*(h*c)(t)=(\mathcal{F}^*h)(t)\cdot(\mathcal{F}^*c)(t)$（定理\ref{thm:2-11}からわかる）
+	\item $(\mathcal{F}^*h)(t)$もしくは$|(\mathcal{F}^*h)(t)|$を$A$の周波数特性
+\end{itemize}
+
+\begin{ex}[ローパスフィルター]
+	$T=2\pi$，$0<\alpha<\pi$として，理想ローパスフィルタ$A_\alpha$
+	\[
+		(\mathcal{F}^*h_\alpha)(t)=\begin{cases}
+			1 & (-\alpha<t<\alpha)                   \\
+			0 & (-\pi<t<-\alpha または \alpha<t<\pi)
+		\end{cases}
+	\]
+	インパルスレスポンス
+
+	\[
+		h_\alpha[n]=\mathcal{F}(\mathcal{F}^* h_\alpha)[n]=\frac{1}{2\pi}\int_{-\alpha}^\alpha e^{int}dt=\begin{cases}
+			\frac{1}{\pi}\frac{\sin n\alpha}{n} & (n\neq 0) \\
+			\frac{\alpha}{\pi}                  & (n=0)
+		\end{cases}
+	\]
+	よって
+	\[
+		A_\alpha c[n]=\frac{1}{\pi}\sum_{m=-\infty}^\infty \frac{\sin m\alpha}{m}c[n-m]
+	\]
+	（ただし$\sin\alpha0/0=\alpha$とする）
+\end{ex}
+
+\newpage
+
+\section{1変数のフーリエ変換}
+
+\subsection{導入}
+
+$f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であるようなものとする．すると，フーリエ級数展開により
+\[
+	f(t)=\sum_{n=-\infty}^\infty c[n]e^{in\omega t}
+\]
+\[
+	c[n]=\frac{1}{2\pi N}\int_{-N\pi}^{N\pi}f(t)e^{in\omega t}dt
+\]
+とかける．ただし$t\in[-N\pi,N\pi],\omega=2\pi/(2N\pi)=1/N$とした．そこで，$\xi\in\mathbb{R}$に対して
+\[
+	\hat f(\xi)=\frac{1}{\sqrt{2\pi}}  \int_{-\infty}^\infty f(t)e^{-i\xi t}dt
+\]
+と書けば，
+\[
+	f(t)=\frac{1}{\sqrt{2\pi}}\frac{1}{N}\sum_{n=-\infty}^\infty \hat f\mleft(\frac{n}{N}\mright)e^{i(n/N)t}\quad(t\in[-N\pi,N\pi])
+\]
+と書き換えられる．形式的に$N\to\infty$とすれば和は積分になり
+\[
+	f(t)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty\hat f(\xi)e^{i\xi t}dt
+\]
+が導かれる．これが$f$のフーリエ変換$\hat f$による展開である．
+
+ここまでの議論は$\supp f$が有界で，収束についてしっかり考慮していないので，次の節からきちんと議論する．
+
+\subsection{フーリエ変換の定義}
+
+\begin{dfn}[可積分]
+	$f:\mathbb{R}\to\mathbb{C}$が可積分（$L^1$-条件を満たす，$f\in L^1(\mathbb{R})$）であるとは，任意の有限区間で広義積分できるということである．すなわち
+	\[
+		\int_{-\infty}^\infty |f(t)|dt<+\infty
+	\]
+	が成り立つ．
+\end{dfn}
+
+\begin{dfn}[フーリエ変換，逆フーリエ変換]
+	$f$が可積分な$\mathbb{R}$上の関数とする．\\
+	\textbf{フーリエ変換}：
+	\[
+		\hat f(\xi)=(\mathcal{F}f)(\xi)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty f(t)e^{-it\xi}dt
+	\]
+	\textbf{逆フーリエ変換}：
+	\[
+		\check{f}(t)=(\mathcal{F}^*f)(t)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty f(\xi)e^{it\xi}d\xi
+	\]
+\end{dfn}
+
+フーリエ変換の反転公式：
+\[
+	\mathcal{F}^*\mathcal{F}f(t)=f(t),\quad \mathcal{F}\mathcal{F}^*f(\xi)=f(\xi)
+\]
+が成り立つ．これはあとで示す．
+
+\begin{prop}
+	\begin{enumerate}
+		\item $\mathcal{F},\mathcal{F}^*$は線型写像である．
+		\item $\tilde f(t)=f(-t)$とすれば
+		      \[
+			      (\mathcal{F}\tilde f)(\xi)=\hat f(-\xi)=\overline{(\mathcal{F}\overline{f})(\xi)}
+		      \]
+		      が成り立つ．
+	\end{enumerate}
+\end{prop}
+
+\begin{proof}
+	省略．
+\end{proof}
+
+\begin{prop}
+	$f\in L^1(\mathbb{R})$ならば$\hat f,\check f$は有界かつ一様連続な関数である．
+\end{prop}
+
+\begin{proof}
+	\[
+		|\hat f(\xi)|\leq\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty |f(t)|dt<+\infty
+	\]
+	だから$\hat f$は有界な関数である．
+
+	$\varepsilon>0$を任意の小さな数とする．$R>0$を十分大きくとって
+	\[
+		\frac{1}{\sqrt{2\pi}}\int_{|t|\geq R}|f(t)|dt<\frac{\varepsilon}{3}
+	\]
+	となるようにする．一方，すべての$\xi,\eta\in\mathbb{R}$について
+	\[
+		|e^{-it\xi}-e^{-it\eta}|=\mleft|\int_\eta^\xi(-it)e^{-its}ds\mright|\leq |t||\xi-\eta|
+	\]
+	が成り立つ．これを用いて
+	\[
+		\begin{split}
+			\mleft|\frac{1}{\sqrt{2\pi}}\int_{-R}^Rf(t)e^{-it\xi}dt-\frac{1}{\sqrt{2\pi}}\int_{-R}^Rf(t)e^{-it\eta}dt\mright|
+			&\leq \frac{1}{\sqrt{2\pi}}\int_{-R}^R|e^{-it\xi}-e^{-it\eta}||f(t)| \\
+			&\leq \frac{R}{\sqrt{2\pi}}|\xi-\eta|\int_{-R}^R|f(t)|dt
+		\end{split}
+	\]
+	が得られる．ここで
+	\[
+		\delta=\frac{\varepsilon}{3}\mleft(\frac{R}{\sqrt{2\pi}}\int_{-R}^R|f(t)|dt\mright)^{-1}
+	\]
+	として$|\xi-\eta|\leq\delta$を仮定すれば
+	\[
+		\begin{split}
+			|\hat f(\xi)-\hat f(\eta)|
+			&\leq\mleft|\frac{1}{\sqrt{2\pi}}\int_{|t|\geq R}f(t)e^{-it\xi}dt\mright|+\mleft|\frac{1}{\sqrt{2\pi}}\int_{|t|\geq R}f(t)e^{-it\eta}\mright|+\mleft|\frac{1}{\sqrt{2\pi}}\int_{-R}^Rf(t)e^{-it\xi}dt-\frac{1}{\sqrt{2\pi}}\int_{-R}^Rf(t)e^{-it\eta}\mright| \\
+			&\leq 3\cdot\frac{\varepsilon}{3}=\varepsilon
+		\end{split}
+	\]
+	が成り立つ．$\varepsilon>0$は任意だったので，これは$\hat f$が一様に連続であることを意味する．$\check f$についても全く同様である．
+\end{proof}
+
+\subsection{基本的な例}
+
+\begin{ex}\label{ex:3-1}
+	\[
+		f_1(t)=e^{-\alpha|t|}\quad(\alpha>0)
+	\]
+\end{ex}
+
+\begin{ex}\label{ex:3-2}
+	\[
+		f_2(t)=\frac{1}{\alpha^2+t^2}\quad(\alpha>0)
+	\]
+\end{ex}
+
+\begin{ex}[ガウス関数]\label{ex:3-3}
+	\[
+		f_3(t)=e^{-\frac{\lambda^2t^2}{2}}
+	\]
+\end{ex}
+
+\begin{ex}[定義関数]\label{ex:3-4}
+	\[
+		f_4(t)=\begin{cases}
+			1 & (t\in[-a,a])      \\
+			0 & (t \notin [-a,a])
+		\end{cases}
+	\]
+\end{ex}
+
+\subsection{反転公式}
+
+\begin{thm}\label{thm:3-3}
+	$f$が有界連続で可積分であるとする．このとき
+	\[
+		f(t)=\lim_{\varepsilon\to 0}\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-\frac{\varepsilon^2\xi^2}{2}}e^{it\xi}\hat{f}(\xi)d\xi\quad(t\in\mathbb{R})
+	\]
+	が成り立つ．
+\end{thm}
+
+\begin{thm}\label{thm:3-4}
+	$g_\varepsilon(t)$を$\varepsilon$をパラメータとする$\mathbb{R}$上の有界連続関数で，次の条件を満たすものとする．
+	\begin{enumerate}
+		\item $\exists M>0,\forall\varepsilon>0,\int_{-\infty}^\infty g_\varepsilon(t)dt=1,\int_{-\infty}^\infty|g_\varepsilon(t)|dt\leq M$
+		\item $\forall \delta>0,\lim_{\varepsilon\to 0}\int_{|t|\geq \delta}|g_\varepsilon(t)|dt=0$
+	\end{enumerate}
+	このとき，任意の有界な連続関数$f$について
+	\[
+		\lim_{\varepsilon\to 0}\int_{-\infty}^\infty g_\varepsilon(t-s)f(s)ds=f(t)\quad(t\in\mathbb{R})
+	\]
+	が成り立つ．
+\end{thm}
+
+\begin{thm}[反転公式]\label{thm:3-5}
+	$f,\hat f$が有界連続な可積分関数とする．このとき$f\mathcal{F}^*\hat f$，つまり
+	\[
+		f(t)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{it\xi}\hat f(\xi)d\xi\quad(t\in\mathbb{R})
+	\]
+	が成り立つ．同様に$f=\mathcal{F}\check f$，つまり
+	\[
+		f(t)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-it\xi}\check f(t)dt\quad(\xi\in\mathbb{R})
+	\]
+	が成り立つ．
+\end{thm}
+
+\begin{thm}\label{thm:3-6}
+	$f$が$C^1$級関数で，$f,f'$がともに可積分であるならば，$\hat f$は可積分である．特に，フーリエの反転公式$f=\mathcal{F}^*\hat f$が成立する．
+\end{thm}
+
+\begin{proof}
+	\ref{sec:3-7}節で証明する．
+\end{proof}
+
+\subsection{内積とプランシェレルの定理}
+
+\subsection{平行移動，微分とフーリエ変換}
+
+\subsection{定理\ref{thm:3-6}の証明とリーマン・ルベーグの定理}\label{sec:3-7}
 
 \end{document}
