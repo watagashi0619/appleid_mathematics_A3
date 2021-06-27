@@ -2277,13 +2277,50 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 
 \subsection{反転公式}
 
+反転公式がどういう場合に成り立つのか？
+
 \begin{thm}\label{thm:3-3}
 	$f$が有界連続で可積分であるとする．このとき
 	\[
 		f(t)=\lim_{\varepsilon\to 0}\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-\frac{\varepsilon^2\xi^2}{2}}e^{it\xi}\hat{f}(\xi)d\xi\quad(t\in\mathbb{R})
 	\]
-	が成り立つ．
+	が成り立つ．\footnotemark
 \end{thm}
+
+\footnotetext{定理\ref{thm:3-3}と定理\ref{thm:3-4}は定理というよりは補題というべき内容らしい．}
+
+\begin{note}
+	極限と積分が交換できれば，右辺は$\mathcal{F}^*\hat f(t)$に等しい．
+\end{note}
+
+\begin{proof}
+	$\varepsilon>0$を任意にとって固定する．
+	\begin{equation}\label{eq:3-1}
+		\begin{split}
+			\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-\frac{\varepsilon^2\xi^2}{2}}e^{it\xi}\hat{f}(\xi)d\xi
+			&=\frac{1}{2\pi}\int_{-\infty}^\infty\int_{-\infty}^\infty e^{-\varepsilon^2\xi^2/2}e^{it\xi}f(s)e^{-is\xi}dsd\xi \\
+			&=\int_{-\infty}^\infty\mleft(\frac{1}{2\pi}\int_{-\infty}^\infty e^{\varepsilon^2\xi^2/2}e^{i(t-s)\xi}d\xi\mright)f(s)ds \\
+			&=\int_{-\infty}^\infty \rho(\varepsilon,t-s)f(s)ds
+		\end{split}
+	\end{equation}
+	ここで，
+	\[
+		\int_{-\infty}^\infty\int_{-\infty}^\infty e^{-\varepsilon^2\xi^2/2}|f(s)|dsd\xi<+\infty
+	\]
+	が成り立っているので重積分の順序が交換でき，さらに
+	\[
+		\rho(\varepsilon,t)=\frac{1}{2\pi}\int_{-\infty}^\infty e^{-\varepsilon^2\xi^2/2}e^{it\xi}d\xi=\frac{1}{\varepsilon\sqrt{2\pi}}e^{-t^2/2\varepsilon^2}
+	\]
+	とおいた．$\rho(\varepsilon,t)$は次のような性質をもつ\footnote{
+		$\rho(\varepsilon,t)=\mathcal{N}(t|0,\varepsilon)$，つまり平均$0$，分散$\varepsilon^2$の正規分布を示す確率密度関数であることからもわかる．なお，この表示はデルタ関数の近似表現としてもよく用いられる．物理でよく見るような気がする．
+	}：
+	\begin{enumerate}
+		\item $\rho(\varepsilon,t)\geq 0,\forall t\in\mathbb{R}$
+		\item $\int_{-\infty}^\infty \rho(\varepsilon,t)dt=1$
+		\item $\forall\delta>0,\lim_{\varepsilon\to 0}\int_{|t|\geq\delta}\rho(\varepsilon,t)dt=0$
+	\end{enumerate}
+	よって$\rho(\varepsilon,t)$に対して定理\ref{thm:3-4}を利用することで結論を得る．
+\end{proof}
 
 \begin{thm}\label{thm:3-4}
 	$g_\varepsilon(t)$を$\varepsilon$をパラメータとする$\mathbb{R}$上の有界連続関数で，次の条件を満たすものとする．
@@ -2298,8 +2335,36 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 	が成り立つ．
 \end{thm}
 
+\begin{proof}
+	定理\ref{thm:2-14}とほぼ同様．
+
+	$t\in\mathbb{R}$を固定し，$\varepsilon>0$をとる．仮定(i)を利用して
+	\[
+		\begin{split}
+			f(t)-\int_{-\infty}^\infty g_\varepsilon(t-s)f(s)ds
+			&=\int_{-\infty}^\infty g_\varepsilon(s)f(t)ds-\int_{-\infty}^\infty g_\varepsilon(s)f(t-s)ds \\
+			&=\int_{-\infty}^\infty g_\varepsilon(s)\{f(t)-f(t-s)\}ds
+		\end{split}
+	\]
+	とかける．$a>0$を小さな数として固定する．$f$は$t$で連続なので，$\delta>0$を十分小さく取れば，$\forall t\in\mathbb{R}$に対して，$|s|<\delta$で
+	\[
+		|f(t)-f(t-s)|<\frac{a}{2M}
+	\]
+	が成り立つようにできる．
+	\[
+		\begin{split}
+			\mleft|f(t)-\int_{-\infty}^\infty g_\varepsilon(t-s)f(s)ds\mright|
+			&=\mleft|\int_{-\infty}^\infty g_\varepsilon(s)\{f(t)-f(t-s)\}ds\mright| \\
+			&\leq \int_{-\delta}^\delta |g_\varepsilon(s)||f(t)-f(t-s)|ds+\int_{|s|\geq\delta}|g_\varepsilon(s)||f(t)-f(t-s)|ds \\
+			&\leq\frac{a}{2M}\int_{-\infty}^\infty|g_\varepsilon(s)|ds+2\sup_{s\in\mathbb{R}}|f(s)|\int_{|s|\geq\delta}|g_\varepsilon(s)|ds \\
+			&\leq\frac{a}{2}+2\sup_{s\in\mathbb{R}}|f(s)|\int_{|s|\geq\delta}|g_\varepsilon(s)|ds
+		\end{split}
+	\]
+	$a>0$は任意の小さな数であり，仮定(ii)を用いると$\varepsilon\to 0$で$f(t)-\int_{-\infty}^\infty g_\varepsilon(t-s)f(s)ds\to 0$がわかる．
+\end{proof}
+
 \begin{thm}[反転公式]\label{thm:3-5}
-	$f,\hat f$が有界連続な可積分関数とする．このとき$f\mathcal{F}^*\hat f$，つまり
+	$f,\hat f$が有界連続な可積分関数とする．このとき$f=\mathcal{F}^*\hat f$，つまり
 	\[
 		f(t)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{it\xi}\hat f(\xi)d\xi\quad(t\in\mathbb{R})
 	\]
@@ -2310,9 +2375,57 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 	が成り立つ．
 \end{thm}
 
+\begin{proof}
+	定理\ref{thm:3-3}から
+	\begin{equation}\label{eq:3-2}
+		\int_{-\infty}^\infty e^{it\xi}\hat f(\xi)d\xi=\lim_{\varepsilon\to 0}\int_{-\infty}^\infty e^{-\frac{\varepsilon^2\xi^2}{2}}e^{it\xi}\hat{f}(\xi)d\xi
+	\end{equation}
+	を示せばよい．$\hat f$は可積分だから，
+	\[
+		\forall\delta>0,\exists R>0\,\,\textrm{s.t.}\,\,\int_{|\xi|\geq R}|\hat f(\xi)|	d\xi<\delta
+	\]
+	とできる．すると
+	\[
+		\begin{split}
+			\mleft|\int_{-\infty}^\infty e^{it\xi}\hat f(\xi)d\xi-\int_{-\infty}^\infty e^{-\varepsilon^2\xi^2/2}e^{it\xi}\hat f(\xi)d\xi\mright|
+			&=\mleft|\int_{-\infty}^\infty (1-e^{-\varepsilon^2\xi^2/2})e^{it\xi}\hat f(\xi)d\xi\mright| \\
+			&\leq (1-e^{-\varepsilon^2R^2/2})\int_{-R}^R|\hat f(\xi)|d\xi+\int_{|\xi|\geq R}|\hat f(\xi)|d\xi \\
+			&\to \delta \quad (\varepsilon\to 0)
+		\end{split}
+	\]
+	となる．$\delta>0$はいくらでも小さく取れるので，左辺の収束がいえて\eqref{eq:3-2}が示された．
+\end{proof}
+
+$f$について反転公式が成り立つかどうか，フーリエ変換が可積分があることの十分条件を与える定理．
+
 \begin{thm}\label{thm:3-6}
-	$f$が$C^1$級関数で，$f,f'$がともに可積分であるならば，$\hat f$は可積分である．特に，フーリエの反転公式$f=\mathcal{F}^*\hat f$が成立する．
+	$f$が$C^1$級関数で，$f,f'$がともに可積分で，$f'$が有界であるならば，$\hat f$は可積分である．特に，フーリエの反転公式$f=\mathcal{F}^*\hat f$が成立する．
 \end{thm}
+
+教科書と異なり$f'$が有界であるという条件を付加している．
+
+\begin{ex*}[$f$が$C^1$級関数で，$f,f'$がともに可積分だが，$f'$が非有界な例]
+	$t\geq 0,\forall n\in\mathbb{N},\delta\in (0,1),g(-t)=g(t)$とし，
+	\[
+		g(t)=\begin{cases}
+			4n^{4-\delta}(t-n)         & (t\in [-\frac{1}{2}n^{-3}+n,n])         \\
+			-4n^{4-\delta}(t-n-n^{-3}) & (t\in [-n^{-3}+n,-\frac{1}{2}n^{-3}+n]) \\
+			0                          & (\textrm{otherwise})
+		\end{cases}
+	\]
+	となる関数$g$を考え，$f$を
+	\[
+		f(t)=\int_{-\infty}^t g(s)ds
+	\]
+	で定めれば，$f'(t)=g(t)$であり，
+	\[
+		f(t)\geq\begin{cases}
+			\sum_{n=-\infty}^l n^{-\delta-2} & (t\in (-l,-l+1)) \\
+			\sum_{n=l}^\infty n^{-\delta-2}  & (t\in (l-1,l))
+		\end{cases}
+	\]
+	となる．このとき$f$は$C^1$級かつ$f,f'\in L^1(\mathbb{R})$であるが，$f'$は非有界であることがわかる．
+\end{ex*}
 
 \begin{proof}
 	\ref{sec:3-7}節で証明する．
@@ -2323,5 +2436,9 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 \subsection{平行移動，微分とフーリエ変換}
 
 \subsection{定理\ref{thm:3-6}の証明とリーマン・ルベーグの定理}\label{sec:3-7}
+
+\subsection{たたみこみとフーリエ変換}
+
+\subsection{簡単な偏微分方程式への応用}
 
 \end{document}
