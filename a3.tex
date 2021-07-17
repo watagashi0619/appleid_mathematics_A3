@@ -127,10 +127,8 @@
 \newtheorem{answer*}{解答}
 \newtheorem{note*}{注意}
 \newtheorem{remark*}{補足}
-\newtheorem{lem*}{補題}
 \newtheorem{symbol*}{記号}
 \newtheorem{premise*}{前提}
-\newtheorem{proposition*}{命題}
 
 \newtheoremstyle{mystyle5}% Name
     {}% Space above
@@ -140,9 +138,11 @@
     {\bfseries\sffamily}% Theorem head font
     {\hspace{0.5em}}% Punctuation after theorem head
     { }% Space after theorem head, ‘ ‘, or \newline
-    {\thmname{#1}\thmnote{\,#3\\}}% Theorem head spec (can be left empty, meaning `normal')
+    {\thmname{#1}\thmnote{#3\\}}% Theorem head spec (can be left empty, meaning `normal')
 \theoremstyle{mystyle5}
+\newtheorem{proposition*}{命題}
 \newtheorem{theorem*}{定理}
+\newtheorem{lemma*}{補題}
 
 %proofの後ろに黒四角をつける
 \makeatletter
@@ -382,6 +382,19 @@
     \begin{theorem*}[#1]
 }
 {\end{theorem*}\end{tcolorbox}}
+
+\newenvironment{lem*}[1][]
+{\begin{tcolorbox}[
+    enhanced,
+    boxrule=0pt,
+    arc=0mm,
+    frame hidden,
+    borderline west={2pt}{-4pt}{yellow!90!black},
+    breakable = true
+    ]
+    \begin{lemma*}[#1]
+}
+{\end{lemma*}\end{tcolorbox}}
 
 \DeclareMathOperator{\supp}{supp}
 
@@ -1593,7 +1606,7 @@ $u(x,t)$は時刻$t$，点$x$での温度を表し，$f(x)$は時刻$t=0$での�
 \end{equation}
 が\eqref{eq:2-4}の形式的な解を与えることがわかる．実際，$f$がリプシッツ連続なら，この主張は正当化でき，さらに\eqref{eq:2-4}の解はこれ以外にないことが証明できる．
 
-\begin{thm}\label{thm:2-5}
+\begin{thm}\label{thm:2-6}
 	$f$を$[0,R]$上のリプシッツ連続な関数で，両立条件\eqref{eq:2-5}をみたすと仮定する．このとき，$\omega=\pi/R$として
 	\[
 		\begin{split}
@@ -2190,7 +2203,7 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 \]
 が成り立つ．これはあとで示す．
 
-\begin{prop}
+\begin{prop}\label{prop:3-1}
 	\begin{enumerate}
 		\item $\mathcal{F},\mathcal{F}^*$は線型写像である．
 		\item $\tilde f(t)=f(-t)$とすれば
@@ -2205,7 +2218,7 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 	省略．
 \end{proof}
 
-\begin{prop}
+\begin{prop}\label{prop:3-2}
 	$f\in L^1(\mathbb{R})$ならば$\hat f,\check f$は有界かつ一様連続な関数である．
 \end{prop}
 
@@ -2227,7 +2240,7 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 	\[
 		\begin{split}
 			\mleft|\frac{1}{\sqrt{2\pi}}\int_{-R}^Rf(t)e^{-it\xi}dt-\frac{1}{\sqrt{2\pi}}\int_{-R}^Rf(t)e^{-it\eta}dt\mright|
-			&\leq \frac{1}{\sqrt{2\pi}}\int_{-R}^R|e^{-it\xi}-e^{-it\eta}||f(t)| \\
+			&\leq \frac{1}{\sqrt{2\pi}}\int_{-R}^R|e^{-it\xi}-e^{-it\eta}||f(t)|dt \\
 			&\leq \frac{R}{\sqrt{2\pi}}|\xi-\eta|\int_{-R}^R|f(t)|dt
 		\end{split}
 	\]
@@ -2254,17 +2267,39 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 	\]
 \end{ex}
 
+\[
+	\hat f_1(\xi)=\frac{1}{\sqrt{2\pi}}\frac{2\alpha}{\alpha^2+\xi^2}
+\]
+\[
+	\check f_1(t)=\frac{1}{\sqrt{2\pi}}\frac{2\alpha}{\alpha^2+t^2}
+\]
+
 \begin{ex}\label{ex:3-2}
 	\[
 		f_2(t)=\frac{1}{\alpha^2+t^2}\quad(\alpha>0)
 	\]
 \end{ex}
 
+\[
+	\hat f_2(\xi)=\frac{\sqrt{2\pi}}{2\alpha}e^{-\alpha|\xi|}
+\]
+
+\[
+	\check f_2(t)=\frac{\sqrt{2\pi}}{2\alpha}e^{-\alpha|t|}
+\]
+
 \begin{ex}[ガウス関数]\label{ex:3-3}
 	\[
 		f_3(t)=e^{-\frac{\lambda^2t^2}{2}}
 	\]
 \end{ex}
+
+\[
+	\hat f_3(\xi)=\frac{1}{\lambda}e^{-\xi^2/2\lambda^2}
+\]
+\[
+	\check f_3(t)=\frac{1}{\lambda}e^{-t^2/2\lambda^2}
+\]
 
 \begin{ex}[定義関数]\label{ex:3-4}
 	\[
@@ -2274,6 +2309,12 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 		\end{cases}
 	\]
 \end{ex}
+
+\[
+	\hat f_4(\xi)=\frac{2a}{\sqrt{2\pi}}\frac{\sin(a\xi)}{a\xi}
+\]
+
+例\ref{ex:3-1},\ref{ex:3-2},\ref{ex:3-3}は反転公式が成立するが，例\ref{ex:3-4}は反転公式が成立しない．
 
 \subsection{反転公式}
 
@@ -2419,7 +2460,7 @@ $f$について反転公式が成り立つかどうか，フーリエ変換が�
 	\]
 	で定めれば，$f'(t)=g(t)$であり，
 	\[
-		f(t)\geq\begin{cases}
+		f(t)\leq\begin{cases}
 			\sum_{n=-\infty}^l n^{-\delta-2} & (t\in (-l,-l+1)) \\
 			\sum_{n=l}^\infty n^{-\delta-2}  & (t\in (l-1,l))
 		\end{cases}
@@ -2433,12 +2474,619 @@ $f$について反転公式が成り立つかどうか，フーリエ変換が�
 
 \subsection{内積とプランシェレルの定理}
 
+\begin{dfn}
+	$f$を$\mathbb{R}$上の関数とする．任意の有界区間上で$f$と$|f(t)|^2$の積分が存在して，しかも$|f(t)|^2$が可積分であるとき$L^2$-条件を満たすと言う．記号としては$f\in L^2(\mathbb{R})$とかく．$f\in M^2(\mathbb{R})$のとき
+	\[
+		\|f\|=\mleft(\int_{-\infty}^\infty |f(t)|^2dt\mright)^{1/2}
+	\]
+	により$f$のノルムを定義する．また，$f,g\in L^2(\mathbb{R})$のとき，$f$と$g$の内積を
+	\[
+		\langle f,g \rangle=\int_{-\infty}^\infty f(t)\overline{g(t)}dt
+	\]
+	で定義する．特に$\|f\|^2=\langle f,f \rangle$である．
+\end{dfn}
+
+\begin{lem*}
+	任意の有界可積分関数$\varphi$と，$T_s\varphi(t)=\varphi(t-s)$をみたす作用素$T_s$に対して
+	\[
+		\lim_{s\to 0}\|\varphi -T_s\varphi\|=0
+	\]
+	が成り立つ．
+\end{lem*}
+
+\begin{proof}
+	関数$\varphi$を，階段関数：
+	\[
+		\varphi_N(t)=\sum_{j=1}^N c_i\mathbbm{1}_{I_j}(t),\quad I_j=[a_j,b_j],\quad c_j\in\mathbb{C}
+	\]
+	により，$\forall\varepsilon>0$に対して$\|\varphi-\varphi_N\|<\varepsilon/3$を満たすように近似する．ここで$\mathbbm{1}_I$は$I$上で$1$をとり，それ以外で$0$をとるような定義関数である．明らかに$|s|<\delta$ならば$\|\varphi_N-T_s\varphi_N\|<\varepsilon/3$となる$\delta>0$が存在する．よって$\|T_s\varphi-T_s\varphi_N\|=\|\varphi-\varphi_N\|$であることに注意すれば，$|s|<\delta$のとき
+	\[
+		\|\varphi-T_s\varphi\|\leq\|\varphi-\varphi_N\|+\|\varphi_N-T_s\varphi_N\|+\|T_s\varphi_N-T_s\varphi\|<\varepsilon
+	\]
+	となり，補題が示される．
+\end{proof}
+
+\begin{thm*}
+	$g_\varepsilon(t)$を定理\ref{thm:3-4}の条件(i)と(ii)を満たす有界連続関数とする．このとき，任意の有界可積分関数$\varphi$に対して次式が成立する：
+	\[
+		\lim_{\varepsilon\to 0}\|\varphi-g_\varepsilon*\varphi\|=0
+	\]
+\end{thm*}
+
+\begin{proof}
+	定理\ref{thm:3-4}の条件(i)より
+	\[
+		\varphi(t)-g_\varepsilon*\varphi(t)=\int_{-\infty}^\infty (\varphi(t)-\varphi(t-s))	g_\varepsilon(s)ds
+	\]
+	と書ける．$C=\int_{-\infty}^\infty |g_\varepsilon(t)|dt<M$とおくと，
+	\begin{equation}\tag{1}
+		|\varphi(t)-g_\varepsilon*\varphi(t)|\leq C\int_{-\infty}^\infty|\varphi(t)-\varphi(t-s)|\frac{|g_\varepsilon(s)|}{C}ds
+	\end{equation}
+	任意の$a,b\in\mathbb{R}$に対して$a^2+2a(b-a)\leq b^2$であり，これに
+	\[
+		\begin{split}
+			a&=C\int_{-\infty}^\infty|\varphi(t)-\varphi(t-s)|\frac{|g_\varepsilon(s)|}{C}ds \\
+			b&=C|\varphi(t)-\varphi(t-s)|
+		\end{split}
+	\]
+	を代入して，$|g_\varepsilon(s)|/C$をかけて$s$で積分すると，$\int_{-\infty}^{\infty} |g_\varepsilon(s)|/C ds=1$であるので
+	\[
+		\int_{-\infty}^\infty a \frac{g_\varepsilon(s)}{C}ds=C\int_{-\infty}^\infty|\varphi(t)-\varphi(t-s)|\frac{|g_\varepsilon(s)|}{C}ds\int_{-\infty}^\infty \frac{g_\varepsilon(s)}{C}ds=a
+	\]
+	\[
+		\int_{-\infty}^\infty b \frac{g_\varepsilon(s)}{C}ds=C\int_{-\infty}^\infty|\varphi(t)-\varphi(t-s)|\frac{|g_\varepsilon(s)|}{C}ds=a
+	\]
+	となることから
+	\begin{equation}\tag{2}
+		\mleft(C\int_{-\infty}^\infty|\varphi(t)-\varphi(t-s)|\frac{|g_\varepsilon(s)|}{C}ds\mright)^2\leq C^2\int_{-\infty}^\infty |\varphi(t)-\varphi(t-s)|^2\frac{|g_\varepsilon(s)|}{C}ds
+	\end{equation}
+	がわかる．よって(1)(2)をあわせて
+	\[
+		|\varphi(t)-g_\varepsilon*\varphi(t)|^2\leq C^2\int_{-\infty}^\infty |\varphi(t)-\varphi(t-s)|^2\frac{|g_\varepsilon(s)|}{C}ds
+	\]
+	となる．これを$t$で積分し，$T_s\varphi(t)=\varphi(t-s)$と表記すれば
+	\begin{equation}\tag{3}
+		\begin{split}
+			\int_{-\infty}^\infty |\varphi(t)-g_\varepsilon*\varphi(t)|^2 dt
+			&\leq C\int_{-\infty}^\infty \int_{-\infty}^\infty |\varphi(t)-\varphi(t-s)|^2 |g_\varepsilon(s)| dsdt \\
+			&\leq C\int_{-\infty}^\infty \|\varphi-T_s\varphi\|^2|g_\varepsilon(s)|ds
+		\end{split}
+	\end{equation}
+	となる．
+
+	任意の$\nu>0$に対して，$|s|<\delta$のとき$\|\varphi-T_s\varphi\|<\sqrt{\nu/2C^2}$を満たすように$\delta>0$を，また
+	\[
+		\int_{|t|\geq\delta}|g_\varepsilon(t)|dt<\frac{\nu}{4C\|\varphi\|^2}
+	\]
+	を満たすように$\varepsilon>0$を選ぶ（上の補題と定理\ref{thm:3-4}の条件(ii)による）．$\|\varphi-T_s\varphi\|\leq 2\|\varphi\|^2$であることに注意すれば，(3)より
+	\[
+		\begin{split}
+			\int_{-\infty}^\infty |\varphi(t)-g_\varepsilon*\varphi(t)|^2dt
+			&\leq C\mleft(\int_{|s|<\delta}+\int_{|s|\geq\delta}\mright)\|\varphi-T_s\varphi\|^2|g_\varepsilon(s)|ds \\
+			&<C\cdot\frac{\nu}{2C^2}\cdot C+C\cdot 2\|\varphi\|^2\cdot\frac{\nu}{4C\|\varphi\|^2} \\
+			&=\frac{\nu}{2}+\frac{\nu}{2}=\nu
+		\end{split}
+	\]
+	となり，定理の結論が得られる．
+\end{proof}
+
+\begin{thm}[プランシェレルの定理]\label{thm:3-7}
+	$f,g,\hat g$がすべて有界可積分ならば
+	\[
+		\langle f,g\rangle=\langle \hat f,\hat g\rangle
+	\]
+	また，$f$が有界連続で可積分ならば
+	\[
+		\|f\|=\|\hat f\|
+	\]
+	つまり，フーリエ変換は関数のノルムを変えない写像である．
+\end{thm}
+
+\begin{proof}
+	（前半）$\int_{-\infty}^\infty\int_{-\infty}^\infty|f(s)||g(t)|dsdt<+\infty$なので積分の順序交換ができることを用いると
+	\[
+		\begin{split}
+			\langle \hat f,g \rangle
+			&=\int_{-\infty}^\infty \mleft(\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-its}f(s)ds\mright)\overline{g(t)}dt \\
+			&=\int_{-\infty}^\infty f(s)\overline{\mleft(\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{its}g(t)dt\mright)}ds \\
+			&=\langle f,\check g\rangle
+		\end{split}
+	\]
+	となる．$g$と$\hat g$を入れ替えれば
+	\[
+		\langle \hat f,\hat g\rangle=\langle f,\mathcal{F}^*\hat g\rangle=\langle f,g\rangle
+	\]
+	が成り立つことがわかる．
+
+	（後半）
+	\[
+		\rho_\varepsilon(t)=\frac{1}{\varepsilon\sqrt{2\pi}}e^{-t^2/2\varepsilon^2},\quad\hat\rho_\varepsilon(t)=\frac{1}{\sqrt{2\pi}}e^{-t^2\varepsilon^2/2}
+	\]
+	とする．この$\rho_\varepsilon(t)$は定理\ref{thm:3-3}において$\rho(t)$と書いていたものである．
+	$f$は有界連続かつ可積分なので，命題\ref{prop:3-13}より
+	\[
+		\rho_\varepsilon*f(t)=\int_{-\infty}^\infty \rho_\varepsilon(s)f(t-s)ds
+	\]
+	も有界連続かつ可積分となる．また，命題\ref{prop:3-2}により$\hat f$も有界連続であるから
+	\[
+		\widehat{\rho_\varepsilon*f}(\xi)=\sqrt{2\pi}\hat\rho_\varepsilon(\xi)\hat f(\xi)
+	\]
+	も有界連続かつ可積分となる．よって，定理\ref{thm:3-5}により
+	\[
+		\rho_\varepsilon*f(t)=\sqrt{2\pi}\mathcal{F}^*(\hat\rho_\varepsilon(\xi)\hat f(\xi))=\int_{-\infty}^\infty e^{it\xi}\hat\rho_\varepsilon(\xi)\hat f(\xi)d\xi
+	\]
+	が成立する．したがって次式を得る．
+	\begin{equation}\tag{4}
+		\begin{split}
+			\int_{-\infty}^\infty f(t)\overline{\rho_\varepsilon*f(t)}dt
+			&=\int_{-\infty}^\infty f(t)\mleft(\int_{-\infty}^\infty e^{it\xi}\overline{\hat\rho_\varepsilon(\xi)\hat f(\xi)}d\xi\mright)dt \\
+			&=\sqrt{2\pi}\int_{-\infty}^\infty\mleft(\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty f(t)e^{-it\xi}dt\mright)\overline{\hat\rho_\varepsilon(\xi)\hat f(\xi)}d\xi \\
+			&=\sqrt{2\pi}\int_{-\infty}^\infty|\hat f(\xi)|^2\hat\rho_\varepsilon(\xi)d\xi
+		\end{split}
+	\end{equation}
+	シュワルツの不等式により
+	\[
+		\int_{-\infty}^\infty f(t)\{\overline{f(t)-\rho_\varepsilon*f(t)}\}dt\leq\|f\|\|f-\rho_\varepsilon*f\|
+	\]
+	となるので，上の定理により$\varepsilon\to 0$のとき，上式の右辺は$0$に収束する．よって$\varepsilon\to 0$のとき式(4)の左辺は$\|f\|^2$に収束する．一方，$R_\varepsilon=\sqrt{2\log 2}/\varepsilon$とおくと，$\lim_{\varepsilon\to 0}R_\varepsilon
+		=\infty$であり，$|t|<R_\varepsilon$のとき$\sqrt{2\pi}\hat\rho_\varepsilon(t)>1/2$により
+	\[
+		\int_{-\infty}^\infty f(t)\overline{\rho_\varepsilon*f(t)}dt>\frac{1}{2}\int_{-R_\varepsilon}^{R_\varepsilon}|\hat f(\xi)|^2d\xi
+	\]
+	が成り立つ．上式において$\varepsilon\to 0$とすれば，$|\hat f(\xi)|^2$は可積分であることがわかる．（以下定理\ref{thm:3-5}と同様にする．）よって，
+	\[
+		\forall\nu>0,\exists R>0\,\,\textrm{s.t.}\,\,\int_{|t|\geq R}|\hat f(t)|^2dt<\nu
+	\]
+	とできる．すると
+	\[
+		\begin{split}
+			\mleft|\int_{-\infty}^\infty |\hat f(t)|^2dt-\sqrt{2\pi}\int_{-\infty}^\infty |\hat f(t)|^2\hat\rho_\varepsilon(t)dt\mright|
+			&=\mleft|\int_{-\infty}^\infty (1-\sqrt{2\pi}\hat\rho_\varepsilon(t))|\hat f(t)|^2dt\mright| \\
+			&=\mleft|\mleft(\int_{|t|<R}+\int_{|t|\geq R}\mright)(1-\sqrt{2\pi}\hat\rho_\varepsilon(t))|\hat f(t)|^2dt\mright| \\
+			&\leq (1-e^{-\varepsilon^2R^2/2})\int_{-R}^R|\hat f(t)|^2dt+\int_{|t|\geq R}|\hat f(t)|^2dt \\
+			&\to\nu\quad(\varepsilon\to 0)
+		\end{split}
+	\]
+	$\nu>0$はいくらでも小さくできるので，$\varepsilon\to 0$のとき式(4)の右辺が$\|\hat f\|^2$に収束することが示される．
+\end{proof}
+
 \subsection{平行移動，微分とフーリエ変換}
+
+$\mathbb{R}$上の関数の平行移動を
+\[
+	T_sf(t)=f(t-s)\quad(s,t\mathbb{R})
+\]
+と書く．
+
+\begin{prop}\label{prop:3-8}
+	$f$が可積分関数ならば
+	\[
+		\begin{split}
+			\mathcal{F}[T_sf](\xi)&=e^{-is\xi}\hat f(\xi) \\
+			\mathcal{F}^*[T_sf](t)&=e^{ist}\check f(t) \\
+			\mathcal{F}[e^{ist}f(t)](\xi)&=T_s\hat f(\xi) \\
+			\mathcal{F}^*[e^{-is\xi}f(\xi)](t)&=T_s\check f(t)
+		\end{split}
+	\]
+\end{prop}
+
+\begin{proof}
+	\[
+		\begin{split}
+			\mathcal{F}[T_sf](\xi)
+			&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-it\xi} f(t-s)dt \\
+			&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-i(u+s)\xi}f(u)du\quad(u=t-s) \\
+			&=e^{-is\xi}\hat f(\xi)
+		\end{split}
+	\]
+	\[
+		\begin{split}
+			\mathcal{F}^*[T_sf](t)
+			&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{it\xi} f(t-s)dt \\
+			&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{i(u+s)\xi}f(u)du\quad(u=t-s) \\
+			&=e^{is\xi}\check f(\xi)
+		\end{split}
+	\]
+	\[
+		\begin{split}
+			\mathcal{F}[e^{ist} f(t)](\xi)
+			&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-it\xi} e^{ist}f(t)dt \\
+			&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-i(\xi-s)t}f(t)dt \\
+			&=\hat f(\xi-s) \\
+			&=T_s\hat f(\xi)
+		\end{split}
+	\]
+	\[
+		\begin{split}
+			\mathcal{F}^*[e^{-is\xi}f(\xi)](t)
+			&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{it\xi} e^{-is\xi}f(\xi)d\xi \\
+			&=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{i(t-s)\xi}f(\xi)d\xi \\
+			&=\check f(t-s) \\
+			&=T_s \check f(t)
+		\end{split}
+	\]
+\end{proof}
+
+\begin{thm}\label{thm:3-9}
+	$f$が$C^1$級関数であり，$f,f'$が可積分ならば
+	\[
+		\begin{split}
+			\mathcal{F}[f'](\xi)&=i\xi\hat f(\xi) \quad (\xi\in\mathbb{R})\\
+			\mathcal{F}^*[f'](t)&=-it\check f(t)\quad (t\in\mathbb{R})
+		\end{split}
+	\]
+\end{thm}
+
+\begin{proof}
+	定理\ref{thm:2-1}と同様に部分積分を用いて示す．$f,f'$が可積分なので
+	\[
+		f(t)=\int_{-\infty}^t f'(s)ds+\lim_{s\to-\infty}f(s)
+	\]
+	とかける．したがって，$t\to-\infty$のとき$f(t)\to 0$である．同様に$t\to\infty$のときも$f(t)\to 0$であることが示される．$R>0$とするとき，部分積分の公式より
+	\[
+		\begin{split}
+			\int_{-R}^R e^{-it\xi}f'(t)dt
+			&=\blueunderline{\mleft[e^{-it\xi}f(t)\mright]_{-R}^R}{$R\to\infty$で$\to 0$}-\int_{-R}^R (-i\xi)e^{-it\xi}f(t)dt
+		\end{split}
+	\]
+	$R\to\infty$として
+	\[
+		\int_{-\infty}^\infty e^{-it\xi}f'(t)dt=i\xi\int_{-\infty}^\infty e^{-it\xi}f(t)dt
+	\]
+	となる．
+\end{proof}
+
+$f,f',\ldots,f^{(n)}$がすべて可積分ならば，この定理を繰り返し用いることで
+\[
+	\begin{split}
+		\mathcal{F}[f^{(n)}](\xi)&=(i\xi)^n\hat f(\xi) \\
+		\mathcal{F}^*[f^{(n)}](\xi)&=(i\xi)^n\check f(\xi) \\
+	\end{split}
+\]
+であることがわかる．このとき，$\mathcal{F}[f^{(n)}]$は可積分関数のフーリエ変換であるので有界である．
+
+\begin{cor}\label{cor:3-10}
+	$n\geq 1$とする．$f,f'\ldots,f^{(n)}$が可積分関数ならばある定数$C>0$が存在して
+	\[
+		|\hat f(\xi)|\leq C(1+|\xi|)^{-n}
+	\]
+	が成り立つ．
+\end{cor}
+
+\begin{proof}
+	ある$n=N$までこの命題か成立しているとする．このとき，$1\leq n\leq N$について$|\hat f(\xi)|\leq C(1+|\xi|)^{-n}$が成立する．$n=0$のときも，$f$が可積分であることから成立がいえる．ゆえに，$0\leq n$で$C_n>0$があって$|\xi|^n|\hat f(\xi)|\leq C_n$が成立する．いま，$f^{(N+1)}$も可積分であったとする．このとき，
+	\[
+		\mathcal{F}[f^{(N+1)}](\xi)=(i\xi)^{N+1}\hat f(\xi)< C_{N+1}
+	\]
+	が成り立つ．特に
+	\[
+		|\xi|^{N+1}|\hat f(\xi)|<C_{N+1}
+	\]
+	である．ここで
+	\[
+		\sum_{n=0}^{N+1} \binom{N+1}{n} |\xi|^n|\hat f(\xi)|=(1+|\xi|)^{N+1}|\hat f(\xi)|<\sum_{n=1}^{N+1} C_n<C
+	\]
+	とできるので，
+	\[
+		|\hat f(\xi)|\leq C(1+|\xi|)^{-(N+1)}
+	\]
+	がわかる．これにより$n=N+1$の場合の成立もいえたので，題意の成立がいえる．
+\end{proof}
+
+\begin{thm}\label{thm:3-11}
+	$f(t),tf(t)$が可積分ならば，$\hat f(\xi),\check f(t)$は$C^1$級関数であり
+	\[
+		\begin{split}
+			\hat f'(\xi)&=\mathcal{F}[-itf(t)](\xi)\\
+			\check f'(t)&=\mathcal{F}^*[i\xi f(\xi)](t)
+		\end{split}
+	\]
+	が成り立つ．
+\end{thm}
+
+\begin{proof}
+	$tf(t)\in L^1(\mathbb{R})$という仮定より，フーリエ変換の定義の積分と，微分の順序交換ができるので
+	\[
+		\hat f'(\xi)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty (-it)e^{-it\xi}f(t)dt=\mathcal{F}[-itf(t)](\xi)
+	\]
+	\[
+		\check f'(t)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty (i\xi)e^{it\xi}f(\xi)d\xi=\mathcal{F}^*[i\xi f(\xi)](t)
+	\]
+	となる．
+\end{proof}
+
+$f(t),t^nf(t)\in L^1(\mathbb{R})$ならば，$\hat f(\xi),\check f$は$C^n$級関数であり，上の定理\ref{thm:3-11}を繰り返し用いることで
+\[
+	\begin{split}
+		\hat f^{(n)}&=\mathcal{F}[(-it)^nf(t)] \\
+		\check f^{(n)}&=\mathcal{F}^*[(i\xi)^n f(\xi)]
+	\end{split}
+\]
+が成り立つ．
+
+定理\ref{thm:3-9}と定理\ref{thm:3-11}は互いに逆変換の形をしているが，ぴったり逆ではないことに注意．
+
 
 \subsection{定理\ref{thm:3-6}の証明とリーマン・ルベーグの定理}\label{sec:3-7}
 
+\begin{thm*}[\ref{thm:3-6}（再掲）]
+	$f$が$C^1$級関数で，$f,f'$がともに可積分で，$f'$が有界であるならば，$\hat f$は可積分である．特に，フーリエの反転公式$f=\mathcal{F}^*\hat f$が成立する．
+\end{thm*}
+
+\begin{proof}
+	\[
+		\hat f(\xi)	=(1+i\xi)^{-1}(1+i\xi)\hat f(\xi)=(1+i\xi)^{-1}(\hat f(\xi)+\mathcal{F}[f'](\xi))
+	\]
+	と表現できる．$g(\xi)=(1+i\xi)^{-1}$とおけば
+	\[
+		\begin{split}
+			\|g\|^2&=\int_{-\infty}^\infty|(1+i\xi)^{-1}|^2d\xi \\
+			&=\int_{-\infty}^\infty \frac{d\xi}{1+\xi^2} \\
+			&=\pi
+		\end{split}
+	\]
+	なので$g\in L^2(\mathbb{R})$である．また，プランシェレルの定理（定理\ref{thm:3-7}）から$\hat f,\mathcal{F}[f']$も$L^2$-条件を満たし
+	\[
+		\|\hat f\|=\|f\|,\quad\|\mathcal{F}[f']\|=\|f'\|
+	\]
+	が成り立つ．したがって，シュワルツの不等式より
+	\[
+		\begin{split}
+			\int_{-\infty}^\infty|\hat f(\xi)|d\xi
+			&=\int_{-\infty}^\infty |g(\xi)||\hat f(\xi)+\mathcal{F}[f'](\xi)|d\xi \\
+			&\leq\|g\|(\|f\|+\|f'\|) \\
+			&=\sqrt{\pi}(\|f\|+\|f'\|) \\
+			&<+\infty
+		\end{split}
+	\]
+	となり，$\hat f\in L^1(\mathbb{R})$が示された\footnote{プランシェレルの定理を用いなくても$f,f',f''$が可積分と仮定すれば$\hat f$が可積分なことは同じ方法で証明できる．すなわち，$f-f''$のフーリエ変換が$(1+\xi^2)\hat f(\xi)$なので，この関数が有界なことから$|\hat f(\xi)|\leq C(1+\xi^2)^{-1}$がわかる．したがって$\hat f$は可積分である．}．
+\end{proof}
+
+\begin{thm}[リーマン・ルベーグの定理]\label{thm:3-12}
+	$f$が可積分関数ならば，$|\xi|\to\infty$のとき$\hat f(\xi)\to 0$．
+\end{thm}
+
+\begin{proof}
+	積分の定義を思い出すと，$f$の積分は，$f$を階段関数の極限で表して，階段関数の積分の極限として定義されている．つまり，階段関数の列$g_n$を用いて
+	\begin{equation*}
+		\int f(t)dt:=\lim_{n\to\infty}\int g_n(t)dt
+	\end{equation*}
+	と定義している．従って，$f$が可積分ならば，$\varepsilon>0$をどのように小さくとっても，階段関数$g$で
+	\begin{equation}
+		\int_{-\infty}^\infty|f(t)-g(t)|dt<\varepsilon \label{eq:3-3}
+	\end{equation}
+	を満たすものが存在する．$g$は階段関数なので
+	\[
+		g(t)=\sum_{j=1}^N c_j\mathbbm{1}_{I_j}(t),\quad I_j=[a_j, b_j],\quad c_j\in\mathbb{C}
+	\]
+	と表現できる．$g$のフーリエ変換は
+	\[
+		\begin{split}
+			\hat{g}(\xi)&=\sum_{j=1}^N c_j\mathcal{F}[\mathbbm{1}_{I_j}](\xi) \\
+			&=\frac{1}{\sqrt{2\pi}}\frac{1}{i\xi}\sum_{j=1}^N c_j\mleft(e^{-ia_j\xi}-e^{-ib_j\xi}\mright)
+		\end{split}
+	\]
+	と計算出来るから，
+	\[
+		\exists C>0\ \mathrm{s.t.}\ \mleft|\hat{g}(\xi)\mright|\leq C|\xi|^{-1}\quad(\xi\in\mathbb{R})
+	\]
+	が成り立つ．よって，十分大きな$|\xi|$に対して$\displaystyle\left|\hat{g}(\xi)\right|\leq\varepsilon/\sqrt{2\pi}$となる．一方\eqref{eq:3-3}より
+	\[
+		\left|\hat{f}(\xi)-\hat{g}(\xi)\right|\leq\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty|f(t)-g(t)|dt<\frac{\varepsilon}{\sqrt{2\pi}}\quad(\xi\in\mathbb{R})
+	\]
+	なので，上の不等式と組み合わせて
+	\[
+		\left|\hat{f}(\xi)\right|\leq\frac{2\varepsilon}{\sqrt{2\pi}}
+	\]
+	が成り立つことが分かる．$\varepsilon>0$は任意であったから，定理の主張が示されたことになる．
+\end{proof}
+
 \subsection{たたみこみとフーリエ変換}
+
+\begin{dfn}\label{dfn:3-4}
+	$f,g$を$\mathbb{R}$上の関数とする．$t\in\mathbb{R}$に対して，積分
+	\[
+		h(t)=(f*g)(t)=\int_{-\infty}^\infty f(t-s)g(s)ds
+	\]
+	が意味をもつとき，$h$を$f$と$g$のたたみこみと呼ぶ．
+\end{dfn}
+
+畳み込みは可換な演算（$f*g=g*f$）である．変数変換$u=t-s$を行えば
+\[
+	f*g(t)=\int_{-\infty}^\infty f(u)g(t-u)du=g*f(t)
+\]
+が成り立つことからわかる．
+
+\begin{prop}\label{prop:3-13}
+	$f, g\in L^1(\mathbb{R})$とし，$f$または$g$の少なくとも一方は有界であるとする．このとき，$f*g\in L^1(\mathbb{R})$となり，$f*g$は有界連続となる．
+\end{prop}
+
+\begin{proof}
+	$f*g$が定義されて，なおかつ有界であることは
+	\[
+		|f*g(t)|\leq\int|f(s)g(t-s)|ds\leq\sup|g|\cdot\int|f(s)|ds<\infty
+	\]
+	であることから分かる．また
+	\[
+		\begin{split}
+			\int|f*g(t)|dt&\leq\iint|f(s)g(t-s)|dsdt \\
+			&=\int\mleft(\int|g(t-s)|dt\mright)|f(s)|ds \\
+			&=\int|g(t)|dt\int|f(s)|ds \\
+			&<\infty
+		\end{split}
+	\]
+	なので，$f*g$は可積分である．あとは，$f*g$が連続であることを示せばよい．定理\ref{thm:3-12}の証明で注意したように，$\forall n\in\mathbb{N}$に対して，階段関数$F_n(t), G_n(t)$で
+	\[
+		\int|f(t)-F_n(t)|dt<\frac{1}{n},\quad\int|g(t)-G_n(t)|dt<\frac{1}{n}
+	\]
+	を満たすものが存在する．しかも
+	\[
+		\sup|F_n|\leq\sup|f|,\quad\sup|G_n|\leq\sup|g|
+	\]
+	と仮定してよい．さて，
+	\[
+		F_n(t)=\sum_{j=1}^N c_j\mathbbm{1}_{I_j}(t),\quad G_n(t)=\sum_{k=1}^M d_k\mathbbm{1}_{J_k}(t)
+	\]
+	と書こう．ただし，$c_j, d_k\in\mathbb{C}$であり，$I_j, I_k$は区間である．すると
+	\[
+		F_n*G_n(t)=\sum_{j=1}^N\sum_{k=1}^M c_jd_k(\mathbbm{1}_{I_j}*\mathbbm{1}_{J_k})(t)
+	\]
+	と書ける．一般に，階段関数同士の畳み込みは連続関数であるから，$F_n*G_n$も連続である．一方，$F_n, G_n$の定義から
+	\[
+		\begin{split}
+			|f*g(t)-F_n*G_n(t)|&=|(f-F_n)*g(t)+F_n*(g-G_n)(t)| \\
+			&\leq\sup|g|\int|f(s)-F_n(s)|ds+\sup|F_n|\int|g(s)-G_n(s)|ds \\
+			&\leq\mleft(\sup|f|+\sup|g|\mright)\cdot\frac{1}{n}
+		\end{split}
+	\]
+	が成り立つ．つまり，$f*g$は連続関数$F_n*G_n$の一様収束極限である．従って，$f*g$も連続である．
+\end{proof}
+
+\begin{dfn*}[局所可積分]
+	関数$f$が局所可積分であるとは，任意の有界区間$I$上で広義積分が定義でき，$\int_I |f(t)|<\infty$を満たすことである．
+\end{dfn*}
+
+\begin{prop}\label{prop:3-14}
+	$f$が有界かつ局所可積分関数で，$g\in L^1(\mathbb{R})$ならば，$f*g$は有界な連続関数である．
+\end{prop}
+
+\begin{proof}
+	演習問題にされた
+\end{proof}
+
+\begin{prop}\label{prop:3-15}
+	$f, g\in L^1(\mathbb{R})$が有界な台を持つ有界関数とする．このとき，$f*g$は有界な台を持つ連続関数である．
+\end{prop}
+
+\begin{proof}
+	演習問題にされた
+\end{proof}
+畳み込みと微分との関係
+\begin{prop}\label{prop:3-16}
+	$f$を有界な$C^1$級関数とし，$f, f'\in L^1(\mathbb{R})$であると仮定する．また，$g$は局所可積分関数とする．このとき，$f*g$は有界な$C^1$級関数であり，
+	\[
+		(f*g)'=f'*g
+	\]
+	が成り立つ．
+\end{prop}
+
+\begin{proof}
+	微分と積分の順序交換ができる条件を確かめる．詳細は省略．
+\end{proof}
+
+\begin{thm}[たたみこみとフーリエ変換の関係]\label{thm:3-17}
+	\renewcommand{\labelenumi}{(\arabic{enumi})}
+	\begin{enumerate}
+		\item $f, g\in L^1(\mathbb{R})$が有界ならば
+		      \[
+			      \begin{split}
+				      \mathcal{F}[f*g](\xi)&=\sqrt{2\pi}\hat{f}(\xi)\hat{g}(\xi) \\
+				      \mathcal{F}^*[f*g](t)&=\sqrt{2\pi}\check{f}(t)\check{g}(t)
+			      \end{split}
+		      \]
+		\item $f, g, \hat{g}\in L^1(\mathbb{R})$が有界ならば
+		      \[
+			      \begin{split}
+				      \mathcal{F}[fg](\xi)&=\frac{1}{\sqrt{2\pi}}\mleft(\hat{f}*\hat{g}\mright)(\xi) \\
+				      \mathcal{F}^*[fg](t)&=\frac{1}{\sqrt{2\pi}}\mleft(\check{f}*\check{g}\mright)(t)
+			      \end{split}
+		      \]
+	\end{enumerate}
+\end{thm}
+
+\begin{proof}
+	まず，(1)を示す．$f, g$が可積分ならば，$f*g$も可積分となることに注意して
+	\[
+		\begin{split}
+			\mathcal{F}[f*g](\xi)&=\frac{1}{\sqrt{2\pi}}\int\int f(s)g(t-s)e^{-it\xi}dsdt \\
+			&=\int\mleft(\frac{1}{\sqrt{2\pi}}\int g(t-s)e^{-i(t-s)\xi}d\xi\mright)f(s)e^{-is\xi}ds \\
+			&=\sqrt{2\pi}\hat{f}(\xi)\hat{g}(\xi)
+		\end{split}
+	\]
+	が得られる．$\mathcal{F}^*[f*g](t)=\sqrt{2\pi}\check{f}(t)\check{g}(t)$も同様にして示される．\\
+	次に，(2)を示す．$f, g, \hat{f}, \hat{g}$が有界可積分ならば，(1)の結果と反転公式を組み合わせて(2)は直ちに従う．しかし，ここでは$\hat{f}$は可積分と仮定していないので，直接計算して証明しよう．$g$に関する反転公式: $g=\mathcal{F}^*\hat{g}$を代入して
+	\[
+		\begin{split}
+			\mathcal{F}[fg](\xi)&=\frac{1}{2\pi}\int f(t)\mleft(\int\hat{g}(\eta)e^{it\eta}d\eta\mright)e^{-it\xi}dt \\
+			&=\frac{1}{2\pi}\int\mleft(\int f(t)e^{-it(\xi-\eta)}dt\mright)\hat{g}(\eta)d\eta \\
+			&=\frac{1}{\sqrt{2\pi}}\int\hat{f}(\xi-\eta)\hat{g}(\eta)d\eta=\frac{1}{\sqrt{2\pi}}\hat{f}*\hat{g}(\xi)
+		\end{split}
+	\]
+	が得られる．ここでも，$f$と$\hat{g}$が可積分なので積分の順序交換ができることを用いた．もう1つの公式も同様に証明される．
+\end{proof}
 
 \subsection{簡単な偏微分方程式への応用}
 
+\subsubsection{1次元熱方程式}
+
+無限の長さの棒の温度分布を考える（$f\in L^1(\mathbb{R})$，有界連続）．
+\begin{empheq}[left = {\empheqlbrace \,}, right = {}]{align*}
+	&\pdv{u}{t}(x,t)=\pdv[2]{u}{x}(x,t) && (x\in\mathbb{R},t>0) \\
+	&u(x,0)=f(x) && (x\in\mathbb{R}) \\
+	& u(x,t) \to 0 && (|x|\to\infty)
+\end{empheq}
+$u$は$x$について2回微分可能，$u,u',u''\in L^1(\mathbb{R})$と仮定．フーリエ変換を行う
+\begin{empheq}[left = {\empheqlbrace \,}, right = {}]{align*}
+	&\pdv{\hat u}{t}(\xi,t)=-\xi^2 u(\xi,t) && (\xi\in\mathbb{R},t>0) \\
+	&\hat u(\xi,0)=\hat f(\xi) && (\xi\in\mathbb{R})
+\end{empheq}
+上の初期値問題の解は
+\[
+	\hat u(\xi,t)=e^{-\xi t^2}\hat f(\xi)
+\]
+これを逆フーリエ変換すると
+\begin{equation}\label{eq:3-4}
+	\begin{split}
+		u(x,t)&=\frac{1}{\sqrt{2\pi}}(\mathcal{F}^*[e^{-\xi t^2}]*f)(x) \\
+		&\bluenoteunderleft{=}{$\mathcal{F}^*[e^{-\xi t^2}]=\frac{1}{\sqrt{2t}}e^{-x^2/4t}$，例\ref{ex:3-3}}\frac{1}{\sqrt{4\pi t}}(e^{-x^2/4t}*f)(x) \\
+		&=\frac{1}{\sqrt{4\pi t}}\int f(y)e^{-(x-y)^2/4t}dy
+	\end{split}
+\end{equation}
+定理\ref{thm:3-4}において$\varepsilon=\sqrt{2t}$としたものを考えると，この右辺が$f(x)$（$t\to 0$）に収束することがわかる．$f\notin L^1(\mathbb{R})$でも\eqref{eq:3-4}は解となる．
+
+解の一意性は補題\ref{lem:2-7}と同様のエネルギー不等式からわかる．
+
+\[
+	G(x,t)=\frac{1}{\sqrt{4\pi t}}e^{-\frac{x^2}{4t}}
+\]
+とおくと，$G(x-y,t)$はグリーン関数で，上の解は
+\[
+	u(x,t)=\int_{-\infty}^\infty G(x-y,t)f(y)dy
+\]
+と表現できる．
+
+\subsubsection{半平面のディリクレ問題}
+
+$D=\{(x,y)\in\mathbb{R}^2|y>0\}$として，$D$上の（ラプラス方程式の）ディリクレ問題（$f\in L^1(\mathbb{R})$，有界連続）を考える．
+
+\begin{empheq}[left = {\empheqlbrace \,}, right = {}]{align*}
+	&\pdv[2]{u}{x}+\pdv[2]{u}{y}=0 && ((x,y)\in D) \\
+	&u(x,0)=f(x) && (x\in\mathbb{R}) \\
+	& u(x,y) \to 0 && (y\to\infty)
+\end{empheq}
+$x$に関してフーリエ変換を行うと
+\[
+	-\xi^2\hat u(\xi,y)+\pdv[2]{\hat u}{y}(\xi,y)=0
+\]
+これの一般解は
+\[
+	\hat u(\xi,y)=\alpha(\xi)e^{-|\xi|y}+\beta(\xi)e^{|\xi|y}
+\]
+$y\to\infty$で$u(x,y)\to 0$なので，$\beta(\xi)\equiv 0$．境界条件から
+\[
+	\hat{u}(\xi, 0)=\alpha(\xi)=\hat{f}(\xi)
+\]
+よって
+\[
+	\hat{u}(\xi, y)=\hat{f}(\xi)e^{-|\xi|y}
+\]
+となる．逆フーリエ変換をすると
+\[
+	\begin{split}
+		u(x, y)&=\mathcal{F}^*\mleft[\hat{f}(\xi)e^{-|\xi|y}\mright](x) \\
+		&=\frac{1}{\sqrt{2\pi}}\mleft(f*\mathcal{F}^*\mleft[e^{-|\xi|y}\mright]\mright)(x) \\
+		&=\frac{1}{\pi}\int_{-\infty}^\infty\frac{y}{(x-s)^2+y^2}f(s)ds
+	\end{split}
+\]
+を得る．このとき，再び定理\ref{thm:3-4}を用いて，$y\to 0$のとき$u(x, y)\to f(x)$が成り立つことが分かる．また，この$u(x, y)$がラプラス方程式の解であることは，直接計算して示すことができる．このとき，実は$f$は有界連続性のみ満たしていれば十分であり，可積分でなくとも，この$u$はディリクレ問題の1つの解を与える．
 \end{document}
