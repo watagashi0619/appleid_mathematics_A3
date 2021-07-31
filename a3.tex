@@ -1645,7 +1645,7 @@ $u(x,t)$は時刻$t$，点$x$での温度を表し，$f(x)$は時刻$t=0$での�
 	\]
 \end{proof}
 
-\begin{thm*}[\ref{thm:2-5}（再掲）]
+\begin{thm*}[\ref{thm:2-6}（再掲）]
 	$f$を$[0,R]$上のリプシッツ連続な関数で，両立条件\eqref{eq:2-5}をみたすと仮定する．このとき，$\omega=\pi/R$として
 	\[
 		\begin{split}
@@ -1701,11 +1701,11 @@ $u(x,t)$は時刻$t$，点$x$での温度を表し，$f(x)$は時刻$t=0$での�
 	\]
 	がわかる．$\varepsilon$は任意だったので，$t\to 0$のとき$u(x,t)$が$f(x)$に一様収束することを意味する．つまり，$u$は$t=0$までこめて連続で，初期条件\eqref{eq:2-4c}をみたす．
 
-	一意性を示す．$u(x,t)$と$\tilde u(x,t)$がともに熱方程式\eqref{eq:2-4}をみたすとすると，$w(x,t=u(x,t)-\tilde u(x,t))$は初期条件$f=0$として初期境界値問題\eqref{eq:2-4}をみたす．よって，補題\ref{lem:2-7}より
+	一意性を示す．$u(x,t)$と$\tilde u(x,t)$がともに熱方程式\eqref{eq:2-4}をみたすとすると，$w(x,t)=u(x,t)-\tilde u(x,t)$は初期条件$f=0$として初期境界値問題\eqref{eq:2-4}をみたす．よって，補題\ref{lem:2-7}より
 	\[
 		\int_0^R w(x,t)^2dx\leq \int_0^R w(x,0)^2dx=0
 	\]
-	となり，$w(x,t)\equiv 0$でなければならない，つまり$w(x,t)\equiv \tilde u(x,t)$である，
+	となり，$w(x,t)\equiv 0$でなければならない，つまり$u(x,t)\equiv \tilde u(x,t)$である，
 \end{proof}
 
 \subsection{偏微分方程式への応用-2：ディリクレ問題}
@@ -2177,7 +2177,7 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 
 \subsection{フーリエ変換の定義}
 
-\begin{dfn}[可積分]
+\begin{dfn}[可積分（$L^1$-条件）]
 	$f:\mathbb{R}\to\mathbb{C}$が可積分（$L^1$-条件を満たす，$f\in L^1(\mathbb{R})$）であるとは，任意の有限区間で広義積分できるということである．すなわち
 	\[
 		\int_{-\infty}^\infty |f(t)|dt<+\infty
@@ -2440,10 +2440,10 @@ $f$を$\mathbb{R}$上リプシッツ連続で$\supp f\subset[-N\pi,N\pi]$であ�
 $f$について反転公式が成り立つかどうか，フーリエ変換が可積分があることの十分条件を与える定理．
 
 \begin{thm}\label{thm:3-6}
-	$f$が$C^1$級関数で，$f,f'$がともに可積分で，$f'$が有界であるならば，$\hat f$は可積分である．特に，フーリエの反転公式$f=\mathcal{F}^*\hat f$が成立する．
+	$f$が$C^1$級関数で，$f,f'$がともに可積分で，$f'$が有界であるならば，$\hat f$は可積分である．特に，フーリエの反転公式$f=\mathcal{F}^*\hat f$が成立する\footnotemark．
 \end{thm}
 
-教科書と異なり$f'$が有界であるという条件を付加している．
+\footnotetext{教科書と異なり$f'$が有界であるという条件を付加しているが，これは証明中でこの条件が必要となるためである．\ref{sec:3-7}節を参照．}
 
 \begin{ex*}[$f$が$C^1$級関数で，$f,f'$がともに可積分だが，$f'$が非有界な例]
 	$t\geq 0,\forall n\in\mathbb{N},\delta\in (0,1),g(-t)=g(t)$とし，
@@ -2474,7 +2474,7 @@ $f$について反転公式が成り立つかどうか，フーリエ変換が�
 
 \subsection{内積とプランシェレルの定理}
 
-\begin{dfn}
+\begin{dfn}[$L^2$-条件，ノルム，内積]
 	$f$を$\mathbb{R}$上の関数とする．任意の有界区間上で$f$と$|f(t)|^2$の積分が存在して，しかも$|f(t)|^2$が可積分であるとき$L^2$-条件を満たすと言う．記号としては$f\in L^2(\mathbb{R})$とかく．$f\in L^2(\mathbb{R})$のとき
 	\[
 		\|f\|=\mleft(\int_{-\infty}^\infty |f(t)|^2dt\mright)^{1/2}
@@ -2654,7 +2654,7 @@ $f$について反転公式が成り立つかどうか，フーリエ変換が�
 
 $\mathbb{R}$上の関数の平行移動を
 \[
-	T_sf(t)=f(t-s)\quad(s,t\mathbb{R})
+	T_sf(t)=f(t-s)\quad(s,t\in\mathbb{R})
 \]
 と書く．
 
@@ -2841,7 +2841,7 @@ $f(t),t^nf(t)\in L^1(\mathbb{R})$ならば，$\hat f(\xi),\check f$は$C^n$級�
 	\]
 	となり，$\hat f\in L^1(\mathbb{R})$が示された\footnote{プランシェレルの定理を用いなくても$f,f',f''$が可積分と仮定すれば$\hat f$が可積分なことは同じ方法で証明できる．すなわち，$f-f''$のフーリエ変換が$(1+\xi^2)\hat f(\xi)$なので，この関数が有界なことから$|\hat f(\xi)|\leq C(1+\xi^2)^{-1}$がわかる．したがって$\hat f$は可積分である．}．
 
-	特に，反転公式（定理\ref{thm:3-5}）は$f,\hat f\in L^1(\mathbb{R})$で$f,\hat f$が有界連続であれば成立したが，$f\in L^1(\mathbb{R})$は仮定しており，$\hat f\in L^(\mathbb{R})$をいま示した．命題\ref{prop:3-2}を用いると，これらから$f,\hat f$が有界連続であることがわかるので，反転公式の成立もいえる．
+	特に，反転公式（定理\ref{thm:3-5}）は$f,\hat f\in L^1(\mathbb{R})$で$f,\hat f$が有界連続であれば成立したが，$f\in L^1(\mathbb{R})$は仮定しており，$\hat f\in L^1(\mathbb{R})$をいま示した．命題\ref{prop:3-2}を用いると，これらから$f,\hat f$が有界連続であることがわかるので，反転公式の成立もいえる．
 \end{proof}
 
 \begin{thm}[リーマン・ルベーグの定理]\label{thm:3-12}
@@ -2885,7 +2885,7 @@ $f(t),t^nf(t)\in L^1(\mathbb{R})$ならば，$\hat f(\xi),\check f$は$C^n$級�
 
 \subsection{たたみこみとフーリエ変換}
 
-\begin{dfn}\label{dfn:3-4}
+\begin{dfn}[たたみこみ]\label{dfn:3-4}
 	$f,g$を$\mathbb{R}$上の関数とする．$t\in\mathbb{R}$に対して，積分
 	\[
 		h(t)=(f*g)(t)=\int_{-\infty}^\infty f(t-s)g(s)ds
@@ -2945,7 +2945,7 @@ $f(t),t^nf(t)\in L^1(\mathbb{R})$ならば，$\hat f(\xi),\check f$は$C^n$級�
 \end{proof}
 
 \begin{dfn*}[局所可積分]
-	関数$f$が局所可積分であるとは，任意の有界区間$I$上で広義積分が定義でき，$\int_I |f(t)|<\infty$を満たすことである．
+	関数$f$が局所可積分であるとは，任意の有界区間$I$上で（広義）積分が定義でき，$\int_I |f(t)|<\infty$を満たすことである．
 \end{dfn*}
 
 \begin{prop}\label{prop:3-14}
@@ -2953,7 +2953,16 @@ $f(t),t^nf(t)\in L^1(\mathbb{R})$ならば，$\hat f(\xi),\check f$は$C^n$級�
 \end{prop}
 
 \begin{proof}
-	演習問題にされた
+	演習問題にされたけどちゃんと書いてみる．
+
+	\[
+		|(f*g)(t)|\leq\int_{-\infty}^\infty |f(t-s)g(s)|ds\leq \sup|f|\int_{-\infty}^\infty |g(s)|ds<+\infty
+	\]
+	より$f*g$は有界．$g\in L^1(\mathbb{R})$なので，
+	\[
+		\forall\varepsilon>0,\exists R>0, \int_{|s|>R}|g(s)|ds\leq\frac{\varepsilon}{4\sup|f|+1}
+	\]
+	とできる．（先はまだ...）
 \end{proof}
 
 \begin{prop}\label{prop:3-15}
@@ -2963,8 +2972,8 @@ $f(t),t^nf(t)\in L^1(\mathbb{R})$ならば，$\hat f(\xi),\check f$は$C^n$級�
 \begin{proof}
 	演習問題にされた
 \end{proof}
-畳み込みと微分との関係
-\begin{prop}\label{prop:3-16}
+
+\begin{prop}[畳み込みと微分との関係]\label{prop:3-16}
 	$f$を有界な$C^1$級関数とし，$f, f'\in L^1(\mathbb{R})$であると仮定する．また，$g$は局所可積分関数とする．このとき，$f*g$は有界な$C^1$級関数であり，
 	\[
 		(f*g)'=f'*g
